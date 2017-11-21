@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestCor", "GestCor\GestCor.csproj", "{CAFA837A-4CD0-427B-AEB2-879B29256551}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestGestCor", "UnitTestGestCor\UnitTestGestCor.csproj", "{C10A422B-D832-42B1-8303-1DB62CF1264D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{CAFA837A-4CD0-427B-AEB2-879B29256551}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAFA837A-4CD0-427B-AEB2-879B29256551}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAFA837A-4CD0-427B-AEB2-879B29256551}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C10A422B-D832-42B1-8303-1DB62CF1264D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C10A422B-D832-42B1-8303-1DB62CF1264D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C10A422B-D832-42B1-8303-1DB62CF1264D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C10A422B-D832-42B1-8303-1DB62CF1264D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2CF8FB0A-E93E-40F5-8B21-0B175A9062AD}
 	EndGlobalSection
 EndGlobal

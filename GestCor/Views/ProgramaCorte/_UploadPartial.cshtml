@@ -1,0 +1,122 @@
+﻿@model IEnumerable<GestCor.Models.DetalleProgCorte>
+
+@{ 
+    int contador = 0;
+}
+@if (Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                <p>Cantidad</p>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_ProgCorte)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CpartyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CpartyAccountId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CitemId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ciudad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BancoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FormaPago)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpresaFacturadora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoNegocio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FieldV1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FieldV2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FieldN1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FieldN2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FieldD1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.counter)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id_ProgCorte)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CpartyId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CpartyAccountId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CitemId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ciudad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BancoId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FormaPago)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpresaFacturadora)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoNegocio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FieldV1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FieldV2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FieldN1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FieldN2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FieldD1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div>
+
+    </div>
+}
+
