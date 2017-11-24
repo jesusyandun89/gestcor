@@ -151,6 +151,172 @@ namespace GestCor.Controllers
             return DetalleCorteLista;
         }
 
+        private List<Estadisticas> getBancos(List<DetalleProgCorte> DetalleCorte)
+        {
+            List<Estadisticas> estadisticasList = new List<Estadisticas>();
+            var datos = from p in DetalleCorte
+                         group p.BancoId by p.BancoId into g
+                         select new { Nombre = g.Key, Cantidad = g.Count() };
+
+            foreach (var item in datos)
+            {
+                Estadisticas estadistica = new Estadisticas();
+
+                try
+                {
+                    estadistica.cantidad = int.Parse(item.Cantidad.ToString());
+                    if (item.Nombre.ToString() != "")
+                        estadistica.nombre = item.Nombre.ToString();
+                    else
+                        estadistica.nombre = "Ninguno";
+                }
+                catch(IndexOutOfRangeException ex)
+                {
+                    estadistica.cantidad = 0;
+                    estadistica.nombre = "Ninguno";
+                }
+                catch (FormatException ex)
+                {
+                    estadistica.cantidad = 0;
+                    estadistica.nombre = "Ninguno";
+                }
+
+
+                estadisticasList.Add(estadistica);
+            }
+
+            return estadisticasList;
+        }
+
+        private List<Estadisticas> getCiudades(List<DetalleProgCorte> DetalleCorte)
+        {
+            List<Estadisticas> estadisticasList = new List<Estadisticas>();
+            var datos = from p in DetalleCorte
+                        group p.Ciudad by p.Ciudad into g
+                        select new { Nombre = g.Key, Cantidad = g.Count() };
+
+            foreach (var item in datos)
+            {
+                Estadisticas estadistica = new Estadisticas();
+
+                try
+                {
+                    estadistica.cantidad = int.Parse(item.Cantidad.ToString());
+                    if (item.Nombre.ToString() != "")
+                        estadistica.nombre = item.Nombre.ToString();
+                    else
+                        estadistica.nombre = "Ninguno";
+                }
+                catch (IndexOutOfRangeException ex)
+                {
+                    estadistica.cantidad = 0;
+                    estadistica.nombre = "Ninguno";
+                }
+                catch (FormatException ex)
+                {
+                    estadistica.cantidad = 0;
+                    estadistica.nombre = "Ninguno";
+                }
+
+
+                estadisticasList.Add(estadistica);
+            }
+
+            return estadisticasList;
+        }
+
+        private List<Estadisticas> getTipoNegocios(List<DetalleProgCorte> DetalleCorte)
+        {
+            List<Estadisticas> estadisticasList = new List<Estadisticas>();
+            var datos = from p in DetalleCorte
+                        group p.TipoNegocio by p.TipoNegocio into g
+                        select new { Nombre = g.Key, Cantidad = g.Count() };
+
+            foreach (var item in datos)
+            {
+                Estadisticas estadistica = new Estadisticas();
+
+                try
+                {
+                    estadistica.cantidad = int.Parse(item.Cantidad.ToString());
+                    if (item.Nombre.ToString() != "")
+                        estadistica.nombre = item.Nombre.ToString();
+                    else
+                        estadistica.nombre = "Ninguno";
+
+                }
+                catch (IndexOutOfRangeException ex)
+                {
+                    estadistica.cantidad = 0;
+                    estadistica.nombre = "Ninguno";
+                }
+                catch (FormatException ex)
+                {
+                    estadistica.cantidad = 0;
+                    estadistica.nombre = "Ninguno";
+                }
+
+
+                estadisticasList.Add(estadistica);
+            }
+
+            return estadisticasList;
+        }
+
+        private List<Estadisticas> getEmpresaFacturadoras(List<DetalleProgCorte> DetalleCorte)
+        {
+            List<Estadisticas> estadisticasList = new List<Estadisticas>();
+            var datos = from p in DetalleCorte
+                        group p.EmpresaFacturadora by p.EmpresaFacturadora into g
+                        select new { Nombre = g.Key, Cantidad = g.Count() };
+
+            foreach (var item in datos)
+            {
+                Estadisticas estadistica = new Estadisticas();
+
+                try
+                {
+                    estadistica.cantidad = int.Parse(item.Cantidad.ToString());
+                    if (item.Nombre.ToString() != "")
+                        estadistica.nombre = item.Nombre.ToString();
+                    else
+                        estadistica.nombre = "Ninguno";
+                }
+                catch (IndexOutOfRangeException ex)
+                {
+                    estadistica.cantidad = 0;
+                    estadistica.nombre = "Ninguno";
+                }
+                catch (FormatException ex)
+                {
+                    estadistica.cantidad = 0;
+                    estadistica.nombre = "Ninguno";
+                }
+
+
+                estadisticasList.Add(estadistica);
+            }
+
+            return estadisticasList;
+        }
+
+        private List<Estadisticas> getCantidadCuentas(List<DetalleProgCorte> DetalleCorte)
+        {
+            List<Estadisticas> estadisticasList = new List<Estadisticas>();
+
+
+
+            var cuentasTotal = (from item in DetalleCorte select item.CpartyAccountId).Distinct().Count();
+
+            Estadisticas estadistica = new Estadisticas();
+            estadistica.cantidad = int.Parse(cuentasTotal.ToString());
+            estadistica.nombre = "Cuentas";
+
+            estadisticasList.Add(estadistica);
+
+            return estadisticasList;
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult _UploadPartial(HttpPostedFileBase upload)
@@ -161,7 +327,17 @@ namespace GestCor.Controllers
                 {
                     List<DetalleProgCorte> DetalleCorte = UploadFile(1);
 
-                    return View(DetalleCorte);
+                    ViewData["bancos"] = getBancos(DetalleCorte);
+
+                    ViewData["ciudad"]  = getCiudades(DetalleCorte);
+
+                    ViewData["negocio"] = getTipoNegocios(DetalleCorte);
+
+                    ViewData["empresaFacturadora"] = getEmpresaFacturadoras(DetalleCorte);
+
+                    ViewData["cuentas"] = getCantidadCuentas(DetalleCorte);
+
+                    return View();
                 }
                 else
                 {

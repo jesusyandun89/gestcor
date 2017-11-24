@@ -1,122 +1,328 @@
-﻿@model IEnumerable<GestCor.Models.DetalleProgCorte>
+﻿@model IList<GestCor.Models.Estadisticas>
+@using GestCor.Models
 
-@{ 
-    int contador = 0;
+<h2>Datos estadisticos del archivo</h2>
+
+@{
+    
+    var bancos = (List<Estadisticas>)ViewData["bancos"];
+    var ciudad = (List<Estadisticas>)ViewData["ciudad"];
+    var negocio = (List<Estadisticas>)ViewData["negocio"];
+    var empresaFacturadora = (List<Estadisticas>)ViewData["empresaFacturadora"];
+    var cuentas = (List<Estadisticas>)ViewData["cuentas"];
 }
-@if (Model != null)
-{
-    <table class="table">
-        <tr>
-            <th>
-                <p>Cantidad</p>
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.id_ProgCorte)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CpartyId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CpartyAccountId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CitemId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ciudad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BancoId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FormaPago)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmpresaFacturadora)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoNegocio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FieldV1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FieldV2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FieldN1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FieldN2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FieldD1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-        </tr>
 
-        @foreach (var item in Model)
-        {
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+<div>
+    <div class="col-lg-7 chart" id="ct-chartB"></div>
+    <div class="col-lg-5"><h3>Estadisticas Bancos</h3>
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.counter)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id_ProgCorte)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CpartyId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CpartyAccountId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CitemId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ciudad)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BancoId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FormaPago)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmpresaFacturadora)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoNegocio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FieldV1)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FieldV2)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FieldN1)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FieldN2)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FieldD1)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
+                <th>
+                    Cantidad
+                </th>
+                <th>
+                    Nombre
+                </th>
             </tr>
-        }
 
-    </table>
-}
-else
-{
-    <div>
-
+            @foreach (var item in bancos)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.cantidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nombre)
+                    </td>
+                </tr>
+            }
+        </table>
     </div>
-}
+</div>
+
+<div>
+    <div class="col-lg-7 chart" id="ct-chartC"></div>
+    <div class="col-lg-5">
+        <h3>Estadisticas Ciudades</h3>
+        <table class="table">
+            <tr>
+                <th>
+                    Código de ciudad
+                </th>
+                <th>
+                    Nombre
+                </th>
+            </tr>
+
+            @foreach (var item in ciudad)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.cantidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nombre)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div>
+    <div class="col-lg-7 chart" id="ct-chartN"></div>
+    <div class="col-lg-5">
+        <h3>Estadisticas Tipo de negocio</h3>
+        <table class="table">
+            <tr>
+                <th>
+                    Cantidad
+                </th>
+                <th>
+                    Nombre
+                </th>
+            </tr>
+
+            @foreach (var item in negocio)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.cantidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nombre)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div onload="cargaEmpresa()">
+    <div class="col-lg-7 chart" id="ct-chartE"></div>
+    <div class="col-lg-5">
+        <h3>Estadisticas de empresa facturadora</h3>
+        <table class="table">
+            <tr>
+                <th>
+                    Cantidad
+                </th>
+                <th>
+                    Nombre
+                </th>
+            </tr>
+
+            @foreach (var item in empresaFacturadora)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.cantidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nombre)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div>
+    <div class="col-lg-7 chart" id="ct-chartCuentas"></div>
+    <div class="col-lg-5">
+        <h3>Cantidad de cuentas</h3>
+        <table class="table">
+            <tr>
+                <th>
+                    Cantidad
+                </th>
+                <th>
+                    Nombre
+                </th>
+            </tr>
+
+            @foreach (var item in cuentas)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.cantidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nombre)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<script>
+    var model = @Html.Raw(Json.Encode(bancos));
+
+    var bancoNombre = [];
+    var arrayCantidad = [];
+
+    for (var i = 0; i < model.length; i++) {
+        arrayCantidad.push(model[i].cantidad);
+    }
+
+    for (var j = 0; j < model.length; j++) {
+        bancoNombre.push(model[j].nombre);
+    }
+
+    var data = {
+        series: arrayCantidad
+    };
+    var sum = function (a, b) { return a + b };
+
+    new Chartist.Bar('#ct-chartB', {
+        labels: bancoNombre,
+        series: [
+            arrayCantidad
+        ]
+    }, {
+            seriesBarDistance: 10,
+            reverseData: true,
+            horizontalBars: true,
+            axisY: {
+                offset: 70
+            }
+        });
+
+    var model = @Html.Raw(Json.Encode(ciudad));
+
+    var ciudadNombre = [];
+    var arrayCantidad = [];
+
+    for (var i = 0; i < model.length; i++) {
+        arrayCantidad.push(model[i].cantidad);
+    }
+
+    for (var j = 0; j < model.length; j++) {
+        ciudadNombre.push(model[j].nombre);
+    }
+
+    var data = {
+        series: arrayCantidad
+    };
+    var sum = function (a, b) { return a + b };
+
+    new Chartist.Bar('#ct-chartC', {
+        labels: ciudadNombre,
+        series: [
+            arrayCantidad
+        ]
+    }, {
+        seriesBarDistance: 10,
+        reverseData: true,
+        horizontalBars: true,
+        axisY: {
+            offset: 70
+        }
+        });
+
+    var model = @Html.Raw(Json.Encode(negocio));
+
+    var negocioNombre = [];
+    var arrayCantidad = [];
+
+    for (var i = 0; i < model.length; i++) {
+        arrayCantidad.push(model[i].cantidad);
+    }
+
+    for (var j = 0; j < model.length; j++) {
+        negocioNombre.push(model[j].nombre);
+    }
+
+    var data = {
+        series: arrayCantidad
+    };
+    var sum = function (a, b) { return a + b };
+
+    new Chartist.Bar('#ct-chartN', {
+        labels: negocioNombre,
+        series: [
+            arrayCantidad
+        ]
+    }, {
+            seriesBarDistance: 10,
+            reverseData: true,
+            horizontalBars: true,
+            axisY: {
+                offset: 70
+            }
+        });
+
+    var model = @Html.Raw(Json.Encode(empresaFacturadora));
+
+    var empresaNombre = [];
+    var arrayCantidad = [];
+
+    for (var i = 0; i < model.length; i++) {
+        arrayCantidad.push(model[i].cantidad);
+    }
+
+    for (var j = 0; j < model.length; j++) {
+        empresaNombre.push(model[j].nombre);
+    }
+
+    var data = {
+        series: arrayCantidad
+    };
+    var sum = function (a, b) { return a + b };
+
+    new Chartist.Bar('#ct-chartE', {
+        labels: empresaNombre,
+        series: [
+            arrayCantidad
+        ]
+    }, {
+            seriesBarDistance: 10,
+            reverseData: true,
+            horizontalBars: true,
+            axisY: {
+                offset: 70
+            }
+        });
+
+    var model = @Html.Raw(Json.Encode(cuentas));
+
+    var cuentasNombre = [];
+    var arrayCantidad = [];
+
+    for (var i = 0; i < model.length; i++) {
+        arrayCantidad.push(model[i].cantidad);
+    }
+
+    for (var j = 0; j < model.length; j++) {
+        cuentasNombre.push(model[j].nombre);
+    }
+
+    var data = {
+        series: arrayCantidad
+    };
+    var sum = function (a, b) { return a + b };
+
+    new Chartist.Bar('#ct-chartCuentas', {
+        labels: cuentasNombre,
+        series: [
+            arrayCantidad
+        ]
+    }, {
+            seriesBarDistance: 10,
+            reverseData: true,
+            horizontalBars: true,
+            axisY: {
+                offset: 70
+            }
+        });
+</script>
+    
+
+
 
