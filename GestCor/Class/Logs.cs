@@ -12,7 +12,7 @@ namespace msgprepagosatelital.Clases
             {
                 DateTime nameFile = DateTime.Today;
                 string Name = nameFile.ToString("MM-dd-yy");
-                var fileOpen = File.Open("c:/SMSLogs/logUserApp-" + Name + ".txt", FileMode.Append);    
+                var fileOpen = File.Open("c:/GestCorLogs/logUserApp-" + Name + ".txt", FileMode.Append);    
                 sw = new StreamWriter(fileOpen);
                 sw.WriteLine(DateTime.Now.ToString() + ": " + ex.Source.ToString().Trim() + "; " + ex.Message.ToString().Trim());
                 sw.Flush();
@@ -30,7 +30,7 @@ namespace msgprepagosatelital.Clases
             {
                 DateTime nameFile = DateTime.Today;
                 string Name = nameFile.ToString("MM-dd-yy");
-                var fileOpen = File.Open("c:/SMSLogs/logUserApp-" + Name + ".txt", FileMode.Append);
+                var fileOpen = File.Open("c:/GestCorLogs/logUserApp-" + Name + ".txt", FileMode.Append);
                 sw = new StreamWriter(fileOpen);
                 sw.WriteLine(DateTime.Now.ToString() + ": " + message);
                 sw.Flush();

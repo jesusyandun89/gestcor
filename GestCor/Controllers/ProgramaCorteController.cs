@@ -35,9 +35,9 @@ namespace GestCor.Controllers
             }
         }
 
-        private List<DetalleProgCorte> UploadFile(int idProgCorte)
+        private List<Ytbl_DetalleProgCorteModels> UploadFile(int idProgCorte)
         {
-            List<DetalleProgCorte> DetalleCorteLista = new List<DetalleProgCorte>();
+            List<Ytbl_DetalleProgCorteModels> DetalleCorteLista = new List<Ytbl_DetalleProgCorteModels>();
             int i = 1;
 
             using (var reader = new StreamReader(@"C:\Clientes.csv"))
@@ -47,7 +47,7 @@ namespace GestCor.Controllers
                 {
                     var line = reader.ReadLine();
                     var values = line.Split(';');
-                    DetalleProgCorte DetalleProgCorte = new DetalleProgCorte();
+                    Ytbl_DetalleProgCorteModels DetalleProgCorte = new Ytbl_DetalleProgCorteModels();
 
                     DetalleProgCorte.counter = i++;
                     DetalleProgCorte.id_ProgCorte = idProgCorte;
@@ -151,7 +151,7 @@ namespace GestCor.Controllers
             return DetalleCorteLista;
         }
 
-        private List<Estadisticas> getBancos(List<DetalleProgCorte> DetalleCorte)
+        private List<Estadisticas> getBancos(List<Ytbl_DetalleProgCorteModels> DetalleCorte)
         {
             List<Estadisticas> estadisticasList = new List<Estadisticas>();
             var datos = from p in DetalleCorte
@@ -188,7 +188,7 @@ namespace GestCor.Controllers
             return estadisticasList;
         }
 
-        private List<Estadisticas> getCiudades(List<DetalleProgCorte> DetalleCorte)
+        private List<Estadisticas> getCiudades(List<Ytbl_DetalleProgCorteModels> DetalleCorte)
         {
             List<Estadisticas> estadisticasList = new List<Estadisticas>();
             var datos = from p in DetalleCorte
@@ -225,7 +225,7 @@ namespace GestCor.Controllers
             return estadisticasList;
         }
 
-        private List<Estadisticas> getTipoNegocios(List<DetalleProgCorte> DetalleCorte)
+        private List<Estadisticas> getTipoNegocios(List<Ytbl_DetalleProgCorteModels> DetalleCorte)
         {
             List<Estadisticas> estadisticasList = new List<Estadisticas>();
             var datos = from p in DetalleCorte
@@ -263,7 +263,7 @@ namespace GestCor.Controllers
             return estadisticasList;
         }
 
-        private List<Estadisticas> getEmpresaFacturadoras(List<DetalleProgCorte> DetalleCorte)
+        private List<Estadisticas> getEmpresaFacturadoras(List<Ytbl_DetalleProgCorteModels> DetalleCorte)
         {
             List<Estadisticas> estadisticasList = new List<Estadisticas>();
             var datos = from p in DetalleCorte
@@ -300,7 +300,7 @@ namespace GestCor.Controllers
             return estadisticasList;
         }
 
-        private List<Estadisticas> getCantidadCuentas(List<DetalleProgCorte> DetalleCorte)
+        private List<Estadisticas> getCantidadCuentas(List<Ytbl_DetalleProgCorteModels> DetalleCorte)
         {
             List<Estadisticas> estadisticasList = new List<Estadisticas>();
 
@@ -319,13 +319,13 @@ namespace GestCor.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult _UploadPartial(HttpPostedFileBase upload)
+        public ActionResult Upload(HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
                 if (VerifyFile(upload))
                 {
-                    List<DetalleProgCorte> DetalleCorte = UploadFile(1);
+                    List<Ytbl_DetalleProgCorteModels> DetalleCorte = UploadFile(1);
 
                     ViewData["bancos"] = getBancos(DetalleCorte);
 
@@ -344,6 +344,11 @@ namespace GestCor.Controllers
                     ModelState.AddModelError("Archivo", "El archivo no tiene la extensión correcta");
                 }
             }
+            return View();
+        }
+
+        public ActionResult Create()
+        {
             return View();
         }
     }

@@ -1,30 +1,33 @@
 ﻿using System;
 using System.Configuration;
-using System.Data;
-using System.Data.OleDb;
+using Oracle.DataAccess.Client;
 
 namespace msgprepagosatelital.Clases
 {
     public class Connection
     {
-        public OleDbConnection Conn()
+        public OracleConnection Conn()
         {
-            OleDbConnection conn;
+            OracleConnection conn;
 
             try
             {
-                var connectionString = ConfigurationManager.ConnectionStrings["Titan"].ConnectionString;
+                //var connectionString = ConfigurationManager.ConnectionStrings["SaveProgramaCorteContext"].ConnectionString;
 
-                OleDbConnection myOleDbConnection = new OleDbConnection(connectionString);
+                ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;
 
-                conn = new OleDbConnection();
+                string valCon = "Data Source = DEARROLLONEW; User ID = bsdesa; Password = com123desa";
+
+
+                conn = new OracleConnection();
+                conn.ConnectionString = valCon;
             
                 return conn;
             }
             catch (Exception ex)
             {
                 Logs.WriteErrorLog("Error en conexión de base de datos||" + ex.ToString());
-                return conn = new OleDbConnection("falso");
+                return conn = new OracleConnection("falso");
             }
         }
     }
