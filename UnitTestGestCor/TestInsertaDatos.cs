@@ -69,7 +69,7 @@ namespace UnitTestGestCor
 
             listProgCorte = progCorte.SelectYtbl_ProgCorte();
 
-            Assert.Equals(comparaLista, listProgCorte);
+            Assert.AreEqual(comparaLista.Count, listProgCorte.Count);
         }
 
 

@@ -10,7 +10,7 @@ namespace GestCor.Models
 {
     public class Ytbl_ProgCorteModels
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Document_Name { get; set; }
         public string Customer_Number_Upload { get; set; }
         public string Nick_User { get; set; }
@@ -126,27 +126,38 @@ namespace GestCor.Models
         {
             conn = new Connection();
             OracleConnection objConn = conn.Conn();
+
             string commText = "select * from YTBL_PROGCORTE";
             objConn.Open();
-            OracleCommand cmd = new OracleCommand(commText, objConn);
+            OracleCommand cmd = new OracleCommand();
+
+            cmd.Connection = objConn;
+            cmd.CommandText = commText;
+            cmd.CommandType = CommandType.Text;
+
             OracleDataReader myReader = cmd.ExecuteReader();
+
             int RecordCount = 0;
             List<Ytbl_ProgCorteModels> cortesProgramados = new List<Ytbl_ProgCorteModels>();
             try
             {
-                while(myReader.Read())
-                {
-                    Ytbl_ProgCorteModels ProgCorte = new Ytbl_ProgCorteModels();
-                    RecordCount++;
-                    ProgCorte.Id = int.Parse(myReader.GetString(0).ToString());
-                    ProgCorte.Document_Name = myReader.GetString(1).ToString();
-                    ProgCorte.Customer_Number_Upload = myReader.GetString(2).ToString();
-                    ProgCorte.Nick_User = myReader.GetString(3).ToString();
-                    ProgCorte.Date_Programed = DateTime.Parse(myReader.GetString(4).ToString());
-                    ProgCorte.Date_Upload = DateTime.Parse(myReader.GetString(5).ToString());
-                    ProgCorte.IsValid = myReader.GetString(0).ToString();
+                if(myReader.HasRows)
+                { 
+                    while(myReader.Read())
+                    {
+                        Ytbl_ProgCorteModels ProgCorte = new Ytbl_ProgCorteModels();
+                        RecordCount++;
+                        
+                        ProgCorte.Id = int.Parse(myReader.GetDecimal(0).ToString());
+                        ProgCorte.Document_Name = myReader.GetString(1).ToString();
+                        ProgCorte.Customer_Number_Upload = myReader.GetString(2).ToString();
+                        ProgCorte.Nick_User = myReader.GetString(3).ToString();
+                        ProgCorte.Date_Programed = DateTime.Parse(myReader.GetDateTime(4).ToString());
+                        ProgCorte.Date_Upload = DateTime.Parse(myReader.GetDateTime(5).ToString());
+                        ProgCorte.IsValid = myReader.GetString(6).ToString();
 
-                    cortesProgramados.Add(ProgCorte);
+                        cortesProgramados.Add(ProgCorte);
+                    }
                 }
 
                 return cortesProgramados;
@@ -155,6 +166,7 @@ namespace GestCor.Models
             {
                 myReader.Close();
                 objConn.Close();
+                Logs.WriteErrorLog("Error en la consulta de datos||" + ex.ToString());
                 return cortesProgramados;
             }
             finally
@@ -163,5 +175,7 @@ namespace GestCor.Models
                 objConn.Close();
             }
         }
+
+
     }
 }
