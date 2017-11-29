@@ -1,20 +1,61 @@
-﻿<h2>Calendarización de cortes</h2>
+﻿@model IEnumerable<GestCor.Models.Ytbl_ProgCorteModels>
 
-@using (Html.BeginForm("Upload", "ProgramaCorte", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
-
-    <div class="form-group">
-        <input type="file" id="dataFile" name="upload" />
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Upload" class="btn btn-default" />
-    </div>
+@{
+    ViewBag.Title = "Index";
 }
 
+<h2>Index</h2>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<p>
+    @Html.ActionLink("Crear nuevo", "UploadFile")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Document_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer_Number_Upload)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nick_User)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date_Programed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date_Upload)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsValid)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Document_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer_Number_Upload)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nick_User)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_Programed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_Upload)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsValid)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

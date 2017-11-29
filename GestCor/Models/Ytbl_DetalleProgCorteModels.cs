@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Oracle.DataAccess;
-using Oracle.DataAccess.Client;
-using msgprepagosatelital.Clases;
+﻿using msgprepagosatelital.Clases;
+using System;
 using System.Data;
+using System.Data.OleDb;
 
 namespace GestCor.Models
 {
@@ -33,87 +29,87 @@ namespace GestCor.Models
         public void SaveYtbl_DetalleProgCorte()
         {
             conn = new Connection();
-            OracleConnection objConn = conn.Conn();
+            OleDbConnection objConn = conn.Conn();
             try
             {
 
                 string commText = "YPKG_WEBCORTES.YPRD_INSERTDETALLEPROGCORTE";
                 objConn.Open();
-                OracleCommand cmd = new OracleCommand(commText, objConn);
+                OleDbCommand cmd = new OleDbCommand(commText, objConn);
 
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                OracleParameter IdProgCorte = new OracleParameter("PN_ID_PROGCORTE", OracleDbType.Int64);
+                OleDbParameter IdProgCorte = new OleDbParameter("PN_ID_PROGCORTE", OleDbType.BigInt);
                 IdProgCorte.Direction = ParameterDirection.Input;
                 IdProgCorte.Value = this.id_ProgCorte;
                 cmd.Parameters.Add(IdProgCorte);
 
-                OracleParameter Cparty = new OracleParameter("PN_CPARTY_ID", OracleDbType.Int64);
+                OleDbParameter Cparty = new OleDbParameter("PN_CPARTY_ID", OleDbType.BigInt);
                 Cparty.Direction = ParameterDirection.Input;
                 Cparty.Value = this.CpartyId;
                 cmd.Parameters.Add(Cparty);
 
-                OracleParameter Account = new OracleParameter("PN_CPARTYACCOUNT_ID", OracleDbType.Int64);
+                OleDbParameter Account = new OleDbParameter("PN_CPARTYACCOUNT_ID", OleDbType.BigInt);
                 Account.Direction = ParameterDirection.Input;
                 Account.Value = this.CpartyAccountId;
                 cmd.Parameters.Add(Account);
 
-                OracleParameter Citem = new OracleParameter("PN_CITEM_ID", OracleDbType.Int64);
+                OleDbParameter Citem = new OleDbParameter("PN_CITEM_ID", OleDbType.BigInt);
                 Citem.Direction = ParameterDirection.Input;
                 Citem.Value = this.CitemId;
                 cmd.Parameters.Add(Citem);
 
-                OracleParameter Pago = new OracleParameter("PV_FORMAPAGO", OracleDbType.Varchar2);
+                OleDbParameter Pago = new OleDbParameter("PV_FORMAPAGO", OleDbType.VarChar);
                 Pago.Direction = ParameterDirection.Input;
                 Pago.Value = this.FormaPago;
                 cmd.Parameters.Add(Pago);
 
-                OracleParameter Ciudad = new OracleParameter("PV_CIUDAD", OracleDbType.Varchar2);
+                OleDbParameter Ciudad = new OleDbParameter("PV_CIUDAD", OleDbType.VarChar);
                 Ciudad.Direction = ParameterDirection.Input;
                 Ciudad.Value = this.Ciudad;
                 cmd.Parameters.Add(Ciudad);
 
-                OracleParameter Banco = new OracleParameter("PN_BANCO_ID", OracleDbType.Varchar2);
+                OleDbParameter Banco = new OleDbParameter("PN_BANCO_ID", OleDbType.VarChar);
                 Banco.Direction = ParameterDirection.Input;
                 Banco.Value = this.BancoId;
                 cmd.Parameters.Add(Banco);
 
-                OracleParameter Negocio = new OracleParameter("PV_BUSINESS", OracleDbType.Varchar2);
+                OleDbParameter Negocio = new OleDbParameter("PV_BUSINESS", OleDbType.VarChar);
                 Negocio.Direction = ParameterDirection.Input;
                 Negocio.Value = this.TipoNegocio;
                 cmd.Parameters.Add(Negocio);
 
-                OracleParameter Empresa = new OracleParameter("PV_COMPANY", OracleDbType.Varchar2);
+                OleDbParameter Empresa = new OleDbParameter("PV_COMPANY", OleDbType.VarChar);
                 Empresa.Direction = ParameterDirection.Input;
                 Empresa.Value = this.EmpresaFacturadora;
                 cmd.Parameters.Add(Empresa);
 
-                OracleParameter Fieldv1 = new OracleParameter("PV_FIELDV1", OracleDbType.Varchar2);
+                OleDbParameter Fieldv1 = new OleDbParameter("PV_FIELDV1", OleDbType.VarChar);
                 Fieldv1.Direction = ParameterDirection.Input;
                 Fieldv1.Value = this.FieldV1;
                 cmd.Parameters.Add(Fieldv1);
 
-                OracleParameter Fieldv2 = new OracleParameter("PV_FIELDV2", OracleDbType.Varchar2);
+                OleDbParameter Fieldv2 = new OleDbParameter("PV_FIELDV2", OleDbType.VarChar);
                 Fieldv2.Direction = ParameterDirection.Input;
                 Fieldv2.Value = this.FieldV2;
                 cmd.Parameters.Add(Fieldv2);
 
-                OracleParameter Fieldn1 = new OracleParameter("PN_FIELDN1", OracleDbType.Int32);
+                OleDbParameter Fieldn1 = new OleDbParameter("PN_FIELDN1", OleDbType.Integer);
                 Fieldn1.Direction = ParameterDirection.Input;
                 Fieldn1.Value = this.FieldN1;
                 cmd.Parameters.Add(Fieldn1);
 
-                OracleParameter Fieldn2 = new OracleParameter("PN_FIELDN2", OracleDbType.Int32);
+                OleDbParameter Fieldn2 = new OleDbParameter("PN_FIELDN2", OleDbType.Integer);
                 Fieldn2.Direction = ParameterDirection.Input;
                 Fieldn2.Value = this.FieldN2;
                 cmd.Parameters.Add(Fieldn2);
 
-                OracleParameter DateField = new OracleParameter("PD_FIELDD1", OracleDbType.Date);
+                OleDbParameter DateField = new OleDbParameter("PD_FIELDD1", OleDbType.Date);
                 DateField.Direction = ParameterDirection.Input;
                 DateField.Value = this.FieldD1;
                 cmd.Parameters.Add(DateField);
 
-                OracleParameter Status = new OracleParameter("PV_STATUS", OracleDbType.Varchar2);
+                OleDbParameter Status = new OleDbParameter("PV_STATUS", OleDbType.VarChar);
                 Status.Direction = ParameterDirection.Input;
                 Status.Value = this.Status;
                 cmd.Parameters.Add(Status);

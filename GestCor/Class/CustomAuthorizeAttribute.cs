@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using msgprepagosatelital.Class;
+using msgprepagosatelital.Clases;
 
 public class CustomAuthorizeAttribute : AuthorizeAttribute
 {
@@ -31,6 +32,7 @@ public class CustomAuthorizeAttribute : AuthorizeAttribute
         }
         catch (Exception ex)
         {
+            Logs.WriteErrorLog("Error en ingresar a dicha página: " + ex.ToString());
             filterContext.Result = new ViewResult { ViewName = "ErrorAcceso" };
         }
     }

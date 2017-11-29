@@ -12,10 +12,18 @@ namespace GestCor.Controllers
 {
     public class ProgramaCorteController : Controller
     {
+        private List<Ytbl_DetalleProgCorteModels> DetalleCorteLista;
+
         // GET: ProgramaCorte
         public ActionResult Index()
         {
-            return View();
+            Ytbl_ProgCorteModels progCorte = new Ytbl_ProgCorteModels();
+
+            List<Ytbl_ProgCorteModels> listProgCorte = new List<Ytbl_ProgCorteModels>();
+
+            listProgCorte = progCorte.SelectYtbl_ProgCorte();
+
+            return View(listProgCorte);
         }
 
 
@@ -35,9 +43,14 @@ namespace GestCor.Controllers
             }
         }
 
+        public ActionResult UploadFile()
+        {
+            return View();
+        }
+
         private List<Ytbl_DetalleProgCorteModels> UploadFile(int idProgCorte)
         {
-            List<Ytbl_DetalleProgCorteModels> DetalleCorteLista = new List<Ytbl_DetalleProgCorteModels>();
+            DetalleCorteLista = new List<Ytbl_DetalleProgCorteModels>();
             int i = 1;
 
             using (var reader = new StreamReader(@"C:\Clientes.csv"))
@@ -350,6 +363,15 @@ namespace GestCor.Controllers
         public ActionResult Create()
         {
             return View();
+        }
+
+        public ActionResult Edit(int id)
+        {
+            Ytbl_ProgCorteModels progCorte = new Ytbl_ProgCorteModels();
+
+            //progCorte.SelectYtbl_ProgCorte(id);
+
+            return View(progCorte.SelectYtbl_ProgCorte(id));
         }
     }
 }
