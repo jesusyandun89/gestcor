@@ -12,8 +12,7 @@ namespace GestCor.Controllers
 {
     public class ProgramaCorteController : Controller
     {
-        private List<Ytbl_DetalleProgCorteModels> DetalleCorteLista;
-
+        Ytbl_ProgCorteModels CreateNew;
         // GET: ProgramaCorte
         public ActionResult Index()
         {
@@ -48,12 +47,21 @@ namespace GestCor.Controllers
             return View();
         }
 
-        private List<Ytbl_DetalleProgCorteModels> UploadFile(int idProgCorte)
+        private List<Ytbl_DetalleProgCorteModels> UploadFile(HttpPostedFileBase upload)
         {
-            DetalleCorteLista = new List<Ytbl_DetalleProgCorteModels>();
+            CreateNew = new Ytbl_ProgCorteModels();
+            List<Ytbl_DetalleProgCorteModels> DetalleCorteLista = new List<Ytbl_DetalleProgCorteModels>();
             int i = 1;
 
-            using (var reader = new StreamReader(@"C:\Clientes.csv"))
+            string fileName = upload.FileName;
+            
+            string filePath4 = Path.GetTempPath();
+
+            string filePath = Path.Combine(filePath4, fileName);
+
+            upload.SaveAs(filePath);
+
+            using (var reader = new StreamReader(filePath))
             {                
                 string headerLine = reader.ReadLine();
                 while (!reader.EndOfStream)
@@ -63,7 +71,6 @@ namespace GestCor.Controllers
                     Ytbl_DetalleProgCorteModels DetalleProgCorte = new Ytbl_DetalleProgCorteModels();
 
                     DetalleProgCorte.counter = i++;
-                    DetalleProgCorte.id_ProgCorte = idProgCorte;
 
                     if (values[0] != null)
                         DetalleProgCorte.CpartyId = Int64.Parse(values[0]);
@@ -160,6 +167,12 @@ namespace GestCor.Controllers
                     DetalleCorteLista.Add(DetalleProgCorte);
                 }
             }
+            CreateNew.Document_Name = fileName;
+            CreateNew.Customer_Number_Upload = i.ToString();
+            CreateNew.Date_Upload = DateTime.Now;
+            CreateNew.Nick_User = "jyandun";
+
+            CreateNew.DetalleCorte = DetalleCorteLista;
 
             return DetalleCorteLista;
         }
@@ -338,7 +351,7 @@ namespace GestCor.Controllers
             {
                 if (VerifyFile(upload))
                 {
-                    List<Ytbl_DetalleProgCorteModels> DetalleCorte = UploadFile(1);
+                    List<Ytbl_DetalleProgCorteModels> DetalleCorte = UploadFile(upload);
 
                     ViewData["bancos"] = getBancos(DetalleCorte);
 
@@ -362,14 +375,20 @@ namespace GestCor.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            return View(CreateNew);
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Ytbl_ProgCorteModels model)
+        {
+
+            return View(model);
+        }
         public ActionResult Edit(int id)
         {
             Ytbl_ProgCorteModels progCorte = new Ytbl_ProgCorteModels();
-
-            //progCorte.SelectYtbl_ProgCorte(id);
 
             return View(progCorte.SelectYtbl_ProgCorte(id));
         }

@@ -3,22 +3,30 @@ using System.Data.OleDb;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace GestCor.Models
 {
     public class Ytbl_ProgCorteModels
     {
         public int? Id { get; set; }
+
+        [Display(Name = "Nombre del documento")]
         public string Document_Name { get; set; }
+        [Display(Name = "Cantidad de clientes")]
         public string Customer_Number_Upload { get; set; }
+        [Display(Name = "Usuario")]
         public string Nick_User { get; set; }
+        [Display(Name = "Fecha programada")]
         public DateTime Date_Programed { get; set; }
+        [Display(Name = "Fecha de creación")]
         public DateTime Date_Upload { get; set; }
+        [Display(Name = "Es válido")]
         public string IsValid { get; set; }
 
         Connection conn;
 
-        List<Ytbl_DetalleProgCorteModels> detalleCorte = new List<Ytbl_DetalleProgCorteModels>();
+        public List<Ytbl_DetalleProgCorteModels> DetalleCorte { get; set; }
 
         public void SaveYtbl_ProgCorte()
         {
@@ -65,6 +73,7 @@ namespace GestCor.Models
                 cmd.Parameters.Add(IsValid);
 
                 cmd.ExecuteNonQuery();
+                
                 objConn.Close();
             }
             catch(Exception ex)
