@@ -26,7 +26,7 @@ namespace GestCor.Models
 
         Connection conn;
 
-        public void SaveYtbl_DetalleProgCorte()
+        public void SaveYtbl_DetalleProgCorte(Ytbl_DetalleProgCorteModels DetalleCorte)
         {
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
@@ -41,77 +41,77 @@ namespace GestCor.Models
 
                 OleDbParameter IdProgCorte = new OleDbParameter("PN_ID_PROGCORTE", OleDbType.BigInt);
                 IdProgCorte.Direction = ParameterDirection.Input;
-                IdProgCorte.Value = this.id_ProgCorte;
+                IdProgCorte.Value = DetalleCorte.id_ProgCorte;
                 cmd.Parameters.Add(IdProgCorte);
 
                 OleDbParameter Cparty = new OleDbParameter("PN_CPARTY_ID", OleDbType.BigInt);
                 Cparty.Direction = ParameterDirection.Input;
-                Cparty.Value = this.CpartyId;
+                Cparty.Value = DetalleCorte.CpartyId;
                 cmd.Parameters.Add(Cparty);
 
                 OleDbParameter Account = new OleDbParameter("PN_CPARTYACCOUNT_ID", OleDbType.BigInt);
                 Account.Direction = ParameterDirection.Input;
-                Account.Value = this.CpartyAccountId;
+                Account.Value = DetalleCorte.CpartyAccountId;
                 cmd.Parameters.Add(Account);
 
                 OleDbParameter Citem = new OleDbParameter("PN_CITEM_ID", OleDbType.BigInt);
                 Citem.Direction = ParameterDirection.Input;
-                Citem.Value = this.CitemId;
+                Citem.Value = DetalleCorte.CitemId;
                 cmd.Parameters.Add(Citem);
 
                 OleDbParameter Pago = new OleDbParameter("PV_FORMAPAGO", OleDbType.VarChar);
                 Pago.Direction = ParameterDirection.Input;
-                Pago.Value = this.FormaPago;
+                Pago.Value = DetalleCorte.FormaPago;
                 cmd.Parameters.Add(Pago);
 
                 OleDbParameter Ciudad = new OleDbParameter("PV_CIUDAD", OleDbType.VarChar);
                 Ciudad.Direction = ParameterDirection.Input;
-                Ciudad.Value = this.Ciudad;
+                Ciudad.Value = DetalleCorte.Ciudad;
                 cmd.Parameters.Add(Ciudad);
 
                 OleDbParameter Banco = new OleDbParameter("PN_BANCO_ID", OleDbType.VarChar);
                 Banco.Direction = ParameterDirection.Input;
-                Banco.Value = this.BancoId;
+                Banco.Value = DetalleCorte.BancoId;
                 cmd.Parameters.Add(Banco);
 
                 OleDbParameter Negocio = new OleDbParameter("PV_BUSINESS", OleDbType.VarChar);
                 Negocio.Direction = ParameterDirection.Input;
-                Negocio.Value = this.TipoNegocio;
+                Negocio.Value = DetalleCorte.TipoNegocio;
                 cmd.Parameters.Add(Negocio);
 
                 OleDbParameter Empresa = new OleDbParameter("PV_COMPANY", OleDbType.VarChar);
                 Empresa.Direction = ParameterDirection.Input;
-                Empresa.Value = this.EmpresaFacturadora;
+                Empresa.Value = DetalleCorte.EmpresaFacturadora;
                 cmd.Parameters.Add(Empresa);
 
                 OleDbParameter Fieldv1 = new OleDbParameter("PV_FIELDV1", OleDbType.VarChar);
                 Fieldv1.Direction = ParameterDirection.Input;
-                Fieldv1.Value = this.FieldV1;
+                Fieldv1.Value = DetalleCorte.FieldV1;
                 cmd.Parameters.Add(Fieldv1);
 
                 OleDbParameter Fieldv2 = new OleDbParameter("PV_FIELDV2", OleDbType.VarChar);
                 Fieldv2.Direction = ParameterDirection.Input;
-                Fieldv2.Value = this.FieldV2;
+                Fieldv2.Value = DetalleCorte.FieldV2;
                 cmd.Parameters.Add(Fieldv2);
 
                 OleDbParameter Fieldn1 = new OleDbParameter("PN_FIELDN1", OleDbType.Integer);
                 Fieldn1.Direction = ParameterDirection.Input;
-                Fieldn1.Value = this.FieldN1;
+                Fieldn1.Value = DetalleCorte.FieldN1;
                 cmd.Parameters.Add(Fieldn1);
 
                 OleDbParameter Fieldn2 = new OleDbParameter("PN_FIELDN2", OleDbType.Integer);
                 Fieldn2.Direction = ParameterDirection.Input;
-                Fieldn2.Value = this.FieldN2;
+                Fieldn2.Value = DetalleCorte.FieldN2;
                 cmd.Parameters.Add(Fieldn2);
 
                 OleDbParameter DateField = new OleDbParameter("PD_FIELDD1", OleDbType.Date);
                 DateField.Direction = ParameterDirection.Input;
-                DateField.Value = this.FieldD1;
+                DateField.Value = DetalleCorte.FieldD1;
                 cmd.Parameters.Add(DateField);
 
                 OleDbParameter Status = new OleDbParameter("PV_STATUS", OleDbType.VarChar);
                 Status.Direction = ParameterDirection.Input;
-                Status.Value = this.Status;
+                Status.Value = DetalleCorte.Status;
                 cmd.Parameters.Add(Status);
 
                 cmd.ExecuteNonQuery();

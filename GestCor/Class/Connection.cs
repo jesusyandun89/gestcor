@@ -14,7 +14,6 @@ namespace msgprepagosatelital.Clases
 
             try
             {
-                conn.Open();
                 return conn;
             }
             catch (Exception ex)

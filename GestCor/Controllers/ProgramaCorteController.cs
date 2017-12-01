@@ -12,7 +12,6 @@ namespace GestCor.Controllers
 {
     public class ProgramaCorteController : Controller
     {
-        Ytbl_ProgCorteModels CreateNew;
         // GET: ProgramaCorte
         public ActionResult Index()
         {
@@ -49,9 +48,8 @@ namespace GestCor.Controllers
 
         private List<Ytbl_DetalleProgCorteModels> UploadFile(HttpPostedFileBase upload)
         {
-            CreateNew = new Ytbl_ProgCorteModels();
             List<Ytbl_DetalleProgCorteModels> DetalleCorteLista = new List<Ytbl_DetalleProgCorteModels>();
-            int i = 1;
+            int i = 0;
 
             string fileName = upload.FileName;
             
@@ -167,12 +165,21 @@ namespace GestCor.Controllers
                     DetalleCorteLista.Add(DetalleProgCorte);
                 }
             }
+            Ytbl_ProgCorteModels CreateNew = new Ytbl_ProgCorteModels();
+
             CreateNew.Document_Name = fileName;
             CreateNew.Customer_Number_Upload = i.ToString();
-            CreateNew.Date_Upload = DateTime.Now;
             CreateNew.Nick_User = "jyandun";
 
-            CreateNew.DetalleCorte = DetalleCorteLista;
+            List<Ytbl_ProgCorteModels> ListProgCorte = new List<Ytbl_ProgCorteModels>();
+
+            ListProgCorte.Add(CreateNew);
+
+            Ytbl_ProgCorteModels.ListProgCorte = null;
+            Ytbl_ProgCorteModels.ListProgCorte = ListProgCorte;
+
+            Ytbl_ProgCorteModels.DetalleCorte = null;
+            Ytbl_ProgCorteModels.DetalleCorte = DetalleCorteLista;
 
             return DetalleCorteLista;
         }
@@ -375,7 +382,19 @@ namespace GestCor.Controllers
 
         public ActionResult Create()
         {
-            return View(CreateNew);
+            Ytbl_ProgCorteModels ProgCorte = new Ytbl_ProgCorteModels();
+
+            foreach (var item in Ytbl_ProgCorteModels.ListProgCorte)
+            {
+                ProgCorte.Document_Name = item.Document_Name;
+                ProgCorte.Customer_Number_Upload = item.Customer_Number_Upload;
+                ProgCorte.Nick_User = item.Nick_User;
+                ProgCorte.Date_Programed = DateTime.Now;
+                ProgCorte.Date_Upload = DateTime.Now;
+                ProgCorte.IsValid = "Y";
+            }
+
+            return View(ProgCorte);
         }
 
         [HttpPost]
@@ -383,8 +402,25 @@ namespace GestCor.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Ytbl_ProgCorteModels model)
         {
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-            return View(model);
+            foreach (var item in Ytbl_ProgCorteModels.ListProgCorte)
+            {
+                model.Document_Name = item.Document_Name;
+                model.Customer_Number_Upload = item.Customer_Number_Upload;
+                model.Nick_User = item.Nick_User;
+                model.Date_Upload = DateTime.Now;
+            }
+
+            Ytbl_ProgCorteModels ProgCorte = new Ytbl_ProgCorteModels();
+
+
+            ProgCorte.ExecuteSave(model);
+
+            return RedirectToAction("Index");
         }
         public ActionResult Edit(int id)
         {

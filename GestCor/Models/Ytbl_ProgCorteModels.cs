@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace GestCor.Models
 {
@@ -26,9 +27,49 @@ namespace GestCor.Models
 
         Connection conn;
 
-        public List<Ytbl_DetalleProgCorteModels> DetalleCorte { get; set; }
+        public static List<Ytbl_DetalleProgCorteModels> DetalleCorte { get; set; }
 
-        public void SaveYtbl_ProgCorte()
+        public static List<Ytbl_ProgCorteModels> ListProgCorte { get; set; }
+
+        public void ExecuteSave(Ytbl_ProgCorteModels ListCorte)
+        {
+            Ytbl_DetalleProgCorteModels SaveDetalle = new Ytbl_DetalleProgCorteModels();
+            try
+            {
+                SaveYtbl_ProgCorte(ListCorte);
+                int idProgCorte = SelectMaxId(ListCorte.Document_Name);
+
+                Parallel.For(0, DetalleCorte.Count, i =>
+                {
+                    Ytbl_DetalleProgCorteModels CorteDetalle = new Ytbl_DetalleProgCorteModels();
+
+                    CorteDetalle.id_ProgCorte = idProgCorte;
+                    CorteDetalle.CpartyId = DetalleCorte[i].CpartyId;
+                    CorteDetalle.CpartyAccountId = DetalleCorte[i].CpartyAccountId;
+                    CorteDetalle.CitemId = DetalleCorte[i].CitemId;
+                    CorteDetalle.FormaPago = DetalleCorte[i].FormaPago;
+                    CorteDetalle.Ciudad = DetalleCorte[i].Ciudad;
+                    CorteDetalle.BancoId = DetalleCorte[i].BancoId;
+                    CorteDetalle.TipoNegocio = DetalleCorte[i].TipoNegocio;
+                    CorteDetalle.EmpresaFacturadora = DetalleCorte[i].EmpresaFacturadora;
+                    CorteDetalle.FieldV1 = DetalleCorte[i].FieldV1;
+                    CorteDetalle.FieldV2 = DetalleCorte[i].FieldV2;
+                    CorteDetalle.FieldN1 = DetalleCorte[i].FieldN1;
+                    CorteDetalle.FieldN2 = DetalleCorte[i].FieldN2;
+                    CorteDetalle.FieldD1 = DetalleCorte[i].FieldD1;
+                    CorteDetalle.Status = DetalleCorte[i].Status;
+
+                    SaveDetalle.SaveYtbl_DetalleProgCorte(CorteDetalle);
+                });
+            }
+            catch (Exception ex)
+            {
+                Logs.WriteErrorLog("Error en ExecuteSave: " + ex.ToString());
+            }
+            
+        }
+
+        public void SaveYtbl_ProgCorte(Ytbl_ProgCorteModels ProgCorte)
         {
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
@@ -44,32 +85,32 @@ namespace GestCor.Models
 
                 OleDbParameter Document = new OleDbParameter("PN_DOCUMENT_NAME", OleDbType.VarChar);
                 Document.Direction = ParameterDirection.Input;
-                Document.Value = this.Document_Name;
+                Document.Value = ProgCorte.Document_Name;
                 cmd.Parameters.Add(Document);
 
                 OleDbParameter Customers = new OleDbParameter("PN_CUSTOMES_NUMBER_UPLOAD", OleDbType.VarChar);
                 Customers.Direction = ParameterDirection.Input;
-                Customers.Value = this.Customer_Number_Upload;
+                Customers.Value = ProgCorte.Customer_Number_Upload;
                 cmd.Parameters.Add(Customers);
 
                 OleDbParameter User = new OleDbParameter("PV_NICK_USER", OleDbType.VarChar);
                 User.Direction = ParameterDirection.Input;
-                User.Value = this.Nick_User;
+                User.Value = ProgCorte.Nick_User;
                 cmd.Parameters.Add(User);
 
                 OleDbParameter DateP = new OleDbParameter("PD_DATE_PROGRAMED", OleDbType.Date);
                 DateP.Direction = ParameterDirection.Input;
-                DateP.Value = this.Date_Programed;
+                DateP.Value = ProgCorte.Date_Programed;
                 cmd.Parameters.Add(DateP);
 
                 OleDbParameter DateU = new OleDbParameter("PD_DATE_UPLOAD", OleDbType.Date);
                 DateU.Direction = ParameterDirection.Input;
-                DateU.Value = this.Date_Upload;
+                DateU.Value = ProgCorte.Date_Upload;
                 cmd.Parameters.Add(DateU);
 
                 OleDbParameter IsValid = new OleDbParameter("PV_ISVALID", OleDbType.VarChar);
                 IsValid.Direction = ParameterDirection.Input;
-                IsValid.Value = this.IsValid;
+                IsValid.Value = ProgCorte.IsValid;
                 cmd.Parameters.Add(IsValid);
 
                 cmd.ExecuteNonQuery();
@@ -135,7 +176,8 @@ namespace GestCor.Models
             OleDbConnection objConn = conn.Conn();
 
             string commText = "select * from YTBL_PROGCORTE";
-            
+
+            objConn.Open();
             OleDbCommand cmd = new OleDbCommand();
             
             cmd.Connection = objConn;
@@ -189,6 +231,7 @@ namespace GestCor.Models
 
             string commText = "select * from YTBL_PROGCORTE where id ="+id;
 
+            objConn.Open();
             OleDbCommand cmd = new OleDbCommand();
 
             cmd.Connection = objConn;
@@ -234,6 +277,47 @@ namespace GestCor.Models
             }
         }
 
+        public int SelectMaxId(string nameDocument)
+        {
+            conn = new Connection();
+            OleDbConnection objConn = conn.Conn();
 
+            string commText = "select max(id) from YTBL_PROGCORTE where DOCUMENT_NAME = '"+ nameDocument+"'";
+
+            objConn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+
+            cmd.Connection = objConn;
+            cmd.CommandText = commText;
+            cmd.CommandType = CommandType.Text;
+            OleDbDataReader myReader = cmd.ExecuteReader();
+
+            int id;
+            
+            try
+            {
+                if (myReader.HasRows)
+                {
+                    while (myReader.Read())
+                    {
+                        id = int.Parse(myReader.GetDecimal(0).ToString());
+                        return id;
+                    }
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                myReader.Close();
+                objConn.Close();
+                Logs.WriteErrorLog("Error en la consulta de datos por ID||" + ex.ToString());
+                return -1;
+            }
+            finally
+            {
+                myReader.Close();
+                objConn.Close();
+            }
+        }
     }
 }
