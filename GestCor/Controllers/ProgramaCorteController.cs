@@ -391,14 +391,13 @@ namespace GestCor.Controllers
                 ProgCorte.Nick_User = item.Nick_User;
                 ProgCorte.Date_Programed = DateTime.Now;
                 ProgCorte.Date_Upload = DateTime.Now;
-                ProgCorte.IsValid = "Y";
+                ProgCorte.IsValid = "N";
             }
 
             return View(ProgCorte);
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Ytbl_ProgCorteModels model)
         {
@@ -426,7 +425,36 @@ namespace GestCor.Controllers
         {
             Ytbl_ProgCorteModels progCorte = new Ytbl_ProgCorteModels();
 
-            return View(progCorte.SelectYtbl_ProgCorte(id));
+            List<Ytbl_ProgCorteModels> ListProgCorte = new List<Ytbl_ProgCorteModels>();
+
+            progCorte = progCorte.SelectYtbl_ProgCorteId(id);
+
+            ListProgCorte.Add(progCorte);
+
+            Ytbl_ProgCorteModels.ListProgCorte = ListProgCorte;
+
+            return View(progCorte);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Ytbl_ProgCorteModels model)
+        {
+            foreach (var item in Ytbl_ProgCorteModels.ListProgCorte)
+            {
+                model.Document_Name = item.Document_Name;
+                model.Customer_Number_Upload = item.Customer_Number_Upload;
+                model.Nick_User = item.Nick_User;
+                model.Date_Upload = item.Date_Upload;
+                model.IsValid = item.IsValid;
+            }
+
+            Ytbl_ProgCorteModels ProgCorte = new Ytbl_ProgCorteModels();
+
+
+            ProgCorte.UpdateYtbl_ProgCorte(model);
+
+            return RedirectToAction("Index");
         }
     }
 }

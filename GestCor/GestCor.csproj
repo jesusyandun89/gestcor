@@ -203,6 +203,7 @@
     <Compile Include="Class\Logs.cs" />
     <Compile Include="Class\ValidationUser.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CorreoNotificacionesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProgramaCorteController.cs" />
@@ -291,6 +292,9 @@
     <Content Include="Views\ProgramaCorte\Create.cshtml" />
     <Content Include="Views\ProgramaCorte\Index.cshtml" />
     <Content Include="Views\ProgramaCorte\Edit.cshtml" />
+    <Content Include="Views\CorreoNotificaciones\Index.cshtml" />
+    <Content Include="Views\CorreoNotificaciones\Create.cshtml" />
+    <Content Include="Views\CorreoNotificaciones\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

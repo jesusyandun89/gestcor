@@ -128,8 +128,9 @@ namespace GestCor.Models
             }
         }
 
-        public void UpdateYtbl_ProgCorte()
+        public void UpdateYtbl_ProgCorte(Ytbl_ProgCorteModels model)
         {
+            conn = new Connection();
             OleDbConnection objConn = conn.Conn();
             try
             {
@@ -143,17 +144,17 @@ namespace GestCor.Models
 
                 OleDbParameter IdProgCorte = new OleDbParameter("PN_IDPROGCORTE", OleDbType.BigInt);
                 IdProgCorte.Direction = ParameterDirection.Input;
-                IdProgCorte.Value = this.Id;
+                IdProgCorte.Value = model.Id;
                 cmd.Parameters.Add(IdProgCorte);
 
-                OleDbParameter Cparty = new OleDbParameter("PV_ISVALID", OleDbType.BigInt);
+                OleDbParameter Cparty = new OleDbParameter("PV_ISVALID", OleDbType.VarChar);
                 Cparty.Direction = ParameterDirection.Input;
-                Cparty.Value = this.IsValid;
+                Cparty.Value = model.IsValid;
                 cmd.Parameters.Add(Cparty);
 
-                OleDbParameter Account = new OleDbParameter("PD_DATEPROGRAMED", OleDbType.BigInt);
+                OleDbParameter Account = new OleDbParameter("PD_DATEPROGRAMED", OleDbType.Date);
                 Account.Direction = ParameterDirection.Input;
-                Account.Value = this.Date_Programed;
+                Account.Value = model.Date_Programed;
                 cmd.Parameters.Add(Account);
 
                 cmd.ExecuteNonQuery();
@@ -224,7 +225,7 @@ namespace GestCor.Models
             }
         }
 
-        public Ytbl_ProgCorteModels SelectYtbl_ProgCorte(int id)
+        public Ytbl_ProgCorteModels SelectYtbl_ProgCorteId(int id)
         {
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
