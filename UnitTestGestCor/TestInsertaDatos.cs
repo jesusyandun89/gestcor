@@ -21,7 +21,7 @@ namespace UnitTestGestCor
             save.IsValid = "Y";
 
 
-            save.SaveYtbl_ProgCorte();
+            //save.SaveYtbl_ProgCorte();
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace UnitTestGestCor
             save.FieldD1 = null;
             save.Status = "Q";
 
-            save.SaveYtbl_DetalleProgCorte();
+            //save.SaveYtbl_DetalleProgCorte();
         }
 
         [TestMethod]

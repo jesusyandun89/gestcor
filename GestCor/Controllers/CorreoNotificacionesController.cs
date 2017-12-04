@@ -31,9 +31,9 @@ namespace GestCor.Controllers
             {
                 Ytbl_CorreoNotificacionesModels saveDestinatario = new Ytbl_CorreoNotificacionesModels();
 
-                saveDestinatario.Name = collection[0].ToString();
-                saveDestinatario.Correo = collection[1].ToString();
-                saveDestinatario.IsValid = collection[2].ToString();
+                saveDestinatario.Name = collection[1].ToString();
+                saveDestinatario.Correo = collection[2].ToString();
+                saveDestinatario.IsValid = collection[3].ToString();
                 saveDestinatario.System = "GestCor";
                 saveDestinatario.Fecha = DateTime.Now;
 
@@ -66,9 +66,11 @@ namespace GestCor.Controllers
                 Ytbl_CorreoNotificacionesModels UpdateNotificacion = new Ytbl_CorreoNotificacionesModels();
 
                 UpdateNotificacion.Id = id;
-                UpdateNotificacion.Name = collection[0].ToString();
-                UpdateNotificacion.Correo = collection[1].ToString();
-                UpdateNotificacion.IsValid = collection[2].ToString();
+                UpdateNotificacion.Name = collection[2].ToString();
+                UpdateNotificacion.Correo = collection[3].ToString();
+                UpdateNotificacion.IsValid = collection[4].ToString();
+
+                UpdateNotificacion.UpdateCorreo(UpdateNotificacion);
 
                 return RedirectToAction("Index");
             }

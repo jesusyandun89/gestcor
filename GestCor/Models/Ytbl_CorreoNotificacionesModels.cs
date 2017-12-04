@@ -12,16 +12,20 @@ namespace GestCor.Models
     public class Ytbl_CorreoNotificacionesModels
     {
         public int Id { get; set; }
-
+        [Required]
         [Display(Name = "Nombre del destinatario")]
         public string Name { get; set; }
         [Display(Name = "Email destinatario")]
+        [Required]
         public string Correo { get; set; }
-        [Display(Name = "Es valido")]
+        [Display(Name = "Es válido")]
+        [Required]
         public string IsValid { get; set; }
         [Display(Name = "Sistema de notificaciones")]
+        [Required]
         public string System { get; set; }
         [Display(Name = "Fecha de creación")]
+        [Required]
         public DateTime Fecha { get; set; }
 
         Connection conn;
@@ -40,30 +44,30 @@ namespace GestCor.Models
 
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                OleDbParameter Document = new OleDbParameter("PV_NAME", OleDbType.VarChar);
-                Document.Direction = ParameterDirection.Input;
-                Document.Value = CorreoNotificacionesModels.Name;
-                cmd.Parameters.Add(Document);
+                OleDbParameter Name = new OleDbParameter("PV_NAME", OleDbType.VarChar);
+                Name.Direction = ParameterDirection.Input;
+                Name.Value = CorreoNotificacionesModels.Name;
+                cmd.Parameters.Add(Name);
 
-                OleDbParameter Customers = new OleDbParameter("PV_CORREO", OleDbType.VarChar);
-                Customers.Direction = ParameterDirection.Input;
-                Customers.Value = CorreoNotificacionesModels.Correo;
-                cmd.Parameters.Add(Customers);
+                OleDbParameter Correo = new OleDbParameter("PV_CORREO", OleDbType.VarChar);
+                Correo.Direction = ParameterDirection.Input;
+                Correo.Value = CorreoNotificacionesModels.Correo;
+                cmd.Parameters.Add(Correo);
 
-                OleDbParameter User = new OleDbParameter("PV_ISVALID", OleDbType.VarChar);
-                User.Direction = ParameterDirection.Input;
-                User.Value = CorreoNotificacionesModels.IsValid;
-                cmd.Parameters.Add(User);
+                OleDbParameter IsValid = new OleDbParameter("PV_ISVALID", OleDbType.VarChar);
+                IsValid.Direction = ParameterDirection.Input;
+                IsValid.Value = CorreoNotificacionesModels.IsValid;
+                cmd.Parameters.Add(IsValid);
 
-                OleDbParameter DateP = new OleDbParameter("PV_SYSTEM", OleDbType.VarChar);
-                DateP.Direction = ParameterDirection.Input;
-                DateP.Value = CorreoNotificacionesModels.System;
-                cmd.Parameters.Add(DateP);
+                OleDbParameter System = new OleDbParameter("PV_SYSTEM", OleDbType.VarChar);
+                System.Direction = ParameterDirection.Input;
+                System.Value = CorreoNotificacionesModels.System;
+                cmd.Parameters.Add(System);
 
-                OleDbParameter DateU = new OleDbParameter("PD_FECHA", OleDbType.Date);
-                DateU.Direction = ParameterDirection.Input;
-                DateU.Value = CorreoNotificacionesModels.Fecha;
-                cmd.Parameters.Add(DateU);
+                OleDbParameter Fecha = new OleDbParameter("PD_FECHA", OleDbType.Date);
+                Fecha.Direction = ParameterDirection.Input;
+                Fecha.Value = CorreoNotificacionesModels.Fecha;
+                cmd.Parameters.Add(Fecha);
 
                 cmd.ExecuteNonQuery();
 
@@ -110,9 +114,8 @@ namespace GestCor.Models
                         CorreoNotificaciones.Name = myReader.GetString(1).ToString();
                         CorreoNotificaciones.Correo = myReader.GetString(2).ToString();
                         CorreoNotificaciones.IsValid = myReader.GetString(3).ToString();
-                        CorreoNotificaciones.System = myReader.GetDateTime(4).ToString();
+                        CorreoNotificaciones.System = myReader.GetString(4).ToString();
                         CorreoNotificaciones.Fecha = DateTime.Parse(myReader.GetDateTime(5).ToString());
-                        CorreoNotificaciones.IsValid = myReader.GetString(6).ToString();
 
                         correoNotificacionesLista.Add(CorreoNotificaciones);
                     }
@@ -160,9 +163,8 @@ namespace GestCor.Models
                         CorreoNotificaciones.Name = myReader.GetString(1).ToString();
                         CorreoNotificaciones.Correo = myReader.GetString(2).ToString();
                         CorreoNotificaciones.IsValid = myReader.GetString(3).ToString();
-                        CorreoNotificaciones.System = myReader.GetDateTime(4).ToString();
+                        CorreoNotificaciones.System = myReader.GetString(4).ToString();
                         CorreoNotificaciones.Fecha = DateTime.Parse(myReader.GetDateTime(5).ToString());
-                        CorreoNotificaciones.IsValid = myReader.GetString(6).ToString();
 
                         return CorreoNotificaciones;
                     }
@@ -191,31 +193,31 @@ namespace GestCor.Models
             {
                 // Calling sp_processdata defined inside PKG PKG_MANAGER
 
-                string commText = "YPKG_WEBCORTES.YPRD_INSERTNOTIFICACIONES";
+                string commText = "YPKG_WEBCORTES.YPRD_UPDATENOTIFICACIONES";
                 objConn.Open();
                 OleDbCommand cmd = new OleDbCommand(commText, objConn);
 
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                OleDbParameter Id = new OleDbParameter("PN_DOCUMENT_NAME", OleDbType.Integer);
+                OleDbParameter Id = new OleDbParameter("PN_ID", OleDbType.Integer);
                 Id.Direction = ParameterDirection.Input;
                 Id.Value = model.Id;
                 cmd.Parameters.Add(Id);
 
-                OleDbParameter Document = new OleDbParameter("PN_DOCUMENT_NAME", OleDbType.VarChar);
-                Document.Direction = ParameterDirection.Input;
-                Document.Value = model.Name;
-                cmd.Parameters.Add(Document);
+                OleDbParameter Name = new OleDbParameter("PV_NAME", OleDbType.VarChar);
+                Name.Direction = ParameterDirection.Input;
+                Name.Value = model.Name;
+                cmd.Parameters.Add(Name);
 
-                OleDbParameter Customers = new OleDbParameter("PN_CUSTOMES_NUMBER_UPLOAD", OleDbType.VarChar);
-                Customers.Direction = ParameterDirection.Input;
-                Customers.Value = model.Correo;
-                cmd.Parameters.Add(Customers);
+                OleDbParameter Correo = new OleDbParameter("PV_CORREO", OleDbType.VarChar);
+                Correo.Direction = ParameterDirection.Input;
+                Correo.Value = model.Correo;
+                cmd.Parameters.Add(Correo);
 
-                OleDbParameter User = new OleDbParameter("PV_NICK_USER", OleDbType.VarChar);
-                User.Direction = ParameterDirection.Input;
-                User.Value = model.IsValid;
-                cmd.Parameters.Add(User);
+                OleDbParameter IsValid = new OleDbParameter("PV_ISVALID", OleDbType.VarChar);
+                IsValid.Direction = ParameterDirection.Input;
+                IsValid.Value = model.IsValid;
+                cmd.Parameters.Add(IsValid);
 
                 cmd.ExecuteNonQuery();
 
@@ -223,7 +225,7 @@ namespace GestCor.Models
             }
             catch (Exception ex)
             {
-                Logs.WriteErrorLog("Error en insert: " + ex.ToString());
+                Logs.WriteErrorLog("Error en update: " + ex.ToString());
                 objConn.Close();
             }
             finally

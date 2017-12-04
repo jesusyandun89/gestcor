@@ -1,5 +1,6 @@
 ﻿using msgprepagosatelital.Clases;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.OleDb;
 
@@ -8,10 +9,15 @@ namespace GestCor.Models
     public class Ytbl_DetalleProgCorteModels
     {
         public int counter { get; set; }
+        [Required]
         public Int64 id_ProgCorte { get; set; }
+        [Required]
         public Int64? CpartyId { get; set; }
+        [Required]
         public Int64? CpartyAccountId { get; set; }
+        [Required]
         public Int64? CitemId { get; set; }
+        [Required]
         public int? Ciudad { get; set; }
         public string BancoId { get; set; }
         public string FormaPago { get; set; }
@@ -22,6 +28,7 @@ namespace GestCor.Models
         public int? FieldN1 { get; set; }
         public int? FieldN2 { get; set; }
         public DateTime? FieldD1 { get; set; }
+        [Required]
         public string Status { get; set; }
 
         Connection conn;

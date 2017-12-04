@@ -35,8 +35,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IsValid, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.RadioButtonFor(m => m.IsValid, "Y", new { @class = "radio-inline", disabled = "disabled" }) Yes
-                @Html.RadioButtonFor(m => m.IsValid, "N", new { @class = "radio-inline", disabled = "disabled" }) No
+                @Html.RadioButtonFor(m => m.IsValid, "Y", new { @class = "radio-inline" }) Yes
+                @Html.RadioButtonFor(m => m.IsValid, "N", new { @class = "radio-inline" }) No
                 @Html.ValidationMessageFor(model => model.IsValid, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -50,5 +50,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Volver", "Index")
 </div>

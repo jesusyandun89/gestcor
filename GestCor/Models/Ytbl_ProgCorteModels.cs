@@ -11,18 +11,23 @@ namespace GestCor.Models
     public class Ytbl_ProgCorteModels
     {
         public int? Id { get; set; }
-
+        [Required]
         [Display(Name = "Nombre del documento")]
         public string Document_Name { get; set; }
         [Display(Name = "Cantidad de clientes")]
+        [Required]
         public string Customer_Number_Upload { get; set; }
         [Display(Name = "Usuario")]
+        [Required]
         public string Nick_User { get; set; }
         [Display(Name = "Fecha programada")]
+        [Required]
         public DateTime Date_Programed { get; set; }
         [Display(Name = "Fecha de creación")]
+        [Required]
         public DateTime Date_Upload { get; set; }
         [Display(Name = "Es válido")]
+        [Required]
         public string IsValid { get; set; }
 
         Connection conn;
