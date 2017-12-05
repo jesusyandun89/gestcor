@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using GestCor.Class;
+using System;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
-using msgprepagosatelital.Class;
-using msgprepagosatelital.Clases;
 
 public class CustomAuthorizeAttribute : AuthorizeAttribute
 {

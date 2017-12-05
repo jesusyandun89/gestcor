@@ -1,4 +1,4 @@
-﻿using msgprepagosatelital.Clases;
+﻿using GestCor.Clases;
 using System.Data.OleDb;
 using System;
 using System.Collections.Generic;

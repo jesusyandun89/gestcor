@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.DirectoryServices;
 using System.Text;
 
-namespace msgprepagosatelital.Class
+namespace GestCor.Class
 {
     public class ValidationUser : AuthorizeAttribute
     {

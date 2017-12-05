@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace msgprepagosatelital.Clases
+namespace GestCor.Clases
 {
     class Logs
     {

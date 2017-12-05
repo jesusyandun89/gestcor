@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.Data.OleDb;
 
-namespace msgprepagosatelital.Clases
+namespace GestCor.Clases
 {
     public class Connection
     {
