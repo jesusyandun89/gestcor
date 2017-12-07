@@ -401,10 +401,10 @@ namespace GestCor.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Ytbl_ProgCorteModels model)
         {
-            if(!ModelState.IsValid)
+            /*if(!ModelState.IsValid)
             {
                 return View(model);
-            }
+            }*/
 
             foreach (var item in Ytbl_ProgCorteModels.ListProgCorte)
             {
