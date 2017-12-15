@@ -1,17 +1,16 @@
 ﻿@model GestCor.Models.Ytbl_ProgCorteModels
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Desactivar corte";
 }
 
-<h2>Edit</h2>
+<h2>Desactivar corte</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Ytbl_ProgCorteModels</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -59,8 +58,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.IsValid, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.RadioButtonFor(m => m.IsValid, "Y", new { @class = "radio-inline", disabled = "disabled" }) Yes
-                @Html.RadioButtonFor(m => m.IsValid, "N", new { @class = "radio-inline", disabled = "disabled" }) No
+                @Html.RadioButtonFor(m => m.IsValid, "Y", new { @class = "radio-inline"}) Yes
+                @Html.RadioButtonFor(m => m.IsValid, "N", new { @class = "radio-inline"}) No
                 
                 @Html.ValidationMessageFor(model => model.IsValid, "", new { @class = "text-danger" })
             </div>

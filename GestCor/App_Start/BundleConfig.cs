@@ -30,15 +30,17 @@ namespace GestCor
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/chartist.css",
+                      "~/Content/bootstrap-datetimepicker.min.css"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            /*bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/chartist.css"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/bootstrap-datetimepicker.min.css"));
+                      "~/Content/bootstrap-datetimepicker.min.css"));*/
         }
     }
 }

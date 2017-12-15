@@ -4,45 +4,58 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    <title>@ViewBag.Title - GESTCOR</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Nombre de aplicación", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Cortes", "Index", "ProgramaCorte")</li>
-                    <li>@Html.ActionLink("Notificaciones", "Index", "CorreoNotificaciones")</li>
-                    <li>@Html.ActionLink("Condiciones", "Index", "CondicionesCorte")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
+
+    <div id="sidebar" class="sidebar">
+        <a href="#" class="boton-cerrar" onclick="ocultar()">&times;</a>
+        <ul class="menu">
+            <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+            <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
+            <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+            <li>@Html.ActionLink("Cortes", "Index", "ProgramaCorte")</li>
+            <li>@Html.ActionLink("Notificaciones", "Index", "CorreoNotificaciones")</li>
+            <li>@Html.ActionLink("Condiciones", "Index", "CondicionesCorte")</li>
+            <li>@Html.ActionLink("Configuración", "Index", "ControlGestCorService")</li>
+        </ul>
+            @Html.Partial("_LoginPartial")
     </div>
-    <div class="container body-content">
+
+    <div id="contenido">
+        <a id="abrir" class="abrir-cerrar" href="javascript:void(0)" onclick="mostrar()"> <img src="~/Content/Img/nav-icon.png" id="icon-menu"/> </a><a id="cerrar" class="abrir-cerrar" href="#" onclick="ocultar()"></a>
+        <a href="Home"> <img alt="Home" src="~/Content/Img/Logo.png" id="logo" /> </a>
+    </div>
+
+    <div class="container body-content" onclick="ocultar()">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
-        </footer>
     </div>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Grupo TVCable</p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <script>
+        function mostrar() {
+            document.getElementById("sidebar").style.width = "300px";
+            document.getElementById("contenido").style.marginLeft = "300px";
+            document.getElementById("abrir").style.display = "none";
+            document.getElementById("cerrar").style.display = "inline";
+        }
+
+        function ocultar() {
+            document.getElementById("sidebar").style.width = "0";
+            document.getElementById("contenido").style.marginLeft = "0";
+            document.getElementById("abrir").style.display = "inline";
+            document.getElementById("cerrar").style.display = "none";
+        }
+    </script>
 </body>
 </html>

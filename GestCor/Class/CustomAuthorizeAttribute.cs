@@ -1,4 +1,5 @@
-﻿using GestCor.Class;
+﻿using GestCor.Clases;
+using GestCor.Class;
 using System;
 using System.Web;
 using System.Web.Mvc;

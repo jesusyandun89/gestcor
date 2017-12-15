@@ -1,5 +1,7 @@
-﻿<h2>Calendarización de cortes</h2>
-
+﻿@{
+    ViewBag.Title = "Calendarización de cortes";
+}
+<h2>Calendarización de cortes</h2>
 @using (Html.BeginForm("Upload", "ProgramaCorte", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()

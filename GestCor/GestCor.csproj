@@ -64,6 +64,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -204,6 +205,7 @@
     <Compile Include="Class\ValidationUser.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CondicionesCorteController.cs" />
+    <Compile Include="Controllers\ControlGestCorServiceController.cs" />
     <Compile Include="Controllers\CorreoNotificacionesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -212,6 +214,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ControlGestCorService.cs" />
     <Compile Include="Models\Estadisticas.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -228,6 +231,14 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\chartist.css" />
+    <Content Include="Content\Img\calendarCut.png" />
+    <Content Include="Content\Img\condition.png" />
+    <Content Include="Content\Img\configuration.png" />
+    <Content Include="Content\Img\Logo.png" />
+    <Content Include="Content\Img\mail.png" />
+    <Content Include="Content\Img\nav-icon.png" />
+    <Content Include="Content\Img\notification.png" />
+    <Content Include="Content\Img\Telecomunicaciones-fondo.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -302,6 +313,7 @@
     <Content Include="Views\CondicionesCorte\Index.cshtml" />
     <Content Include="Views\CondicionesCorte\Create.cshtml" />
     <Content Include="Views\CondicionesCorte\Edit.cshtml" />
+    <Content Include="Views\ControlGestCorService\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

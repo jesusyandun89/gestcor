@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GestCor.Models;
 using System.Collections.Generic;
+using GestCor.Clases;
 
 namespace UnitTestGestCor
 {
@@ -72,6 +73,12 @@ namespace UnitTestGestCor
             Assert.AreEqual(comparaLista.Count, listProgCorte.Count);
         }
 
+        [TestMethod]
+        public void TestValidaStatus()
+        {
+            Connection con = new Connection();
 
+            bool status = con.getStatusInstance();
+        }
     }
 }

@@ -1,17 +1,17 @@
 ﻿@model IList<GestCor.Models.Estadisticas>
 @using GestCor.Models
 
-<h2>Datos estadisticos del archivo</h2>
-
 @{
-
+    ViewBag.Title = "Carga del archivo";
+}
+<h2>Carga del archivo</h2>
+@{
     var bancos = (List<Estadisticas>)ViewData["bancos"];
     var ciudad = (List<Estadisticas>)ViewData["ciudad"];
     var negocio = (List<Estadisticas>)ViewData["negocio"];
     var empresaFacturadora = (List<Estadisticas>)ViewData["empresaFacturadora"];
     var cuentas = (List<Estadisticas>)ViewData["cuentas"];
 }
-
 
 
 @Scripts.Render("~/bundles/jquery")
@@ -187,8 +187,22 @@
     }
 }
 
-@Html.ActionLink("Agendar Corte", "Create", "ProgramaCorte")
+@{
+    if (ViewBag.view == false)
+    {
+        <h1 class="text-danger">Error.</h1>
+        <h2 class="text-danger">El archivo a cargar es incorrecto.</h2>
+        @Html.ActionLink("Volver", "UploadFile", "ProgramaCorte")
+    }
+    else
+    {
+        @Html.ActionLink("Agendar Corte", "Create", "ProgramaCorte")
+    }
+}
 
+
+
+  
 <script>
     var model = @Html.Raw(Json.Encode(bancos));
 

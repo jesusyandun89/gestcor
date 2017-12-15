@@ -70,7 +70,7 @@ namespace GestCor.Controllers
                 Ytbl_CondicionesCorte UpdateNotificacion = new Ytbl_CondicionesCorte();
 
                 UpdateNotificacion.Id = id;
-                UpdateNotificacion.IsValid = collection[3].ToString();
+                UpdateNotificacion.IsValid = collection[2].ToString();
 
                 UpdateNotificacion.UpdateCorreo(UpdateNotificacion);
 

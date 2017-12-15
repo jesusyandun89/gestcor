@@ -50,7 +50,7 @@ namespace GestCor.Controllers
         {
             List<Ytbl_DetalleProgCorteModels> DetalleCorteLista = new List<Ytbl_DetalleProgCorteModels>();
             int i = 0;
-
+            DetalleCorteLista.Clear();
             string fileName = upload.FileName;
             
             string filePath4 = Path.GetTempPath();
@@ -170,15 +170,16 @@ namespace GestCor.Controllers
             CreateNew.Document_Name = fileName;
             CreateNew.Customer_Number_Upload = i.ToString();
             CreateNew.Nick_User = "jyandun";
+            CreateNew.IsValid = "N";
 
             List<Ytbl_ProgCorteModels> ListProgCorte = new List<Ytbl_ProgCorteModels>();
 
             ListProgCorte.Add(CreateNew);
 
-            Ytbl_ProgCorteModels.ListProgCorte = null;
+            Ytbl_ProgCorteModels.ListProgCorte.Clear();
             Ytbl_ProgCorteModels.ListProgCorte = ListProgCorte;
 
-            Ytbl_ProgCorteModels.DetalleCorte = null;
+            Ytbl_ProgCorteModels.DetalleCorte.Clear();
             Ytbl_ProgCorteModels.DetalleCorte = DetalleCorteLista;
 
             return DetalleCorteLista;
@@ -370,13 +371,17 @@ namespace GestCor.Controllers
 
                     ViewData["cuentas"] = getCantidadCuentas(DetalleCorte);
 
+                    ViewBag.view = true;
+
                     return View();
                 }
                 else
                 {
-                    ModelState.AddModelError("Archivo", "El archivo no tiene la extensión correcta");
+                    ViewBag.view = false;
+                    return View();
                 }
             }
+            ViewBag.view = false;
             return View();
         }
 
@@ -401,23 +406,20 @@ namespace GestCor.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Ytbl_ProgCorteModels model)
         {
-            /*if(!ModelState.IsValid)
-            {
-                return View(model);
-            }*/
 
             foreach (var item in Ytbl_ProgCorteModels.ListProgCorte)
             {
                 model.Document_Name = item.Document_Name;
+                model.Document_Name = item.Document_Name;
                 model.Customer_Number_Upload = item.Customer_Number_Upload;
                 model.Nick_User = item.Nick_User;
+                model.Date_Programed = DateTime.Now;
                 model.Date_Upload = DateTime.Now;
+                model.IsValid = "N";
             }
 
-            Ytbl_ProgCorteModels ProgCorte = new Ytbl_ProgCorteModels();
 
-
-            ProgCorte.ExecuteSave(model);
+            model.ExecuteSave(model);
 
             return RedirectToAction("Index");
         }
@@ -446,7 +448,7 @@ namespace GestCor.Controllers
                 model.Customer_Number_Upload = item.Customer_Number_Upload;
                 model.Nick_User = item.Nick_User;
                 model.Date_Upload = item.Date_Upload;
-                model.IsValid = item.IsValid;
+                //model.IsValid = item.IsValid;
             }
 
             Ytbl_ProgCorteModels ProgCorte = new Ytbl_ProgCorteModels();

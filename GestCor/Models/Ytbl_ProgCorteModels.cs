@@ -181,7 +181,7 @@ namespace GestCor.Models
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
 
-            string commText = "select * from YTBL_PROGCORTE";
+            string commText = "select * from YTBL_PROGCORTE order by id desc";
 
             objConn.Open();
             OleDbCommand cmd = new OleDbCommand();
