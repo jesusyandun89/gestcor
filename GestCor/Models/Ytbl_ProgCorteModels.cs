@@ -10,6 +10,7 @@ namespace GestCor.Models
 {
     public class Ytbl_ProgCorteModels
     {
+        [Display(Name = "Id del corte")]
         public int? Id { get; set; }
         [Required]
         [Display(Name = "Nombre del documento")]
@@ -36,12 +37,15 @@ namespace GestCor.Models
 
         public static List<Ytbl_ProgCorteModels> ListProgCorte { get; set; }
 
-        public void ExecuteSave(Ytbl_ProgCorteModels ListCorte)
+        public bool ExecuteSave(Ytbl_ProgCorteModels ListCorte)
         {
             Ytbl_DetalleProgCorteModels SaveDetalle = new Ytbl_DetalleProgCorteModels();
             try
             {
-                SaveYtbl_ProgCorte(ListCorte);
+
+                if (SaveYtbl_ProgCorte(ListCorte) == false)
+                    return false;
+
                 int idProgCorte = SelectMaxId(ListCorte.Document_Name);
 
                 Parallel.For(0, DetalleCorte.Count, i =>
@@ -66,15 +70,46 @@ namespace GestCor.Models
 
                     SaveDetalle.SaveYtbl_DetalleProgCorte(CorteDetalle);
                 });
+
+                /*foreach (var item in DetalleCorte)
+                {
+                    Ytbl_DetalleProgCorteModels CorteDetalle = new Ytbl_DetalleProgCorteModels();
+
+                    CorteDetalle.id_ProgCorte = idProgCorte;
+                    CorteDetalle.CpartyId = item.CpartyId ;
+                    CorteDetalle.CpartyAccountId = item.CpartyAccountId;
+                    CorteDetalle.CitemId = item.CitemId;
+                    CorteDetalle.FormaPago = item.FormaPago;
+                    CorteDetalle.Ciudad = item.Ciudad;
+                    CorteDetalle.BancoId = item.BancoId;
+                    CorteDetalle.TipoNegocio = item.TipoNegocio;
+                    CorteDetalle.EmpresaFacturadora = item.EmpresaFacturadora;
+                    CorteDetalle.FieldV1 = item.FieldV1;
+                    CorteDetalle.FieldV2 = item.FieldV2;
+                    CorteDetalle.FieldN1 = item.FieldN1;
+                    CorteDetalle.FieldN2 = item.FieldN2;
+                    CorteDetalle.FieldD1 = item.FieldD1;
+                    CorteDetalle.Status = item.Status;
+
+                    SaveDetalle.SaveYtbl_DetalleProgCorte(CorteDetalle);
+
+                }*/
+
+                Ytbl_CorreoNotificacionesModels notificacion = new Ytbl_CorreoNotificacionesModels();
+
+                notificacion.SendMailNotification(idProgCorte);
+
+                return true;
             }
             catch (Exception ex)
             {
                 Logs.WriteErrorLog("Error en ExecuteSave: " + ex.ToString());
+                return false;
             }
             
         }
 
-        public void SaveYtbl_ProgCorte(Ytbl_ProgCorteModels ProgCorte)
+        public bool SaveYtbl_ProgCorte(Ytbl_ProgCorteModels ProgCorte)
         {
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
@@ -121,11 +156,13 @@ namespace GestCor.Models
                 cmd.ExecuteNonQuery();
                 
                 objConn.Close();
+                return true;
             }
             catch(Exception ex)
             {
                 Logs.WriteErrorLog("Error en insert: " + ex.ToString());
                 objConn.Close();
+                return false;
             }
             finally
             {
@@ -133,7 +170,7 @@ namespace GestCor.Models
             }
         }
 
-        public void UpdateYtbl_ProgCorte(Ytbl_ProgCorteModels model)
+        public bool UpdateYtbl_ProgCorte(Ytbl_ProgCorteModels model)
         {
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
@@ -164,11 +201,13 @@ namespace GestCor.Models
 
                 cmd.ExecuteNonQuery();
                 objConn.Close();
+                return true;
             }
             catch (Exception ex)
             {
                 Logs.WriteErrorLog("Error en insert: " + ex.ToString());
                 objConn.Close();
+                return false;
             }
             finally
             {

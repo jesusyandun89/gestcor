@@ -25,8 +25,12 @@ namespace GestCor.Controllers
 
         // POST: CondicionesCorte/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(FormCollection collection, Ytbl_CondicionesCorte model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             try
             {
                 Ytbl_CondicionesCorte Condicion = new Ytbl_CondicionesCorte();
@@ -41,13 +45,15 @@ namespace GestCor.Controllers
                 Condicion.Usuario = "jyandun";
                 
 
-                Condicion.SaveCondicionesCorte(Condicion);
+                if(Condicion.SaveCondicionesCorte(Condicion))
+                    return RedirectToAction("Index");
+                else
+                    return View("Error");
 
-                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View("Error");
             }
         }
 
@@ -72,9 +78,12 @@ namespace GestCor.Controllers
                 UpdateNotificacion.Id = id;
                 UpdateNotificacion.IsValid = collection[2].ToString();
 
-                UpdateNotificacion.UpdateCorreo(UpdateNotificacion);
+                if (UpdateNotificacion.UpdateCorreo(UpdateNotificacion))
+                    return RedirectToAction("Index");
+                else
+                    return View("Error");
 
-                return RedirectToAction("Index");
+
             }
             catch
             {

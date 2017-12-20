@@ -5,27 +5,32 @@
 
 <h2>Activar proceso de ejecución</h2>
 
-@if (ViewBag.Status == false)
+@if (ViewBag.Status == "false")
 {
     <div>
-        <p class="btn btn-default">@Html.ActionLink("Activar", "Active", "ControlGestCorService")</p>
+        <p>@Html.ActionLink("Activar", "Active", "ControlGestCorService", new { @class = "btn btn-default" })</p>
         <br />
         <p></p>
-        <p class="btn btn-default disabled">@Html.ActionLink("Desactivar", "Desactive", "ControlGestCorService")</p>
+        <p>@Html.ActionLink("Desactivar", "Desactive", "ControlGestCorService", new { @class = "btn btn-default disabled" })</p>
+        <br />
+    </div>
+    <br />
+}
+else if(ViewBag.Status == "true")
+{
+    <div>
+        <p>@Html.ActionLink("Activar", "Active", "ControlGestCorService", new { @class= "btn btn-default disabled" })</p>
+        <br />
+        <p></p>
+        <p>@Html.ActionLink("Desactivar", "Desactive", "ControlGestCorService", new { @class = "btn btn-default" })</p>
         <br />
     </div>
     <br />
 }
 else
 {
-    <div>
-        <p class="btn btn-default disabled">@Html.ActionLink("Activar", "Active", "ControlGestCorService")</p>
-        <br />
-        <p></p>
-        <p class="btn btn-default">@Html.ActionLink("Desactivar", "Desactive", "ControlGestCorService")</p>
-        <br />
-    </div>
-    <br />
+    <h1 class="text-danger">Error.</h1>
+    <h2 class="text-danger">El servicio no se encuentra disponible en el servidor</h2>
 }
 
 <p class="text-danger"> @ViewBag.Script</p>

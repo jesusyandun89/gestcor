@@ -1,4 +1,5 @@
 ﻿using GestCor.Clases;
+using GestCor.Class;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -30,7 +31,7 @@ namespace GestCor.Models
 
         Connection conn;
 
-        public void SaveYtbl_CorreoNotificaciones(Ytbl_CorreoNotificacionesModels CorreoNotificacionesModels)
+        public bool SaveYtbl_CorreoNotificaciones(Ytbl_CorreoNotificacionesModels CorreoNotificacionesModels)
         {
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
@@ -64,19 +65,17 @@ namespace GestCor.Models
                 System.Value = CorreoNotificacionesModels.System;
                 cmd.Parameters.Add(System);
 
-                OleDbParameter Fecha = new OleDbParameter("PD_FECHA", OleDbType.Date);
-                Fecha.Direction = ParameterDirection.Input;
-                Fecha.Value = CorreoNotificacionesModels.Fecha;
-                cmd.Parameters.Add(Fecha);
-
                 cmd.ExecuteNonQuery();
 
                 objConn.Close();
+
+                return true;
             }
             catch (Exception ex)
             {
                 Logs.WriteErrorLog("Error en insert: " + ex.ToString());
                 objConn.Close();
+                return false;
             }
             finally
             {
@@ -185,7 +184,7 @@ namespace GestCor.Models
             }
         }
 
-        public void UpdateCorreo(Ytbl_CorreoNotificacionesModels model)
+        public bool UpdateCorreo(Ytbl_CorreoNotificacionesModels model)
         {
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
@@ -222,14 +221,58 @@ namespace GestCor.Models
                 cmd.ExecuteNonQuery();
 
                 objConn.Close();
+
+                return true;
             }
             catch (Exception ex)
             {
                 Logs.WriteErrorLog("Error en update: " + ex.ToString());
                 objConn.Close();
+                return false;
             }
             finally
             {
+                objConn.Close();
+            }
+        }
+
+        public void SendMailNotification(int idCorte)
+        {
+            conn = new Connection();
+            OleDbConnection objConn = conn.Conn();
+
+            EnvioMail sendMail = new EnvioMail();
+
+            string commText = "select CORREO from YTBL_CORREONOTIFICACIONES where isvalid = 'Y' and system = 'GestCor' ORDER BY fecha desc";
+
+            objConn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+
+            cmd.Connection = objConn;
+            cmd.CommandText = commText;
+            cmd.CommandType = CommandType.Text;
+            OleDbDataReader myReader = cmd.ExecuteReader();
+            
+            try
+            {
+                if (myReader.HasRows)
+                {
+                    while (myReader.Read())
+                    {
+                        sendMail.EnviarCorreo(myReader.GetString(0).ToString(), idCorte);   
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                myReader.Close();
+                objConn.Close();
+                Logs.WriteErrorLog("Error en el envio del mail||" + ex.ToString());
+            }
+            finally
+            {
+                myReader.Close();
                 objConn.Close();
             }
         }

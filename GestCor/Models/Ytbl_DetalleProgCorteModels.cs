@@ -46,7 +46,7 @@ namespace GestCor.Models
 
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                OleDbParameter IdProgCorte = new OleDbParameter("PN_ID_PROGCORTE", OleDbType.BigInt);
+                OleDbParameter IdProgCorte = new OleDbParameter("PN_ID_PROGCORTE", OleDbType.Integer);
                 IdProgCorte.Direction = ParameterDirection.Input;
                 IdProgCorte.Value = DetalleCorte.id_ProgCorte;
                 cmd.Parameters.Add(IdProgCorte);
@@ -90,31 +90,6 @@ namespace GestCor.Models
                 Empresa.Direction = ParameterDirection.Input;
                 Empresa.Value = DetalleCorte.EmpresaFacturadora;
                 cmd.Parameters.Add(Empresa);
-
-                OleDbParameter Fieldv1 = new OleDbParameter("PV_FIELDV1", OleDbType.VarChar);
-                Fieldv1.Direction = ParameterDirection.Input;
-                Fieldv1.Value = DetalleCorte.FieldV1;
-                cmd.Parameters.Add(Fieldv1);
-
-                OleDbParameter Fieldv2 = new OleDbParameter("PV_FIELDV2", OleDbType.VarChar);
-                Fieldv2.Direction = ParameterDirection.Input;
-                Fieldv2.Value = DetalleCorte.FieldV2;
-                cmd.Parameters.Add(Fieldv2);
-
-                OleDbParameter Fieldn1 = new OleDbParameter("PN_FIELDN1", OleDbType.Integer);
-                Fieldn1.Direction = ParameterDirection.Input;
-                Fieldn1.Value = DetalleCorte.FieldN1;
-                cmd.Parameters.Add(Fieldn1);
-
-                OleDbParameter Fieldn2 = new OleDbParameter("PN_FIELDN2", OleDbType.Integer);
-                Fieldn2.Direction = ParameterDirection.Input;
-                Fieldn2.Value = DetalleCorte.FieldN2;
-                cmd.Parameters.Add(Fieldn2);
-
-                OleDbParameter DateField = new OleDbParameter("PD_FIELDD1", OleDbType.Date);
-                DateField.Direction = ParameterDirection.Input;
-                DateField.Value = DetalleCorte.FieldD1;
-                cmd.Parameters.Add(DateField);
 
                 OleDbParameter Status = new OleDbParameter("PV_STATUS", OleDbType.VarChar);
                 Status.Direction = ParameterDirection.Input;

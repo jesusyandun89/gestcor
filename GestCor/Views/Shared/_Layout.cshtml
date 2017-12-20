@@ -27,16 +27,18 @@
 
     <div id="contenido">
         <a id="abrir" class="abrir-cerrar" href="javascript:void(0)" onclick="mostrar()"> <img src="~/Content/Img/nav-icon.png" id="icon-menu"/> </a><a id="cerrar" class="abrir-cerrar" href="#" onclick="ocultar()"></a>
-        <a href="Home"> <img alt="Home" src="~/Content/Img/Logo.png" id="logo" /> </a>
+        <a href="@Url.Action("Index", "Home")" > <img alt="Home" src="~/Content/Img/Logo.png" class="logoTVC" /></a>
+        <!--<a href="Home"> <img alt="Home" src="~/Content/Img/Logo.png" id="logo" /> </a>-->
     </div>
 
     <div class="container body-content" onclick="ocultar()">
         @RenderBody()
         <hr />
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Grupo TVCable - Eloy Alfaro N44 -406 y De las Higueras - Telf: (593-2) 6002400 - Quito-Ecuador</p>
+        </footer>
     </div>
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Grupo TVCable</p>
-    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

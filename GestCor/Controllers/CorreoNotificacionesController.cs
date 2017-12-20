@@ -37,13 +37,15 @@ namespace GestCor.Controllers
                 saveDestinatario.System = "GestCor";
                 saveDestinatario.Fecha = DateTime.Now;
 
-                saveDestinatario.SaveYtbl_CorreoNotificaciones(saveDestinatario);
+                if (saveDestinatario.SaveYtbl_CorreoNotificaciones(saveDestinatario))
+                    return RedirectToAction("Index");
+                else
+                    return View("Error");
 
-                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View("Error");
             }
         }
 
@@ -70,13 +72,15 @@ namespace GestCor.Controllers
                 UpdateNotificacion.Correo = collection[3].ToString();
                 UpdateNotificacion.IsValid = collection[4].ToString();
 
-                UpdateNotificacion.UpdateCorreo(UpdateNotificacion);
+                if (UpdateNotificacion.UpdateCorreo(UpdateNotificacion))
+                    return RedirectToAction("Index");
+                else
+                    return View("Error");
 
-                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View("Error");
             }
         }
 

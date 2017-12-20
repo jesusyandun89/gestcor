@@ -10,6 +10,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Document_Name)
         </th>
         <th>
@@ -17,9 +20,6 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Nick_User)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date_Programed)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Date_Upload)
@@ -33,6 +33,9 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Document_Name)
         </td>
         <td>
@@ -42,16 +45,16 @@
             @Html.DisplayFor(modelItem => item.Nick_User)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Date_Programed)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Date_Upload)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsValid)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id })
+            @Html.ActionLink("Ver", "View", new { id = item.Id })
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.Id })
         </td>
     </tr>
 }

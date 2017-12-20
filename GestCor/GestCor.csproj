@@ -201,6 +201,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Class\Connection.cs" />
     <Compile Include="Class\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Class\EnvioMail.cs" />
     <Compile Include="Class\Logs.cs" />
     <Compile Include="Class\ValidationUser.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -231,6 +232,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\chartist.css" />
+    <Content Include="Content\Complement\correo.html" />
     <Content Include="Content\Img\calendarCut.png" />
     <Content Include="Content\Img\condition.png" />
     <Content Include="Content\Img\configuration.png" />

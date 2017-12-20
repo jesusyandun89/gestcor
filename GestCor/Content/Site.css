@@ -16,8 +16,16 @@
 .dl-horizontal dt {
     white-space: normal;
 }
-footer{
-    padding: 15px;
+
+footer {
+    bottom: 0;
+    color: #eee;
+    height: 50px;
+    background-color: #00324b;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -97,7 +105,7 @@ h1 {
 #icon-menu{
     width: 40px;
 }
-#logo{
+.logoTVC {
     width: 200px;
 }
 

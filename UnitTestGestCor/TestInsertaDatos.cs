@@ -76,9 +76,9 @@ namespace UnitTestGestCor
         [TestMethod]
         public void TestValidaStatus()
         {
-            Connection con = new Connection();
+            
 
-            bool status = con.getStatusInstance();
+            
         }
     }
 }

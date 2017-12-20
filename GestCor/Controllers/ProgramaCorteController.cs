@@ -160,7 +160,7 @@ namespace GestCor.Controllers
                         DetalleProgCorte.FieldD1 = null;
                     }
 
-                    DetalleProgCorte.Status = "Q";
+                    DetalleProgCorte.Status = "P";
 
                     DetalleCorteLista.Add(DetalleProgCorte);
                 }
@@ -176,10 +176,10 @@ namespace GestCor.Controllers
 
             ListProgCorte.Add(CreateNew);
 
-            Ytbl_ProgCorteModels.ListProgCorte.Clear();
+            Ytbl_ProgCorteModels.ListProgCorte  = null;
             Ytbl_ProgCorteModels.ListProgCorte = ListProgCorte;
 
-            Ytbl_ProgCorteModels.DetalleCorte.Clear();
+            Ytbl_ProgCorteModels.DetalleCorte = null;
             Ytbl_ProgCorteModels.DetalleCorte = DetalleCorteLista;
 
             return DetalleCorteLista;
@@ -378,11 +378,11 @@ namespace GestCor.Controllers
                 else
                 {
                     ViewBag.view = false;
-                    return View();
+                    return View("Error");
                 }
             }
             ViewBag.view = false;
-            return View();
+            return View("Error");
         }
 
         public ActionResult Create()
@@ -419,9 +419,12 @@ namespace GestCor.Controllers
             }
 
 
-            model.ExecuteSave(model);
+            if (model.ExecuteSave(model))
+                return RedirectToAction("Index");
+            else
+                return View("Error");
 
-            return RedirectToAction("Index");
+
         }
         public ActionResult Edit(int id)
         {
@@ -454,9 +457,12 @@ namespace GestCor.Controllers
             Ytbl_ProgCorteModels ProgCorte = new Ytbl_ProgCorteModels();
 
 
-            ProgCorte.UpdateYtbl_ProgCorte(model);
+            if (ProgCorte.UpdateYtbl_ProgCorte(model))
+                return RedirectToAction("Index");
+            else
+                return View("Error");
 
-            return RedirectToAction("Index");
+
         }
     }
 }

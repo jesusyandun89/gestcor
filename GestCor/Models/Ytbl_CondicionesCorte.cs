@@ -36,7 +36,7 @@ namespace GestCor.Models
 
         Connection conn;
 
-        public void SaveCondicionesCorte(Ytbl_CondicionesCorte CondicionesCorte)
+        public bool SaveCondicionesCorte(Ytbl_CondicionesCorte CondicionesCorte)
         {
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
@@ -93,11 +93,14 @@ namespace GestCor.Models
                 cmd.ExecuteNonQuery();
 
                 objConn.Close();
+
+                return true;
             }
             catch (Exception ex)
             {
                 Logs.WriteErrorLog("Error en insert: " + ex.ToString());
                 objConn.Close();
+                return false;
             }
             finally
             {
@@ -110,7 +113,7 @@ namespace GestCor.Models
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
 
-            string commText = "select * from YTBL_CONDICIONESNOCORTE";
+            string commText = "select * from YTBL_CONDICIONESNOCORTE order by id desc";
 
             objConn.Open();
             OleDbCommand cmd = new OleDbCommand();
@@ -157,7 +160,7 @@ namespace GestCor.Models
                         }
                         try
                         {
-                            CondicionesCorte.Business = myReader.GetDateTime(4).ToString();
+                            CondicionesCorte.Business = myReader.GetString(4).ToString();
                         }
                         catch (Exception ex)
                         {
@@ -165,7 +168,7 @@ namespace GestCor.Models
                         }
                         try
                         {
-                            CondicionesCorte.Company = myReader.GetDateTime(5).ToString();
+                            CondicionesCorte.Company = myReader.GetString(5).ToString();
                         }
                         catch (Exception ex)
                         {
@@ -175,7 +178,7 @@ namespace GestCor.Models
                         CondicionesCorte.Id_Corte = Int32.Parse(myReader.GetDecimal(6).ToString());
                         try
                         {
-                            CondicionesCorte.Fecha = DateTime.Parse(myReader.GetString(7).ToString());
+                            CondicionesCorte.Fecha = DateTime.Parse(myReader.GetDateTime(7).ToString());
                         }
                         catch (Exception ex)
                         {
@@ -232,15 +235,60 @@ namespace GestCor.Models
                         RecordCount++;
 
                         CondicionCorte.Id = int.Parse(myReader.GetDecimal(0).ToString());
-                        CondicionCorte.Provider = myReader.GetString(1).ToString();
-                        CondicionCorte.Ciudad = myReader.GetString(2).ToString();
-                        CondicionCorte.PaymentMode = myReader.GetString(3).ToString();
-                        CondicionCorte.Business = myReader.GetString(3).ToString();
-                        CondicionCorte.Company = myReader.GetString(3).ToString();
-                        CondicionCorte.Id = Int32.Parse(myReader.GetString(3).ToString());
-                        CondicionCorte.Usuario = myReader.GetString(3).ToString();
-                        CondicionCorte.Fecha = DateTime.Parse(myReader.GetDateTime(5).ToString());
-                        CondicionCorte.IsValid = myReader.GetString(6).ToString();
+
+                        try
+                        {
+                            CondicionCorte.Provider = myReader.GetString(1).ToString();
+                        }
+                        catch (Exception ex)
+                        {
+                            CondicionCorte.Provider = null;
+                        }
+                        try
+                        {
+                            CondicionCorte.Ciudad = myReader.GetString(2).ToString();
+                        }
+                        catch (Exception ex)
+                        {
+                            CondicionCorte.Ciudad = null;
+                        }
+                        try
+                        {
+                            CondicionCorte.PaymentMode = myReader.GetString(3).ToString();
+                        }
+                        catch (Exception ex)
+                        {
+                            CondicionCorte.PaymentMode = null;
+                        }
+                        try
+                        {
+                            CondicionCorte.Business = myReader.GetString(4).ToString();
+                        }
+                        catch (Exception ex)
+                        {
+                            CondicionCorte.Business = null;
+                        }
+                        try
+                        {
+                            CondicionCorte.Company = myReader.GetString(5).ToString();
+                        }
+                        catch (Exception ex)
+                        {
+                            CondicionCorte.Company = null;
+                        }
+
+                        CondicionCorte.Id_Corte = Int32.Parse(myReader.GetDecimal(6).ToString());
+                        try
+                        {
+                            CondicionCorte.Fecha = DateTime.Parse(myReader.GetDateTime(7).ToString());
+                        }
+                        catch (Exception ex)
+                        {
+                            CondicionCorte.Fecha = null;
+                        }
+
+                        CondicionCorte.IsValid = myReader.GetString(8).ToString();
+                        CondicionCorte.Usuario = myReader.GetString(9).ToString();
 
                     }
                 }
@@ -261,7 +309,7 @@ namespace GestCor.Models
             }
         }
 
-        public void UpdateCorreo(Ytbl_CondicionesCorte model)
+        public bool UpdateCorreo(Ytbl_CondicionesCorte model)
         {
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
@@ -288,11 +336,14 @@ namespace GestCor.Models
                 cmd.ExecuteNonQuery();
 
                 objConn.Close();
+
+                return true;
             }
             catch (Exception ex)
             {
                 Logs.WriteErrorLog("Error en update: " + ex.ToString());
                 objConn.Close();
+                return false;
             }
             finally
             {

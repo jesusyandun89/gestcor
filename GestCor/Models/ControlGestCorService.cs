@@ -25,7 +25,7 @@ namespace GestCor.Models
                 Stop();
             }
         }
-        public bool getStatus()
+        public string getStatus()
         {
             try
             {
@@ -40,23 +40,23 @@ namespace GestCor.Models
                         if (sc.Status == ServiceControllerStatus.Stopped)
                         {
                             Logs.WriteErrorLog("El servicio se encuentra detenido");
-                            return false;
+                            return ("El servicio se encuentra detenido");
                         }
 
                         if (sc.Status == ServiceControllerStatus.Running)
                         {
                             Logs.WriteErrorLog("El servicio se encuentra ejecutandose con normalidad");
-                            return true;
+                            return ("El servicio se encuentra ejecutandose con normalidad");
                         }
                     }
                 }
                 Logs.WriteErrorLog("El servicio no existe en el servidor");
-                return false;
+                return ("El servicio no existe en el servidor");
             }
             catch (Exception ex)
             {
                 Logs.WriteErrorLog("Error en la consulta del estado del servicio: " + ex.ToString());
-                return false;
+                return ("Error en la consulta del estado del servicio");
             }
 
         }

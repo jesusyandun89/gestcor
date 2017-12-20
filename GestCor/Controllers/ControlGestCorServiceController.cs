@@ -14,8 +14,20 @@ namespace GestCor.Controllers
         // GET: ControlGestCorService
         public ActionResult Index()
         {
-            bool status = model.getStatus();
-            ViewBag.Status = status;
+            string status = model.getStatus();
+            if (status == "El servicio se encuentra detenido")
+            {
+                ViewBag.Status = "false";
+            }
+            else if (status == "El servicio se encuentra ejecutandose con normalidad")
+            {
+                ViewBag.Status = "true";
+            }
+            else
+            {
+                ViewBag.Status = "-1";
+            }
+            
             return View();
         }
 
@@ -24,6 +36,7 @@ namespace GestCor.Controllers
         {
             ViewBag.SyncOrAsync = "Asynchronous";
             await model.run_async(true);
+            ViewBag.Status = "true";
             ViewBag.Script = "Proceso iniciado correctamente";
             return View("Index");
         }
@@ -33,6 +46,7 @@ namespace GestCor.Controllers
         {
             ViewBag.SyncOrAsync = "Asynchronous";
             await model.run_async(false);
+            ViewBag.Status = "false";
             ViewBag.Script = "Proceso detenido correctamente";
             return View("Index");
         }
