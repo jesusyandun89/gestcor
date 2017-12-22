@@ -21,6 +21,12 @@
             <li>@Html.ActionLink("Notificaciones", "Index", "CorreoNotificaciones")</li>
             <li>@Html.ActionLink("Condiciones", "Index", "CondicionesCorte")</li>
             <li>@Html.ActionLink("Configuración", "Index", "ControlGestCorService")</li>
+            <ul>
+                <li>@Html.ActionLink("Modulos", "Index", "Modules")</li>
+                <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
+                <li>@Html.ActionLink("Perfiles", "Index", "Profiles")</li>
+                <li>@Html.ActionLink("Usuarios", "Index", "Users")</li>
+            </ul>
         </ul>
             @Html.Partial("_LoginPartial")
     </div>

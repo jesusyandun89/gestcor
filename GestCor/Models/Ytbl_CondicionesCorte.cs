@@ -15,30 +15,35 @@ namespace GestCor.Models
 
         [Display(Name = "Nombre del banco a excluir")]
         public string Provider { get; set; }
+
         [Display(Name = "Nombre de ciudad a excluir")]
         public string Ciudad { get; set; }
+
         [Display(Name = "Modo de pago a excluir")]
         public string PaymentMode { get; set; }
+
         [Display(Name = "Negocio a excluir")]
         public string Business { get; set; }
+
         [Display(Name = "Empresa facturadora a excluir")]
         public string Company { get; set; }
+
         [Required]
         [Display(Name = "Id del corte a excluir")]
         public Int64 Id_Corte { get; set; }
-        [Required]
+
         public string Usuario { get; set; }
+
         [Display(Name = "Fecha de creación")]
         public DateTime? Fecha { get; set; }
+
         [Required]
         [Display(Name = "Es válido")]
         public string IsValid { get; set; }
 
-        Connection conn;
-
         public bool SaveCondicionesCorte(Ytbl_CondicionesCorte CondicionesCorte)
         {
-            conn = new Connection();
+            Connection conn = new Connection();
             OleDbConnection objConn = conn.Conn();
             try
             {
@@ -110,7 +115,7 @@ namespace GestCor.Models
 
         public List<Ytbl_CondicionesCorte> SelectCondicionesCorte()
         {
-            conn = new Connection();
+            Connection conn = new Connection();
             OleDbConnection objConn = conn.Conn();
 
             string commText = "select * from YTBL_CONDICIONESNOCORTE order by id desc";
@@ -210,7 +215,7 @@ namespace GestCor.Models
 
         public Ytbl_CondicionesCorte SelectCondicionesCorteById(int id)
         {
-            conn = new Connection();
+            Connection conn = new Connection();
             OleDbConnection objConn = conn.Conn();
 
             string commText = "select * from YTBL_CONDICIONESNOCORTE where id =" + id;
@@ -311,7 +316,7 @@ namespace GestCor.Models
 
         public bool UpdateCorreo(Ytbl_CondicionesCorte model)
         {
-            conn = new Connection();
+            Connection conn = new Connection();
             OleDbConnection objConn = conn.Conn();
             try
             {

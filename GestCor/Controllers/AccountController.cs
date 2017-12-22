@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GestCor.Models;
+using GestCor.Clases;
 
 namespace GestCor.Controllers
 {
@@ -73,21 +74,37 @@ namespace GestCor.Controllers
                 return View(model);
             }
 
-            // No cuenta los errores de inicio de sesión para el bloqueo de la cuenta
-            // Para permitir que los errores de contraseña desencadenen el bloqueo de la cuenta, cambie a shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false,shouldLockout: false);
-            switch (result)
+            CustomAuthorizeAttribute access = new CustomAuthorizeAttribute();
+            try
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl});
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Intento de inicio de sesión no válido.");
+                int startSession = access.Authorize(model.User, model.Password);
+
+
+
+                if (startSession == 0 && Session["usuario"] == null && Session["password"] == null)
+                {
+                    Session["usuario"] = model.User.ToString();
+                    Session["password"] = model.Password.ToString();
+
+                    Logs.WriteErrorLog("Usuario registrado:" + model.User + "||");
+                    return RedirectToAction("Index", "Home");
+                }
+                if (startSession == 2)
+                {
+                    Logs.WriteErrorLog("Usuario clave erronea:" + model.User + "||");
+                    ModelState.AddModelError("", "Usuario o password incorrectos.");
                     return View(model);
+                }
+                else
+                {
+                    Logs.WriteErrorLog("Usuario sin acceso intentó ingresar:" + model.User + "||");
+                    return View("ErrorAcceso");
+                }
+            }
+            catch
+            {
+                Logs.WriteErrorLog("Usuario sin acceso intentó ingresar:" + model.User + "||");
+                return View("ErrorAcceso");
             }
         }
         
@@ -98,7 +115,8 @@ namespace GestCor.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            Session["InicioSession"] = null;
+            return RedirectToAction("Login", "Account");
         }
 
         //

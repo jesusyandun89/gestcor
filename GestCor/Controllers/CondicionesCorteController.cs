@@ -25,27 +25,18 @@ namespace GestCor.Controllers
 
         // POST: CondicionesCorte/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection, Ytbl_CondicionesCorte model)
+        public ActionResult Create(Ytbl_CondicionesCorte model)
         {
+            model.Usuario = "jyandun";
+            model.Fecha = DateTime.Now;
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
             try
             {
-                Ytbl_CondicionesCorte Condicion = new Ytbl_CondicionesCorte();
 
-                Condicion.Provider = collection[1].ToString();
-                Condicion.Ciudad = collection[2].ToString();
-                Condicion.PaymentMode = collection[3].ToString();
-                Condicion.Business = collection[4].ToString();
-                Condicion.Company = collection[5].ToString();
-                Condicion.Id_Corte = Int64.Parse(collection[6].ToString());
-                Condicion.IsValid = collection[7].ToString();
-                Condicion.Usuario = "jyandun";
-                
-
-                if(Condicion.SaveCondicionesCorte(Condicion))
+                if(model.SaveCondicionesCorte(model))
                     return RedirectToAction("Index");
                 else
                     return View("Error");

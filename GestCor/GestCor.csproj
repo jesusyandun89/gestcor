@@ -210,15 +210,22 @@
     <Compile Include="Controllers\CorreoNotificacionesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ModulesController.cs" />
+    <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Controllers\ProgramaCorteController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ControlGestCorService.cs" />
     <Compile Include="Models\Estadisticas.cs" />
+    <Compile Include="Models\GestCorModules.cs" />
+    <Compile Include="Models\GestCorProfile.cs" />
+    <Compile Include="Models\GestCorRol.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\UserGestCor.cs" />
     <Compile Include="Models\Ytbl_CondicionesCorte.cs" />
     <Compile Include="Models\Ytbl_CorreoNotificacionesModels.cs" />
     <Compile Include="Models\Ytbl_DetalleProgCorteModels.cs" />
@@ -313,9 +320,22 @@
     <Content Include="Views\CorreoNotificaciones\Create.cshtml" />
     <Content Include="Views\CorreoNotificaciones\Edit.cshtml" />
     <Content Include="Views\CondicionesCorte\Index.cshtml" />
-    <Content Include="Views\CondicionesCorte\Create.cshtml" />
     <Content Include="Views\CondicionesCorte\Edit.cshtml" />
     <Content Include="Views\ControlGestCorService\Index.cshtml" />
+    <Content Include="Views\Modules\Index.cshtml" />
+    <Content Include="Views\Modules\Create.cshtml" />
+    <Content Include="Views\Modules\Edit.cshtml" />
+    <Content Include="Views\Profiles\Index.cshtml" />
+    <Content Include="Views\Profiles\Create.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Profiles\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\CondicionesCorte\Create.cshtml" />
+    <Content Include="Views\Shared\ErrorAcceso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

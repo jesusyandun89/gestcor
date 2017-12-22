@@ -1,11 +1,14 @@
 ﻿using GestCor.Clases;
 using GestCor.Class;
 using System;
+using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
 
 public class CustomAuthorizeAttribute : AuthorizeAttribute
 {
+    private string RolActiveDirectory = ConfigurationManager.AppSettings.Get("RolActiveDirectory");
+
     public override void OnAuthorization(AuthorizationContext filterContext)
     {
         try
@@ -21,7 +24,8 @@ public class CustomAuthorizeAttribute : AuthorizeAttribute
             String password = filterContext.HttpContext.Session["password"].ToString();
 
             String valor = MO.ValidaRoles(usuario, password);
-            int roles = valor.IndexOf("Mensajeria Prepago Satelital");
+            
+            int roles = valor.IndexOf(RolActiveDirectory);
             if (roles == -1)
             {
                 filterContext.Result = new ViewResult { ViewName = "ErrorAcceso" };
@@ -45,7 +49,7 @@ public class CustomAuthorizeAttribute : AuthorizeAttribute
         {
             return 2;
         }
-        else if((roles = valor.LastIndexOf("GeoreferenciacionFSM")) != -1)
+        else if((roles = valor.LastIndexOf(RolActiveDirectory)) != -1)
         {
             return 0;
         }
