@@ -10,29 +10,73 @@ namespace GestCor.Controllers
     public class CondicionesCorteController : Controller
     {
         // GET: CondicionesCorte
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "CondicionesCorte-Leer")]
         public ActionResult Index()
         {
-            Ytbl_CondicionesCorte Condicion = new Ytbl_CondicionesCorte();
+            Ytbl_CondicionesCorte condicion = new Ytbl_CondicionesCorte();
 
-            return View(Condicion.SelectCondicionesCorte());
+            List<Ytbl_CondicionesCorte> CondicionList = condicion.SelectCondicionesCorte();
+
+            foreach (var item in CondicionList)
+            {
+                item.Provider = condicion.getNameProperty(item.Provider, "BANCO");
+                item.Ciudad = condicion.getNameProperty(item.Ciudad, "CIUDAD");
+                item.Business = condicion.getNameProperty(item.Business, "NEGOCIO");
+                item.PaymentMode = condicion.getNameProperty(item.PaymentMode, "PAGO");
+                item.Company = condicion.getNameProperty(item.Company, "EMPRESA");
+            }
+
+            return View(CondicionList);
         }
 
         // GET: CondicionesCorte/Create
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "CondicionesCorte-Crear")]
         public ActionResult Create()
         {
+            Ytbl_CondicionesCorte condicion = new Ytbl_CondicionesCorte();
+
+            List<SelectListItem> bancos = condicion.getProperty(0,"BANCO");
+            List<SelectListItem> ciudades = condicion.getProperty(0, "CIUDAD");
+            List<SelectListItem> negocios = condicion.getProperty(0, "NEGOCIO");
+            List<SelectListItem> pagos = condicion.getProperty(0, "PAGO");
+            List<SelectListItem> empresas = condicion.getProperty(0, "EMPRESA");
+            List<SelectListItem> cortes = condicion.getProperty(0, "CORTE");
+
+            ViewData["bancos"] = bancos;
+            ViewData["ciudades"] = ciudades;
+            ViewData["negocios"] = negocios;
+            ViewData["pagos"] = pagos;
+            ViewData["empresas"] = empresas;
+            ViewData["cortes"] = cortes;
+
             return View();
         }
 
         // POST: CondicionesCorte/Create
         [HttpPost]
-        public ActionResult Create(Ytbl_CondicionesCorte model)
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "CondicionesCorte-Crear")]
+        public ActionResult Create(Ytbl_CondicionesCorte model, string bancos, string ciudades, string negocios, string pagos, string empresas, string cortes)
         {
-            model.Usuario = "jyandun";
-            model.Fecha = DateTime.Now;
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+            Ytbl_CondicionesCorte condicion = new Ytbl_CondicionesCorte();
+            HttpContext ctx = System.Web.HttpContext.Current;
+            model.Usuario = ctx.Session["usuario"].ToString();
+
+            model.Provider = condicion.getNameProperty(bancos, "BANCO2");
+            model.Business = condicion.getNameProperty(negocios, "NEGOCIO2");
+            model.PaymentMode = condicion.getNameProperty(pagos, "PAGO2");
+            model.Company = condicion.getNameProperty(empresas, "EMPRESA2");
+            model.Ciudad = ciudades;
+            model.Id_Corte = int.Parse(cortes);
+
+            model.Fecha = DateTime.Now;
+            
             try
             {
 
@@ -49,6 +93,8 @@ namespace GestCor.Controllers
         }
 
         // GET: CorreoNotificaciones/Edit/5
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "CondicionesCorte-Editar")]
         public ActionResult Edit(int id)
         {
             Ytbl_CondicionesCorte Condicion = new Ytbl_CondicionesCorte();
@@ -60,6 +106,8 @@ namespace GestCor.Controllers
 
         // POST: CorreoNotificaciones/Edit/5
         [HttpPost]
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "CondicionesCorte-Editar")]
         public ActionResult Edit(int id, FormCollection collection)
         {
             try

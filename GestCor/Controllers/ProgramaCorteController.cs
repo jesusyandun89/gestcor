@@ -12,7 +12,10 @@ namespace GestCor.Controllers
 {
     public class ProgramaCorteController : Controller
     {
+
         // GET: ProgramaCorte
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Leer")]
         public ActionResult Index()
         {
             Ytbl_ProgCorteModels progCorte = new Ytbl_ProgCorteModels();
@@ -23,8 +26,6 @@ namespace GestCor.Controllers
 
             return View(listProgCorte);
         }
-
-
 
         private bool VerifyFile(HttpPostedFileBase upload)
         {
@@ -41,6 +42,8 @@ namespace GestCor.Controllers
             }
         }
 
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Crear")]
         public ActionResult UploadFile()
         {
             return View();
@@ -166,10 +169,12 @@ namespace GestCor.Controllers
                 }
             }
             Ytbl_ProgCorteModels CreateNew = new Ytbl_ProgCorteModels();
+            HttpContext ctx = System.Web.HttpContext.Current;
+            string User = ctx.Session["usuario"].ToString();
 
             CreateNew.Document_Name = fileName;
             CreateNew.Customer_Number_Upload = i.ToString();
-            CreateNew.Nick_User = "jyandun";
+            CreateNew.Nick_User = User;
             CreateNew.IsValid = "N";
 
             List<Ytbl_ProgCorteModels> ListProgCorte = new List<Ytbl_ProgCorteModels>();
@@ -352,7 +357,9 @@ namespace GestCor.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
+        [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Crear")]
         public ActionResult Upload(HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
@@ -385,6 +392,8 @@ namespace GestCor.Controllers
             return View("Error");
         }
 
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Crear")]
         public ActionResult Create()
         {
             Ytbl_ProgCorteModels ProgCorte = new Ytbl_ProgCorteModels();
@@ -403,7 +412,9 @@ namespace GestCor.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
+        [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Crear")]
         public ActionResult Create(Ytbl_ProgCorteModels model)
         {
 
@@ -426,6 +437,9 @@ namespace GestCor.Controllers
 
 
         }
+
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Editar")]
         public ActionResult Edit(int id)
         {
             Ytbl_ProgCorteModels progCorte = new Ytbl_ProgCorteModels();
@@ -442,7 +456,9 @@ namespace GestCor.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
+        [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Editar")]
         public ActionResult Edit(Ytbl_ProgCorteModels model)
         {
             foreach (var item in Ytbl_ProgCorteModels.ListProgCorte)
@@ -462,6 +478,28 @@ namespace GestCor.Controllers
             else
                 return View("Error");
 
+
+        }
+
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Leer")]
+        public ActionResult View(int id)
+        {
+            Ytbl_ProgCorteModels model = new Ytbl_ProgCorteModels();
+
+            ViewData["bancos"] = model.getStadistic(id, "BANCO");
+
+            ViewData["ciudad"] = model.getStadistic(id, "CIUDAD");
+
+            ViewData["negocio"] = model.getStadistic(id, "BUSINESS");
+
+            ViewData["empresaFacturadora"] = model.getStadistic(id, "COMPANY");
+
+            ViewData["cuentas"] = model.getStadistic(id, "CUENTAS");
+
+            ViewBag.view = true;
+
+            return View();
 
         }
     }

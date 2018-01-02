@@ -1,4 +1,4 @@
-﻿body {
+body {
     background-color: #ebf5fb;
     background-repeat: no-repeat;
     background-position: center;
@@ -8,6 +8,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    padding-bottom: 60px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 

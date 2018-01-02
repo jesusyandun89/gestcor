@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace GestCor.Models
 {
@@ -16,12 +17,12 @@ namespace GestCor.Models
         [Display(Name = "Nombre del perfil")]
         public string NameProfile { get; set; }
         [Required]
-        [Display(Name = "Id del rol")]
+        [Display(Name = "Rol")]
         public int RolId { get; set; }
         [Display(Name = "Nombre del rol")]
         public string NameRol { get; set; }
         [Required]
-        [Display(Name = "Id del modulo")]
+        [Display(Name = "Modulo")]
         public int IdModule { get; set; }
         [Display(Name = "Nombre del modulo")]
         public string NameModule { get; set; }
@@ -159,15 +160,13 @@ namespace GestCor.Models
                     while (myReader.Read())
                     {
                         GestCorProfile Profile = new GestCorProfile();
-                        Module ModuleName = new Module();
-                        Rol RolName = new Rol();
 
                         Profile.Id = int.Parse(myReader.GetDecimal(0).ToString());
                         Profile.NameProfile = myReader.GetString(1);
                         Profile.RolId = int.Parse(myReader.GetDecimal(2).ToString());
-                        Profile.NameRol = RolName.getNameRol(int.Parse(myReader.GetDecimal(2).ToString()));
+                        Profile.NameRol = getNameRol(int.Parse(myReader.GetDecimal(2).ToString()));
                         Profile.IdModule = int.Parse(myReader.GetDecimal(3).ToString());
-                        Profile.NameModule = ModuleName.getNameModule(int.Parse(myReader.GetDecimal(3).ToString()));
+                        Profile.NameModule = getNameModule(int.Parse(myReader.GetDecimal(3).ToString()));
                         Profile.IsValid = myReader.GetString(4);
 
                         ProfilesList.Add(Profile);
@@ -195,7 +194,7 @@ namespace GestCor.Models
             Connection conn = new Connection();
             OleDbConnection objConn = conn.Conn();
 
-            string commText = "select * from YTBL_PROFILEGESTCOR  where id = "+id;
+            string commText = "select * from YTBL_PROFILEGESTCOR  where id = " + id;
 
             objConn.Open();
             OleDbCommand cmd = new OleDbCommand();
@@ -206,8 +205,6 @@ namespace GestCor.Models
             OleDbDataReader myReader = cmd.ExecuteReader();
 
             GestCorProfile Profile = new GestCorProfile();
-            Module ModuleName = new Module();
-            Rol RolName = new Rol();
 
             try
             {
@@ -218,9 +215,9 @@ namespace GestCor.Models
                         Profile.Id = int.Parse(myReader.GetDecimal(0).ToString());
                         Profile.NameProfile = myReader.GetString(1);
                         Profile.RolId = int.Parse(myReader.GetDecimal(2).ToString());
-                        Profile.NameRol = RolName.getNameRol(int.Parse(myReader.GetDecimal(2).ToString()));
+                        Profile.NameRol = getNameRol(int.Parse(myReader.GetDecimal(2).ToString()));
                         Profile.IdModule = int.Parse(myReader.GetDecimal(3).ToString());
-                        Profile.NameModule = ModuleName.getNameModule(int.Parse(myReader.GetDecimal(3).ToString()));
+                        Profile.NameModule = getNameModule(int.Parse(myReader.GetDecimal(3).ToString()));
                         Profile.IsValid = myReader.GetString(4);
                     }
                 }
@@ -241,21 +238,12 @@ namespace GestCor.Models
             }
         }
 
-
-    }
-
-    public class Module
-    {
-        public int Id { get; set; }
-
-        public string NameModule { get; set; }
-
-        public List<Module> getModulesAvaliable()
+        public List<SelectListItem> getModulesAvaliable(int id)
         {
             Connection conn = new Connection();
             OleDbConnection objConn = conn.Conn();
 
-            string commText = "select id, NAME_MODULE from YTBL_MODULESGESTCOR where ISVALID = 'Y' order by id desc";
+            string commText = "select id, NAME_MODULE, decode(id, " + id + ", 'true','false') from YTBL_MODULESGESTCOR where ISVALID = 'Y' order by id desc";
 
             objConn.Open();
             OleDbCommand cmd = new OleDbCommand();
@@ -265,19 +253,19 @@ namespace GestCor.Models
             cmd.CommandType = CommandType.Text;
             OleDbDataReader myReader = cmd.ExecuteReader();
 
-            List<Module> ModulesList = new List<Module>();
+            List<SelectListItem> ModulesList = new List<SelectListItem>();
             try
             {
                 if (myReader.HasRows)
                 {
                     while (myReader.Read())
                     {
-                        Module Profile = new Module();
+                        SelectListItem module = new SelectListItem();
+                        module.Value = myReader.GetValue(0).ToString();
+                        module.Text = myReader.GetValue(1).ToString();
+                        module.Selected = bool.Parse(myReader.GetValue(2).ToString());
 
-                        Profile.Id = int.Parse(myReader.GetDecimal(0).ToString());
-                        Profile.NameModule = myReader.GetString(1);
-
-                        ModulesList.Add(Profile);
+                        ModulesList.Add(module);
                     }
                 }
 
@@ -302,7 +290,7 @@ namespace GestCor.Models
             Connection conn = new Connection();
             OleDbConnection objConn = conn.Conn();
 
-            string commText = "select NAME_MODULE from YTBL_MODULESGESTCOR where id =" +id;
+            string commText = "select NAME_MODULE from YTBL_MODULESGESTCOR where id =" + id;
 
             objConn.Open();
             OleDbCommand cmd = new OleDbCommand();
@@ -312,7 +300,7 @@ namespace GestCor.Models
             cmd.CommandType = CommandType.Text;
             OleDbDataReader myReader = cmd.ExecuteReader();
 
-            string nameModule ="";
+            string nameModule = "";
             try
             {
                 if (myReader.HasRows)
@@ -339,22 +327,13 @@ namespace GestCor.Models
                 objConn.Close();
             }
         }
-            
 
-    }
-
-    public class Rol
-    {
-        public int Id { get; set; }
-
-        public string NameRol { get; set; }
-
-        public List<Rol> getRolesAvaliable()
+        public List<SelectListItem> getRolesAvaliable(int id)
         {
             Connection conn = new Connection();
             OleDbConnection objConn = conn.Conn();
 
-            string commText = "select id, NAME_ROL from YTBL_ROLGESTCOR where ISVALID = 'Y' order by id desc";
+            string commText = "select id, NAME_ROL, decode(id," + id + " , 'true','false') from YTBL_ROLGESTCOR where ISVALID = 'Y'  order by id desc";
 
             objConn.Open();
             OleDbCommand cmd = new OleDbCommand();
@@ -364,17 +343,17 @@ namespace GestCor.Models
             cmd.CommandType = CommandType.Text;
             OleDbDataReader myReader = cmd.ExecuteReader();
 
-            List<Rol> RolesList = new List<Rol>();
+            List<SelectListItem> RolesList = new List<SelectListItem>();
             try
             {
                 if (myReader.HasRows)
                 {
                     while (myReader.Read())
                     {
-                        Rol rol = new Rol();
-
-                        rol.Id = int.Parse(myReader.GetDecimal(0).ToString());
-                        rol.NameRol = myReader.GetString(1);
+                        SelectListItem rol = new SelectListItem();
+                        rol.Value = myReader.GetValue(0).ToString();
+                        rol.Text = myReader.GetValue(1).ToString();
+                        rol.Selected = bool.Parse(myReader.GetValue(2).ToString());
 
                         RolesList.Add(rol);
                     }
@@ -438,6 +417,7 @@ namespace GestCor.Models
                 objConn.Close();
             }
         }
+
     }
         
 }

@@ -21,6 +21,7 @@ namespace GestCor.Models
         [Display(Name = "Rol del usuario")]
         public int IdRol { get; set; }
 
+        [Display(Name = "Nombre del Rol")]
         public string NameRol { get; set; }
 
         [Required]
@@ -161,12 +162,12 @@ namespace GestCor.Models
                     {
                         UserGestCor User = new UserGestCor();
 
-                        Rol RolName = new Rol();
+                        GestCorProfile profile = new GestCorProfile();
 
                         User.Id = int.Parse(myReader.GetDecimal(0).ToString());
                         User.NickUser = myReader.GetString(1);
                         User.IdRol = int.Parse(myReader.GetDecimal(2).ToString());
-                        User.NameRol = RolName.getNameRol(int.Parse(myReader.GetDecimal(2).ToString()));
+                        User.NameRol = profile.getNameRol(int.Parse(myReader.GetDecimal(2).ToString()));
                         User.IsValid = myReader.GetString(3);
                         
                         try
@@ -223,7 +224,7 @@ namespace GestCor.Models
             OleDbDataReader myReader = cmd.ExecuteReader();
 
             UserGestCor User = new UserGestCor();
-            Rol RolName = new Rol();
+            GestCorProfile RolName = new GestCorProfile();
             try
             {
                 if (myReader.HasRows)

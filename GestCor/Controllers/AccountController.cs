@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GestCor.Models;
 using GestCor.Clases;
+using System.Web.Security;
+using GestCor.Class;
 
 namespace GestCor.Controllers
 {
@@ -74,8 +76,40 @@ namespace GestCor.Controllers
                 return View(model);
             }
 
-            CustomAuthorizeAttribute access = new CustomAuthorizeAttribute();
             try
+            {
+                ValidationUser MO = new ValidationUser();
+
+                bool validated = MO.ValidateUser(model.User);
+
+                if (validated)
+                {
+                    FormsAuthentication.SetAuthCookie(model.User, false);
+
+                    var authTicket = new FormsAuthenticationTicket(1, model.User, DateTime.Now, DateTime.Now.AddMinutes(20), false, "");
+                    string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+                    var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                    HttpContext.Response.Cookies.Add(authCookie);
+                    Session["usuario"] = model.User.ToString();
+                    Session["password"] = model.Password.ToString();
+
+                    Logs.WriteErrorLog("Usuario registrado:" + model.User + "||");
+                    return RedirectToAction("Index", "Home");
+                }
+
+                else
+                {
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return View(model);
+                }
+
+            }
+            catch
+            { 
+                Logs.WriteErrorLog("Usuario sin acceso intentó ingresar:" + model.User + "||");
+                return View("ErrorAcceso");
+            }
+            /*try
             {
                 int startSession = access.Authorize(model.User, model.Password);
 
@@ -105,8 +139,8 @@ namespace GestCor.Controllers
             {
                 Logs.WriteErrorLog("Usuario sin acceso intentó ingresar:" + model.User + "||");
                 return View("ErrorAcceso");
+            }*/
             }
-        }
         
         //
         // POST: /Account/LogOff
@@ -114,17 +148,11 @@ namespace GestCor.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+            FormsAuthentication.SignOut();
             Session["InicioSession"] = null;
             return RedirectToAction("Login", "Account");
-        }
-
-        //
-        // GET: /Account/ExternalLoginFailure
-        [AllowAnonymous]
-        public ActionResult ExternalLoginFailure()
-        {
-            return View();
         }
 
         protected override void Dispose(bool disposing)

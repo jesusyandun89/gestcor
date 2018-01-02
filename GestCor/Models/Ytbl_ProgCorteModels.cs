@@ -364,5 +364,80 @@ namespace GestCor.Models
                 objConn.Close();
             }
         }
+
+        public List<Estadisticas> getStadistic(int id, string parameter)
+        {
+            conn = new Connection();
+            OleDbConnection objConn = conn.Conn();
+            string commText = "";
+            switch (parameter)
+            {
+                case "BANCO":
+                    commText = "select COUNT(CIUDAD), BANCO from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = " + id+" GROUP BY BANCO";
+                    break;
+                case "CIUDAD":
+                    commText = "select COUNT(banco), CIUDAD from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = " + id + " GROUP BY CIUDAD";
+                    break;
+                case "BUSINESS":
+                    commText = "select COUNT(BUSINESS), BUSINESS from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = " + id + " GROUP BY BUSINESS";
+                    break;
+                case "COMPANY":
+                    commText = "select COUNT(COMPANY), COMPANY from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = " + id + " GROUP BY COMPANY";
+                    break;
+                case "CUENTAS":
+                    commText = "select COUNT(distinct CPARTYACCOUNT_ID), 'Cuentas' from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = " + id;
+                    break;
+            }
+
+            objConn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+
+            cmd.Connection = objConn;
+            cmd.CommandText = commText;
+            cmd.CommandType = CommandType.Text;
+            OleDbDataReader myReader = cmd.ExecuteReader();
+
+            List<Estadisticas> ListEstadictica = new List<Estadisticas>();
+            try
+            {
+                if (myReader.HasRows)
+                {
+                    while (myReader.Read())
+                    {
+                        Estadisticas estadistica = new Estadisticas();
+
+                        try
+                        {
+                            estadistica.cantidad = int.Parse(myReader.GetDecimal(0).ToString());
+                            if (myReader.GetValue(1).ToString() != "")
+                                estadistica.nombre = myReader.GetValue(1).ToString();
+                            else
+                                estadistica.nombre = "Ninguno";
+                        }
+                        catch (Exception ex)
+                        {
+                            estadistica.nombre = "Ninguno";
+                        }
+
+                        ListEstadictica.Add(estadistica);
+                    }
+                }
+
+                return ListEstadictica;
+            }
+            catch (Exception ex)
+            {
+                myReader.Close();
+                objConn.Close();
+                Logs.WriteErrorLog("Error en la consulta de datos por ID||" + ex.ToString());
+                return ListEstadictica;
+            }
+            finally
+            {
+                myReader.Close();
+                objConn.Close();
+            }
+
+        }
     }
 }

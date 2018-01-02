@@ -251,7 +251,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\site.css" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -336,6 +336,7 @@
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\CondicionesCorte\Create.cshtml" />
     <Content Include="Views\Shared\ErrorAcceso.cshtml" />
+    <Content Include="Views\ProgramaCorte\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

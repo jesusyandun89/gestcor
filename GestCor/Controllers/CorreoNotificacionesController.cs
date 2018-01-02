@@ -10,6 +10,8 @@ namespace GestCor.Controllers
     public class CorreoNotificacionesController : Controller
     {
         // GET: CorreoNotificaciones
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "CorreoNotificaciones-Leer")]
         public ActionResult Index()
         {
             Ytbl_CorreoNotificacionesModels SelectCorreos = new Ytbl_CorreoNotificacionesModels();
@@ -18,6 +20,8 @@ namespace GestCor.Controllers
         }
 
         // GET: CorreoNotificaciones/Create
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "CorreoNotificaciones-Crear")]
         public ActionResult Create()
         {
             return View();
@@ -25,6 +29,8 @@ namespace GestCor.Controllers
 
         // POST: CorreoNotificaciones/Create
         [HttpPost]
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "CorreoNotificaciones-Crear")]
         public ActionResult Create(FormCollection collection)
         {
             try
@@ -50,6 +56,8 @@ namespace GestCor.Controllers
         }
 
         // GET: CorreoNotificaciones/Edit/5
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "CorreoNotificaciones-Editar")]
         public ActionResult Edit(int id)
         {
             Ytbl_CorreoNotificacionesModels correoNotificacion = new Ytbl_CorreoNotificacionesModels();
@@ -61,6 +69,8 @@ namespace GestCor.Controllers
 
         // POST: CorreoNotificaciones/Edit/5
         [HttpPost]
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "CorreoNotificaciones-Editar")]
         public ActionResult Edit(int id, FormCollection collection)
         {
             try

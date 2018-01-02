@@ -10,6 +10,8 @@ namespace GestCor.Controllers
     public class RolesController : Controller
     {
         // GET: Roles
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Roles-Leer")]
         public ActionResult Index()
         {
             GestCorRol Rol = new GestCorRol();
@@ -17,6 +19,8 @@ namespace GestCor.Controllers
         }
 
         // GET: Roles/Create
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Roles-Crear")]
         public ActionResult Create()
         {
             return View();
@@ -24,6 +28,8 @@ namespace GestCor.Controllers
 
         // POST: Roles/Create
         [HttpPost]
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Roles-Crear")]
         public ActionResult Create(GestCorRol model)
         {
             if (!ModelState.IsValid)
@@ -44,6 +50,8 @@ namespace GestCor.Controllers
         }
 
         // GET: Roles/Edit/5
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Roles-Editar")]
         public ActionResult Edit(int id)
         {
             GestCorRol rol = new GestCorRol();
@@ -52,6 +60,8 @@ namespace GestCor.Controllers
 
         // POST: Roles/Edit/5
         [HttpPost]
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Roles-Editar")]
         public ActionResult Edit(int id, GestCorRol model)
         {
             if (!ModelState.IsValid)

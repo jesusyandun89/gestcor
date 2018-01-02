@@ -10,6 +10,8 @@ namespace GestCor.Controllers
     public class ProfilesController : Controller
     {
         // GET: Profiles
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Profiles-Leer")]
         public ActionResult Index()
         {
             GestCorProfile Profile = new GestCorProfile();
@@ -18,21 +20,20 @@ namespace GestCor.Controllers
         }
 
         // GET: Profiles/Create
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Profiles-Crear")]
         public ActionResult Create()
         {
             try
             { 
-            Module module = new Module();
-            Rol rol = new Rol();
+                GestCorProfile profile = new GestCorProfile();
 
-            var moduleList = module.getModulesAvaliable();
-            var rolList = rol.getRolesAvaliable();
+                List<SelectListItem> listMod = profile.getModulesAvaliable(profile.IdModule);
+                List<SelectListItem> listRol = profile.getRolesAvaliable(profile.RolId);
 
-            var listMod = new SelectList(moduleList, "Id", "NameModule");
-            var listRol = new SelectList(rolList, "Id", "NameRol");
+                ViewData["modules"] = listMod;
+                ViewData["roles"] = listRol;
 
-            ViewData["modules"] = listMod;
-            ViewData["roles"] = listRol;
                 return View();
             }
             catch
@@ -43,6 +44,8 @@ namespace GestCor.Controllers
 
         // POST: Profiles/Create
         [HttpPost]
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Profiles-Crear")]
         public ActionResult Create(GestCorProfile model, int modules, int roles)
         {
             if (!ModelState.IsValid)
@@ -65,24 +68,23 @@ namespace GestCor.Controllers
         }
 
         // GET: Profiles/Edit/5
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Profiles-Editar")]
         public ActionResult Edit(int id)
         {
             try
             {
                 GestCorProfile profile = new GestCorProfile();
-                Module module = new Module();
-                Rol rol = new Rol();
 
-                var moduleList = module.getModulesAvaliable();
-                var rolList = rol.getRolesAvaliable();
+                profile= profile.GetProfilesById(id);
 
-                var listMod = new SelectList(moduleList, "Id", "NameModule");
-                var listRol = new SelectList(rolList, "Id", "NameRol");
+                List<SelectListItem> listMod = profile.getModulesAvaliable(profile.IdModule);
+                List<SelectListItem> listRol = profile.getRolesAvaliable(profile.RolId);
 
                 ViewData["modules"] = listMod;
                 ViewData["roles"] = listRol;
 
-                return View(profile.GetProfilesById(id));
+                return View(profile);
             }
             catch
             {
@@ -94,6 +96,8 @@ namespace GestCor.Controllers
 
         // POST: Profiles/Edit/5
         [HttpPost]
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Profiles-Editar")]
         public ActionResult Edit(int id, GestCorProfile model, int modules, int roles)
         {
             if (!ModelState.IsValid)

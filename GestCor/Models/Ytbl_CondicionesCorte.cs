@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace GestCor.Models
 {
@@ -352,6 +353,149 @@ namespace GestCor.Models
             }
             finally
             {
+                objConn.Close();
+            }
+        }
+
+        public List<SelectListItem> getProperty(int id, string property)
+        {
+            Connection conn = new Connection();
+            OleDbConnection objConn = conn.Conn();
+
+            string commText = "";
+
+            switch (property)
+            {
+                case "BANCO":
+                    commText = "SELECT B.NAME, B.id, decode(B.PAYMENTPROVIDER_ID, "+id+", 'true','false') FROM TAMPAYMENTPROVIDERBRANCHES B order by name asc";
+                    break;
+                case "CIUDAD":
+                    commText = "SELECT t2.name, t2.avalue, decode(t2.avalue, " + id + ", 'true','false') FROM TWFLREPVALUELISTITEMS T2 where t2.valuelistsymbol like '%TVC_CityVsCostCenter%'";
+                    break;
+                case "NEGOCIO":
+                    commText = "SELECT name, id, decode(id, " + id + ", 'true','false') FROM TREPVALUELISTITEMS where valuelist_id=500006 order by name asc";
+                    break;
+                case "PAGO":
+                    commText = "SELECT name, id, decode(id, " + id + ", 'true','false') FROM TREPVALUELISTITEMS WHERE VALUELISTSYMBOL LIKE '%PaymentType%'";
+                    break;
+                case "EMPRESA":
+                    commText = "SELECT NAME, ID, decode(id, " + id + ", 'true','false') FROM TREPVALUELISTITEMS where valuelist_id = 500031 order by name asc";
+                    break;
+                case "CORTE":
+                    commText = "select DOCUMENT_NAME, id, decode(id, " + id + ", 'true','false') from YTBL_PROGCORTE where ISVALID = 'Y' and DATE_UPLOAD >= sysdate - 90 order by id desc";
+                    break;
+            }
+
+            objConn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+
+            cmd.Connection = objConn;
+            cmd.CommandText = commText;
+            cmd.CommandType = CommandType.Text;
+            OleDbDataReader myReader = cmd.ExecuteReader();
+
+            List<SelectListItem> RolesList = new List<SelectListItem>();
+            try
+            {
+                if (myReader.HasRows)
+                {
+                    while (myReader.Read())
+                    {
+                        SelectListItem rol = new SelectListItem();
+                        rol.Value = myReader.GetValue(1).ToString();
+                        rol.Text = myReader.GetValue(0).ToString();
+
+                        RolesList.Add(rol);
+                    }
+                }
+
+                return RolesList;
+            }
+            catch (Exception ex)
+            {
+                myReader.Close();
+                objConn.Close();
+                Logs.WriteErrorLog("Error en la consulta de datos||" + ex.ToString());
+                return RolesList;
+            }
+            finally
+            {
+                myReader.Close();
+                objConn.Close();
+            }
+        }
+
+        public string getNameProperty(string id, string property)
+        {
+            Connection conn = new Connection();
+            OleDbConnection objConn = conn.Conn();
+
+            string commText = "";
+
+            switch (property)
+            {
+                case "BANCO":
+                    commText = "SELECT B.NAME FROM TAMPAYMENTPROVIDERBRANCHES B where B.name ='"+id+"'";
+                    break;
+                case "BANCO2":
+                    commText = "SELECT B.NAME FROM TAMPAYMENTPROVIDERBRANCHES B where B.id ='" + id + "'";
+                    break;
+                case "CIUDAD":
+                    commText = "SELECT t2.name FROM TWFLREPVALUELISTITEMS T2 where t2.valuelistsymbol like '%TVC_CityVsCostCenter%' and t2.avalue = '"+id+"'";
+                    break;
+                case "NEGOCIO":
+                    commText = "SELECT name FROM TREPVALUELISTITEMS where valuelist_id=500006 and name ='"+id+"'";
+                    break;
+                case "NEGOCIO2":
+                    commText = "SELECT name FROM TREPVALUELISTITEMS where valuelist_id=500006 and id ='" + id + "'";
+                    break;
+                case "PAGO":
+                    commText = "SELECT name FROM TREPVALUELISTITEMS WHERE VALUELISTSYMBOL LIKE '%PaymentType%' and name ='" + id+"'";
+                    break;
+                case "PAGO2":
+                    commText = "SELECT name FROM TREPVALUELISTITEMS WHERE VALUELISTSYMBOL LIKE '%PaymentType%' and id ='" + id + "'";
+                    break;
+                case "EMPRESA":
+                    commText = "SELECT NAME FROM TREPVALUELISTITEMS where valuelist_id = 500031 and name ='" + id+"'";
+                    break;
+                case "EMPRESA2":
+                    commText = "SELECT NAME FROM TREPVALUELISTITEMS where valuelist_id = 500031 and id ='" + id + "'";
+                    break;
+            }
+
+            objConn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+
+            cmd.Connection = objConn;
+            cmd.CommandText = commText;
+            cmd.CommandType = CommandType.Text;
+            OleDbDataReader myReader = cmd.ExecuteReader();
+
+            string propertyName ="";
+            try
+            {
+                if (myReader.HasRows)
+                {
+                    while (myReader.Read())
+                    {
+                        try
+                        { propertyName = myReader.GetValue(0).ToString(); }
+                        catch (Exception ex) { propertyName = ""; }
+                    }
+                }
+
+                return propertyName;
+            }
+            catch (Exception ex)
+            {
+                myReader.Close();
+                objConn.Close();
+                Logs.WriteErrorLog("Error en la consulta de datos||" + ex.ToString());
+                return propertyName;
+            }
+            finally
+            {
+                myReader.Close();
                 objConn.Close();
             }
         }

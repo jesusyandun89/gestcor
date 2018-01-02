@@ -10,6 +10,8 @@ namespace GestCor.Controllers
     public class UsersController : Controller
     {
         // GET: Users
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Users-Leer")]
         public ActionResult Index()
         {
             UserGestCor user = new UserGestCor();
@@ -18,15 +20,15 @@ namespace GestCor.Controllers
         }
 
         // GET: Users/Create
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Users-Crear")]
         public ActionResult Create()
         {
             try
             {
-                Rol rol = new Rol();
+                GestCorProfile profile = new GestCorProfile();
 
-                var rolList = rol.getRolesAvaliable();
-
-                var listRol = new SelectList(rolList, "Id", "NameRol");
+                List<SelectListItem> listRol = profile.getRolesAvaliable(profile.RolId);
 
                 ViewData["roles"] = listRol;
                 return View();
@@ -39,6 +41,8 @@ namespace GestCor.Controllers
 
         // POST: Users/Create
         [HttpPost]
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Users-Crear")]
         public ActionResult Create(UserGestCor model, int roles)
         {
             if (!ModelState.IsValid)
@@ -60,21 +64,22 @@ namespace GestCor.Controllers
         }
 
         // GET: Users/Edit/5
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Users-Editar")]
         public ActionResult Edit(int id)
         {
             try
             {
-                UserGestCor profile = new UserGestCor();
-                
-                Rol rol = new Rol();
-                
-                var rolList = rol.getRolesAvaliable();
-                
-                var listRol = new SelectList(rolList, "Id", "NameRol");
+                UserGestCor user = new UserGestCor();
+                user = user.GetUsersById(id);
+
+                GestCorProfile profileUser = new GestCorProfile();
+
+                List<SelectListItem> listRol = profileUser.getRolesAvaliable(user.IdRol);
 
                 ViewData["roles"] = listRol;
 
-                return View(profile.GetUsersById(id));
+                return View(user);
             }
             catch
             {
@@ -84,6 +89,8 @@ namespace GestCor.Controllers
 
         // POST: Users/Edit/5
         [HttpPost]
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "Users-Editar")]
         public ActionResult Edit(int id, UserGestCor model, int roles)
         {
             if (!ModelState.IsValid)
@@ -104,26 +111,5 @@ namespace GestCor.Controllers
             }
         }
 
-        // GET: Users/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Users/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

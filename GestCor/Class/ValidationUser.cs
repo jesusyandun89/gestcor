@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.DirectoryServices;
 using System.Text;
+using GestCor.Clases;
+using System.Data.OleDb;
+using System.Data;
 
 namespace GestCor.Class
 {
@@ -32,16 +35,123 @@ namespace GestCor.Class
                 Console.WriteLine(ex);
             }
         }
-        
 
-        public String ValidaRoles(string userId, string password)
+        internal bool ValidateUser(string usuario)
+        {
+            Connection conn = new Connection();
+            OleDbConnection objConn = conn.Conn();
+
+            string commText = "select * from YTBL_USERSGESTCOR where USERGESTCOR = '"+usuario+"' and ISVALID = 'Y' and dateto is null";
+
+            objConn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+
+            cmd.Connection = objConn;
+            cmd.CommandText = commText;
+            cmd.CommandType = CommandType.Text;
+            OleDbDataReader myReader = cmd.ExecuteReader();
+
+            try
+            {
+                if (myReader.HasRows)
+                {
+                    while (myReader.Read())
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                myReader.Close();
+                objConn.Close();
+                Logs.WriteErrorLog("Error en la consulta de datos||" + ex.ToString());
+                return false;
+            }
+            finally
+            {
+                myReader.Close();
+                objConn.Close();
+            }
+        }
+
+        public String ValidaRoles(string userId, string password, string userRol)
         {
             //HttpContext ctx = System.Web.HttpContext.Current;
 
             String domainAndUsername = "TVCABLEUIO" + @"\" + userId;
-            //Administradores Gestion Mensajeria|Ingreso Campañas Gestion de Mensajeria
-            String valor = GetGroups(domainAndUsername, Roles, password);
+            
+            String valor = GetGroups(domainAndUsername, userRol, password);
             return valor;
+        }
+
+        internal int ValidaModulo(string usuario, string userRol)
+        {
+            List<NameModule> listPermissos = getAuthorizeByUser(usuario);
+
+            var rolUser = from module in listPermissos
+                          where module.nameModule == userRol
+                          select module;
+
+            int valueReturn = -1;
+            foreach (var item in rolUser)
+            {
+                if (item.nameModule == userRol)
+                    valueReturn = 1;
+                else
+                    valueReturn = -1;
+            }
+            return valueReturn;
+        }
+
+        private List<NameModule> getAuthorizeByUser(string usuario)
+        {
+            Connection conn = new Connection();
+            OleDbConnection objConn = conn.Conn();
+
+            string commText = "select d.NAME_MODULE from YTBL_USERSGESTCOR a, YTBL_ROLGESTCOR b, YTBL_PROFILEGESTCOR c, YTBL_MODULESGESTCOR d"
+                    + " where USERGESTCOR = '" + usuario + "' and a.id_rol = b.id and a.id_rol = c.id_rol and b.id = c.ID_ROL and c.ID_MODULE = d.id"
+                    + " and a.ISVALID = 'Y' and b.ISVALID = 'Y' and c.ISVALID = 'Y' and d.ISVALID = 'Y'";
+
+            objConn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+
+            cmd.Connection = objConn;
+            cmd.CommandText = commText;
+            cmd.CommandType = CommandType.Text;
+            OleDbDataReader myReader = cmd.ExecuteReader();
+
+            List<NameModule> ModuleList = new List<NameModule>();
+            try
+            {
+                if (myReader.HasRows)
+                {
+                    while (myReader.Read())
+                    {
+                        NameModule module = new NameModule();
+
+                        module.nameModule = myReader.GetString(0);
+
+                        ModuleList.Add(module);
+                    }
+                }
+
+                return ModuleList;
+            }
+            catch (Exception ex)
+            {
+                myReader.Close();
+                objConn.Close();
+                Logs.WriteErrorLog("Error en la consulta de datos||" + ex.ToString());
+                return ModuleList;
+            }
+            finally
+            {
+                myReader.Close();
+                objConn.Close();
+            }
         }
 
         [HttpPost]
@@ -102,5 +212,10 @@ namespace GestCor.Class
             return groupNames.ToString();
 
         }
+    }
+
+    public class NameModule
+    {
+        public string nameModule { get; set; }
     }
 }

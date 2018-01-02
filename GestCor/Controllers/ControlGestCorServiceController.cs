@@ -12,6 +12,8 @@ namespace GestCor.Controllers
     {
         ControlGestCorService model = new ControlGestCorService();
         // GET: ControlGestCorService
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "ControlGestCorService-Leer")]
         public ActionResult Index()
         {
             string status = model.getStatus();
@@ -31,7 +33,8 @@ namespace GestCor.Controllers
             return View();
         }
 
-
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "ControlGestCorService-Editar")]
         public async Task<ActionResult> Active()
         {
             ViewBag.SyncOrAsync = "Asynchronous";
@@ -41,7 +44,8 @@ namespace GestCor.Controllers
             return View("Index");
         }
 
-
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "ControlGestCorService-Editar")]
         public async Task<ActionResult> Desactive()
         {
             ViewBag.SyncOrAsync = "Asynchronous";
