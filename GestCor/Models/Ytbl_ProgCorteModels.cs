@@ -373,16 +373,16 @@ namespace GestCor.Models
             switch (parameter)
             {
                 case "BANCO":
-                    commText = "select COUNT(CIUDAD), BANCO from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = " + id+" GROUP BY BANCO";
+                    commText = "select count(*), banco from (select distinct(CPARTYACCOUNT_ID), banco from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = "+id+") group by banco";
                     break;
                 case "CIUDAD":
-                    commText = "select COUNT(banco), CIUDAD from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = " + id + " GROUP BY CIUDAD";
+                    commText = "select count(*), CIUDAD from (select distinct(CPARTYACCOUNT_ID), CIUDAD from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = "+id+") GROUP BY CIUDAD";
                     break;
                 case "BUSINESS":
-                    commText = "select COUNT(BUSINESS), BUSINESS from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = " + id + " GROUP BY BUSINESS";
+                    commText = "select count(*), BUSINESS from (select distinct(CPARTYACCOUNT_ID), BUSINESS from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = "+id+") GROUP BY BUSINESS";
                     break;
                 case "COMPANY":
-                    commText = "select COUNT(COMPANY), COMPANY from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = " + id + " GROUP BY COMPANY";
+                    commText = "select count(*), COMPANY from (select distinct(CPARTYACCOUNT_ID), COMPANY from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = " + id + " ) GROUP BY COMPANY";
                     break;
                 case "CUENTAS":
                     commText = "select COUNT(distinct CPARTYACCOUNT_ID), 'Cuentas' from YTBL_DETALLEPROGCORTE where ID_PROGCORTE = " + id;
@@ -398,6 +398,8 @@ namespace GestCor.Models
             OleDbDataReader myReader = cmd.ExecuteReader();
 
             List<Estadisticas> ListEstadictica = new List<Estadisticas>();
+
+            Ytbl_CondicionesCorte condicion = new Ytbl_CondicionesCorte();
             try
             {
                 if (myReader.HasRows)
@@ -408,11 +410,22 @@ namespace GestCor.Models
 
                         try
                         {
-                            estadistica.cantidad = int.Parse(myReader.GetDecimal(0).ToString());
-                            if (myReader.GetValue(1).ToString() != "")
-                                estadistica.nombre = myReader.GetValue(1).ToString();
+                            if(parameter == "CIUDAD")
+                            {
+                                estadistica.cantidad = int.Parse(myReader.GetDecimal(0).ToString());
+                                if (myReader.GetValue(1).ToString() != "")
+                                    estadistica.nombre = condicion.getNameProperty(myReader.GetValue(1).ToString(), "CIUDAD");
+                                else
+                                    estadistica.nombre = "Ninguno";
+                            }
                             else
-                                estadistica.nombre = "Ninguno";
+                            {
+                                estadistica.cantidad = int.Parse(myReader.GetDecimal(0).ToString());
+                                if (myReader.GetValue(1).ToString() != "")
+                                    estadistica.nombre = myReader.GetValue(1).ToString();
+                                else
+                                    estadistica.nombre = "Ninguno";
+                            }   
                         }
                         catch (Exception ex)
                         {

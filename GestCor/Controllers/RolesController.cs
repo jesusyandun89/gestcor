@@ -41,7 +41,10 @@ namespace GestCor.Controllers
                 if (model.SaveGestCorRoles())
                     return RedirectToAction("Index");
                 else
-                    return View("Error");
+                {
+                    ModelState.AddModelError("", "Error en la creación del rol..");
+                    return View();
+                }
             }
             catch
             {
@@ -73,7 +76,10 @@ namespace GestCor.Controllers
                 if (model.UpdateGestCorRoles(id))
                     return RedirectToAction("Index");
                 else
-                    return View("Error");
+                {
+                    ModelState.AddModelError("", "Error en la creación del rol..");
+                    return View();
+                }
             }
             catch
             {

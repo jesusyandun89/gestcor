@@ -243,6 +243,8 @@
     <Content Include="Content\Img\calendarCut.png" />
     <Content Include="Content\Img\condition.png" />
     <Content Include="Content\Img\configuration.png" />
+    <Content Include="Content\Img\Logo-TVCableB.png" />
+    <Content Include="Content\Img\Logo-TVCableN.png" />
     <Content Include="Content\Img\Logo.png" />
     <Content Include="Content\Img\mail.png" />
     <Content Include="Content\Img\nav-icon.png" />

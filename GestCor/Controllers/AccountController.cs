@@ -99,7 +99,7 @@ namespace GestCor.Controllers
 
                 else
                 {
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Usuario no es valido o el password no es correcto.");
                     return View(model);
                 }
 
@@ -109,38 +109,8 @@ namespace GestCor.Controllers
                 Logs.WriteErrorLog("Usuario sin acceso intentó ingresar:" + model.User + "||");
                 return View("ErrorAcceso");
             }
-            /*try
-            {
-                int startSession = access.Authorize(model.User, model.Password);
-
-
-
-                if (startSession == 0 && Session["usuario"] == null && Session["password"] == null)
-                {
-                    Session["usuario"] = model.User.ToString();
-                    Session["password"] = model.Password.ToString();
-
-                    Logs.WriteErrorLog("Usuario registrado:" + model.User + "||");
-                    return RedirectToAction("Index", "Home");
-                }
-                if (startSession == 2)
-                {
-                    Logs.WriteErrorLog("Usuario clave erronea:" + model.User + "||");
-                    ModelState.AddModelError("", "Usuario o password incorrectos.");
-                    return View(model);
-                }
-                else
-                {
-                    Logs.WriteErrorLog("Usuario sin acceso intentó ingresar:" + model.User + "||");
-                    return View("ErrorAcceso");
-                }
-            }
-            catch
-            {
-                Logs.WriteErrorLog("Usuario sin acceso intentó ingresar:" + model.User + "||");
-                return View("ErrorAcceso");
-            }*/
-            }
+            
+        }
         
         //
         // POST: /Account/LogOff

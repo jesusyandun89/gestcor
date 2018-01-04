@@ -193,6 +193,7 @@ namespace GestCor.Controllers
         private List<Estadisticas> getBancos(List<Ytbl_DetalleProgCorteModels> DetalleCorte)
         {
             List<Estadisticas> estadisticasList = new List<Estadisticas>();
+
             var datos = from p in DetalleCorte
                          group p.BancoId by p.BancoId into g
                          select new { Nombre = g.Key, Cantidad = g.Count() };
@@ -230,6 +231,9 @@ namespace GestCor.Controllers
         private List<Estadisticas> getCiudades(List<Ytbl_DetalleProgCorteModels> DetalleCorte)
         {
             List<Estadisticas> estadisticasList = new List<Estadisticas>();
+
+            Ytbl_CondicionesCorte condicion = new Ytbl_CondicionesCorte();
+
             var datos = from p in DetalleCorte
                         group p.Ciudad by p.Ciudad into g
                         select new { Nombre = g.Key, Cantidad = g.Count() };
@@ -242,7 +246,7 @@ namespace GestCor.Controllers
                 {
                     estadistica.cantidad = int.Parse(item.Cantidad.ToString());
                     if (item.Nombre.ToString() != "")
-                        estadistica.nombre = item.Nombre.ToString();
+                        estadistica.nombre = condicion.getNameProperty(item.Nombre.ToString(), "CIUDAD");
                     else
                         estadistica.nombre = "Ninguno";
                 }
@@ -385,7 +389,8 @@ namespace GestCor.Controllers
                 else
                 {
                     ViewBag.view = false;
-                    return View("Error");
+                    ModelState.AddModelError("", "Error en la carga del archivo..");
+                    return View();
                 }
             }
             ViewBag.view = false;

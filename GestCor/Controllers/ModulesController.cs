@@ -43,7 +43,11 @@ namespace GestCor.Controllers
                 if (model.SaveModule())
                     return RedirectToAction("Index");
                 else
-                    return View("Error");
+                {
+                    ModelState.AddModelError("", "Error en la creación del modulo..");
+                    return View();
+                }
+
             }
             catch
             {
@@ -77,7 +81,10 @@ namespace GestCor.Controllers
                 if (model.UpdateModule(id))
                     return RedirectToAction("Index");
                 else
-                    return View("Error");
+                {
+                    ModelState.AddModelError("", "Error en la edición del modulo..");
+                    return View();
+                }
             }
             catch
             {

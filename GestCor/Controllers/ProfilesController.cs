@@ -59,7 +59,11 @@ namespace GestCor.Controllers
                 if (model.SaveProfile())
                     return RedirectToAction("Index");
                 else
-                    return View("Error");
+                {
+                    ModelState.AddModelError("", "Error al crear el perfil.");
+                    return View();
+                }
+                    
             }
             catch
             {
@@ -111,7 +115,10 @@ namespace GestCor.Controllers
                 if (model.UpdateProfile(id))
                     return RedirectToAction("Index");
                 else
-                    return View("Error");
+                {
+                    ModelState.AddModelError("", "Error al editar el perfil.");
+                    return View();
+                }
             }
             catch
             {

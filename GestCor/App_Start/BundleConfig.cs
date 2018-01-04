@@ -25,14 +25,13 @@ namespace GestCor
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/chartist.min.js",
                       "~/Scripts/moment.js",
-                      "~/Scripts/bootstrap-datetimepicker.min.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/chartist.css",
-                      "~/Content/bootstrap-datetimepicker.min.css"));
+                      "~/Content/chartist.css"
+                      ));
 
             /*bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

@@ -19,12 +19,12 @@
 @Scripts.Render("~/bundles/bootstrap")
 
 @{
-    if (bancos != null)
+    if (cuentas != null)
     {
         <div>
-            <div class="col-lg-6 chart" id="ct-chartB"></div>
+            <div class="col-lg-6 chart" id="ct-chartCuentas"></div>
             <div class="col-lg-5 estadistica">
-                <h3>Estadisticas Bancos</h3>
+                <h3>Cuentas a cortar</h3>
                 <table class="table">
                     <tr>
                         <th>
@@ -35,7 +35,7 @@
                         </th>
                     </tr>
 
-                    @foreach (var item in bancos)
+                    @foreach (var item in cuentas)
                     {
                         <tr>
                             <td>
@@ -155,12 +155,12 @@
 }
 
 @{
-    if (cuentas != null)
+    if (bancos != null)
     {
         <div>
-            <div class="col-lg-6 chart" id="ct-chartCuentas"></div>
+            <div class="col-lg-6 chart" id="ct-chartB"></div>
             <div class="col-lg-5 estadistica">
-                <h3>Cuentas sin repetir</h3>
+                <h3>Estadisticas Bancos</h3>
                 <table class="table">
                     <tr>
                         <th>
@@ -171,7 +171,7 @@
                         </th>
                     </tr>
 
-                    @foreach (var item in cuentas)
+                    @foreach (var item in bancos)
                     {
                         <tr>
                             <td>

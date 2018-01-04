@@ -55,7 +55,10 @@ namespace GestCor.Controllers
                 if (model.SaveUser())
                     return RedirectToAction("Index");
                 else
-                    return View("Error");
+                {
+                    ModelState.AddModelError("", "Error en la creación del usuario..");
+                    return View();
+                }
             }
             catch
             {
@@ -103,7 +106,10 @@ namespace GestCor.Controllers
                 if (model.UpdateUser(id))
                     return RedirectToAction("Index");
                 else
-                    return View("Error");
+                {
+                    ModelState.AddModelError("", "Error en la edición del Usuario..");
+                    return View();
+                }
             }
             catch
             {

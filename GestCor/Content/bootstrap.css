@@ -2267,6 +2267,8 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
 }
 
 .btn {
+  background: #00324B;
+  color:#eee;
   display: inline-block;
   font-weight: 400;
   text-align: center;

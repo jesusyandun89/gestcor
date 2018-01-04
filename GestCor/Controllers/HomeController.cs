@@ -20,7 +20,7 @@ namespace GestCor.Controllers
         [Authorize]
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Sobre nosotros.";
 
             return View();
         }
@@ -29,7 +29,7 @@ namespace GestCor.Controllers
         [Authorize]
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Contacto.";
 
             return View();
         }

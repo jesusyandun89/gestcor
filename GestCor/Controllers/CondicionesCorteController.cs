@@ -80,10 +80,13 @@ namespace GestCor.Controllers
             try
             {
 
-                if(model.SaveCondicionesCorte(model))
+                if (model.SaveCondicionesCorte(model))
                     return RedirectToAction("Index");
                 else
-                    return View("Error");
+                {
+                    ModelState.AddModelError("", "Error al crear el corte.");
+                    return View();
+                }
 
             }
             catch
@@ -120,7 +123,10 @@ namespace GestCor.Controllers
                 if (UpdateNotificacion.UpdateCorreo(UpdateNotificacion))
                     return RedirectToAction("Index");
                 else
-                    return View("Error");
+                {
+                    ModelState.AddModelError("", "Error al editar el corte.");
+                    return View();
+                }
 
 
             }

@@ -46,8 +46,10 @@ namespace GestCor.Controllers
                 if (saveDestinatario.SaveYtbl_CorreoNotificaciones(saveDestinatario))
                     return RedirectToAction("Index");
                 else
-                    return View("Error");
-
+                {
+                    ModelState.AddModelError("", "Error en la creación de notificación..");
+                    return View();
+                }
             }
             catch
             {
@@ -85,7 +87,10 @@ namespace GestCor.Controllers
                 if (UpdateNotificacion.UpdateCorreo(UpdateNotificacion))
                     return RedirectToAction("Index");
                 else
-                    return View("Error");
+                {
+                    ModelState.AddModelError("", "Error en la edición de la notificación..");
+                    return View();
+                }
 
             }
             catch
