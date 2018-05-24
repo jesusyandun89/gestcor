@@ -4,7 +4,7 @@
     ViewBag.Title = "Condiciones de corte";
 }
 
-<h2>Listado de condiciones de corte</h2>
+<h2>Condiciones de corte</h2>
 
 <p>
     @Html.ActionLink("Crear nuevo", "Create")
@@ -77,3 +77,16 @@
 }
 
 </table>
+
+@{
+
+    var message = TempData["AlertMessage"] ?? string.Empty;
+
+}
+
+<script type="text/javascript">
+    var message = '@message';
+
+    if(message) alert(message);
+
+</script>

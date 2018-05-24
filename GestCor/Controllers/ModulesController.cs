@@ -41,11 +41,14 @@ namespace GestCor.Controllers
             try
             {
                 if (model.SaveModule())
+                {
+                    TempData["AlertMessage"] = "MODULO CREADO CON EXITO";
                     return RedirectToAction("Index");
+                }
                 else
                 {
-                    ModelState.AddModelError("", "Error en la creación del modulo..");
-                    return View();
+                    TempData["AlertMessage"] = "Error al crear el modulo";
+                    return View("Error");
                 }
 
             }
@@ -79,11 +82,14 @@ namespace GestCor.Controllers
             try
             {
                 if (model.UpdateModule(id))
+                {
+                    TempData["AlertMessage"] = "MODULO EDITADO CON EXITO";
                     return RedirectToAction("Index");
+                }
                 else
                 {
-                    ModelState.AddModelError("", "Error en la edición del modulo..");
-                    return View();
+                    TempData["AlertMessage"] = "Error al editar el modulo";
+                    return View("Error");
                 }
             }
             catch

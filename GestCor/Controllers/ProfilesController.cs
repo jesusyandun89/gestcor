@@ -48,7 +48,7 @@ namespace GestCor.Controllers
         [CustomAuthorizeAttribute(Roles = "Profiles-Crear")]
         public ActionResult Create(GestCorProfile model, int modules, int roles)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || modules == 0 || roles == 0)
             {
                 return View(model);
             }
@@ -57,11 +57,14 @@ namespace GestCor.Controllers
                 model.RolId = roles;
                 model.IdModule = modules;
                 if (model.SaveProfile())
+                {
+                    TempData["AlertMessage"] = "PERFIL CREADO CON EXITO";
                     return RedirectToAction("Index");
+                }
                 else
                 {
-                    ModelState.AddModelError("", "Error al crear el perfil.");
-                    return View();
+                    TempData["AlertMessage"] = "Error al crear el perfil";
+                    return View("Error");
                 }
                     
             }
@@ -104,7 +107,7 @@ namespace GestCor.Controllers
         [CustomAuthorizeAttribute(Roles = "Profiles-Editar")]
         public ActionResult Edit(int id, GestCorProfile model, int modules, int roles)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || modules == 0 || roles == 0)
             {
                 return View(model);
             }
@@ -113,11 +116,14 @@ namespace GestCor.Controllers
                 model.RolId = roles;
                 model.IdModule = modules;
                 if (model.UpdateProfile(id))
+                {
+                    TempData["AlertMessage"] = "PERFIL EDITADO CON EXITO";
                     return RedirectToAction("Index");
+                }
                 else
                 {
-                    ModelState.AddModelError("", "Error al editar el perfil.");
-                    return View();
+                    TempData["AlertMessage"] = "Error al editar el perfil";
+                    return View("Error");
                 }
             }
             catch

@@ -13,19 +13,25 @@ namespace GestCor.Models
     public class GestCorProfile
     {
         public int Id { get; set; }
+
         [Required]
         [Display(Name = "Nombre del perfil")]
         public string NameProfile { get; set; }
+
         [Required]
         [Display(Name = "Rol")]
         public int RolId { get; set; }
+
         [Display(Name = "Nombre del rol")]
         public string NameRol { get; set; }
+
         [Required]
         [Display(Name = "Modulo")]
         public int IdModule { get; set; }
+
         [Display(Name = "Nombre del modulo")]
         public string NameModule { get; set; }
+
         [Required]
         [Display(Name = "Es valido")]
         public string IsValid { get; set; }

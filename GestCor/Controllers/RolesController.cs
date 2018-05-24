@@ -39,11 +39,14 @@ namespace GestCor.Controllers
             try
             {
                 if (model.SaveGestCorRoles())
+                {
+                    TempData["AlertMessage"] = "ROL GUARDADO CON EXITO";
                     return RedirectToAction("Index");
+                }
                 else
                 {
-                    ModelState.AddModelError("", "Error en la creación del rol..");
-                    return View();
+                    TempData["AlertMessage"] = "Error al crear el rol";
+                    return View("Error");
                 }
             }
             catch
@@ -74,11 +77,14 @@ namespace GestCor.Controllers
             try
             {
                 if (model.UpdateGestCorRoles(id))
+                {
+                    TempData["AlertMessage"] = "ROL EDITADO CON EXITO";
                     return RedirectToAction("Index");
+                }
                 else
                 {
-                    ModelState.AddModelError("", "Error en la creación del rol..");
-                    return View();
+                    TempData["AlertMessage"] = "Error al editar el rol";
+                    return View("Error");
                 }
             }
             catch

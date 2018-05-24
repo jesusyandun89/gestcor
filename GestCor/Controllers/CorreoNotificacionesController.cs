@@ -44,11 +44,14 @@ namespace GestCor.Controllers
                 saveDestinatario.Fecha = DateTime.Now;
 
                 if (saveDestinatario.SaveYtbl_CorreoNotificaciones(saveDestinatario))
+                {
+                    TempData["AlertMessage"] = "CORREO CREADO CON EXITO";
                     return RedirectToAction("Index");
+                }
                 else
                 {
-                    ModelState.AddModelError("", "Error en la creación de notificación..");
-                    return View();
+                    TempData["AlertMessage"] = "Error al crear el correo";
+                    return View("Error");
                 }
             }
             catch
@@ -85,11 +88,14 @@ namespace GestCor.Controllers
                 UpdateNotificacion.IsValid = collection[4].ToString();
 
                 if (UpdateNotificacion.UpdateCorreo(UpdateNotificacion))
+                {
+                    TempData["AlertMessage"] = "CORREO EDITADO CON EXITO";
                     return RedirectToAction("Index");
+                }
                 else
                 {
-                    ModelState.AddModelError("", "Error en la edición de la notificación..");
-                    return View();
+                    TempData["AlertMessage"] = "Error al editar el correo";
+                    return View("Error");
                 }
 
             }

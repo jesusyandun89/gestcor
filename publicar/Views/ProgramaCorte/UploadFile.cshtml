@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Calendarización de cortes";
+}
+<h2>Calendarización de cortes</h2>
+@using (Html.BeginForm("Upload", "ProgramaCorte", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <div class="form-group">
+        <input type="file" id="dataFile" name="upload" accept=".csv" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Cargar archivo" class="btn btn-default"  />
+    </div>
+}
+
+
+<div>
+    @Html.ActionLink("Volver", "Index")
+</div>

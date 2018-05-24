@@ -8,6 +8,7 @@ using System.Text;
 using GestCor.Clases;
 using System.Data.OleDb;
 using System.Data;
+using System.Configuration;
 
 namespace GestCor.Class
 {
@@ -79,9 +80,9 @@ namespace GestCor.Class
 
         public String ValidaRoles(string userId, string password, string userRol)
         {
-            //HttpContext ctx = System.Web.HttpContext.Current;
+            string DomainUser = ConfigurationManager.AppSettings.Get("DomainUser");
 
-            String domainAndUsername = "TVCABLEUIO" + @"\" + userId;
+            String domainAndUsername = DomainUser + @"\" + userId;
             
             String valor = GetGroups(domainAndUsername, userRol, password);
             return valor;

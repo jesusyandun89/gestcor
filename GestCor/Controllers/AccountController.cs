@@ -12,6 +12,7 @@ using GestCor.Models;
 using GestCor.Clases;
 using System.Web.Security;
 using GestCor.Class;
+using System.Configuration;
 
 namespace GestCor.Controllers
 {
@@ -53,6 +54,14 @@ namespace GestCor.Controllers
             {
                 _userManager = value;
             }
+        }
+
+        [AllowAnonymous]
+        public ActionResult _Layout()
+        {
+            string valCon = ConfigurationManager.ConnectionStrings["Titan"].ConnectionString;
+            ViewBag.ambiente = valCon;
+            return View();
         }
 
         //

@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - GESTCOR</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+
+
+    @{
+        string serveSchema = System.Configuration.ConfigurationManager.ConnectionStrings["Titan"].ToString();
+        int VI_Posicion = serveSchema.IndexOf("Source")+7;
+        serveSchema = serveSchema.Substring(VI_Posicion);
+        VI_Posicion = serveSchema.IndexOf(";");
+        serveSchema = serveSchema.Substring(0, VI_Posicion);
+        serveSchema = " |"+ serveSchema.ToUpper()+"| ";
+    }
+
+</head>
+<body>
+
+
+    <div id="sidebar" class="sidebar">
+        <a href="#" class="boton-cerrar" onclick="ocultar()">&times;</a>
+        <ul class="menu">
+            <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+            <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
+            <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+            <li>@Html.ActionLink("Cortes", "Index", "ProgramaCorte")</li>
+            <li>@Html.ActionLink("Notificaciones", "Index", "CorreoNotificaciones")</li>
+            <li>@Html.ActionLink("Condiciones", "Index", "CondicionesCorte")</li>
+            <li>@Html.ActionLink("Configuración", "Index", "ControlGestCorService")</li>
+            <ul>
+                <li>@Html.ActionLink("Modulos", "Index", "Modules")</li>
+                <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
+                <li>@Html.ActionLink("Perfiles", "Index", "Profiles")</li>
+                <li>@Html.ActionLink("Usuarios", "Index", "Users")</li>
+            </ul>
+        </ul>
+        @Html.Partial("_LoginPartial")
+    </div>
+
+    <div id="contenido">
+        <a id="abrir" class="abrir-cerrar" href="javascript:void(0)" onclick="mostrar()"> <img src="~/Content/Img/nav-icon.png" id="icon-menu" /> </a><a id="cerrar" class="abrir-cerrar" href="#" onclick="ocultar()"></a>
+        <a href="@Url.Action("Index", "Home")"> <img alt="Home" src="~/Content/Img/Logo.png" class="logoTVC" /></a>
+        <a href="https://www.grupotvcable.com/" class="logolink"> <img alt="TVCable" src="~/Content/Img/Logo-TVCableN.png" class="logo" /> </a>
+    </div>
+    <div class="migas col-lg-10">
+        <p>@Html.MvcSiteMap().SiteMapPath()</p>
+    </div>
+    <div class="container body-content" onclick="ocultar()">
+        @RenderBody()
+        <hr />
+    </div>
+    <footer>
+        <table style="width:100%" border="0">
+            <tr>
+                <th>
+                <td width="80%">
+                    <div class="col-lg-12">
+                        <p class="">@DateTime.Now.Year - Grupo TVCable </p>
+                    </div>
+                </td>
+                </th>
+                <th>
+                <td>
+                    <div class="col-lg-12">
+                        <p>@serveSchema</p>
+                    </div>
+                </td>
+                </th>
+                <th>
+                    <img alt="TVCable" src="~/Content/Img/Logo-TVCableB.png" class="" />
+                </th>
+            </tr>
+        </table>
+    </footer>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script>
+        function mostrar() {
+            document.getElementById("sidebar").style.width = "300px";
+            document.getElementById("contenido").style.marginLeft = "300px";
+            document.getElementById("abrir").style.display = "none";
+            document.getElementById("cerrar").style.display = "inline";
+        }
+
+        function ocultar() {
+            document.getElementById("sidebar").style.width = "0";
+            document.getElementById("contenido").style.marginLeft = "0";
+            document.getElementById("abrir").style.display = "inline";
+            document.getElementById("cerrar").style.display = "none";
+        }
+    </script>
+</body>
+</html>

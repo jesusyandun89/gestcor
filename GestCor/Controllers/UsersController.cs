@@ -53,11 +53,14 @@ namespace GestCor.Controllers
             {
                 model.IdRol = roles;
                 if (model.SaveUser())
+                {
+                    TempData["AlertMessage"] = "USUARIO CREADO CON EXITO";
                     return RedirectToAction("Index");
+                }
                 else
                 {
-                    ModelState.AddModelError("", "Error en la creación del usuario..");
-                    return View();
+                    TempData["AlertMessage"] = "Error al crear el usuario";
+                    return View("Error");
                 }
             }
             catch
@@ -104,11 +107,14 @@ namespace GestCor.Controllers
             {
                 model.IdRol = roles;
                 if (model.UpdateUser(id))
+                {
+                    TempData["AlertMessage"] = "USUARIO EDITADO CON EXITO";
                     return RedirectToAction("Index");
+                }
                 else
                 {
-                    ModelState.AddModelError("", "Error en la edición del Usuario..");
-                    return View();
+                    TempData["AlertMessage"] = "Error al editar el usuario";
+                    return View("Error");
                 }
             }
             catch

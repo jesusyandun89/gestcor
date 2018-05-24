@@ -15,7 +15,7 @@ namespace GestCor.Models
         [Required]
         [Display(Name = "Nombre del documento")]
         public string Document_Name { get; set; }
-        [Display(Name = "Cantidad de clientes")]
+        [Display(Name = "Cantidad de citems")]
         [Required]
         public string Customer_Number_Upload { get; set; }
         [Display(Name = "Usuario")]
@@ -174,6 +174,7 @@ namespace GestCor.Models
         {
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
+            //-----
             try
             {
                 conn = new Connection();
@@ -452,5 +453,77 @@ namespace GestCor.Models
             }
 
         }
+
+        public List<ContextReport> getReport(int id)
+        {
+            conn = new Connection();
+            OleDbConnection objConn = conn.Conn();
+
+            List<ContextReport> listReport = new List<ContextReport>();
+
+            string commText = "select a.cparty_id, a.cpartyaccount_id, a.ID_PROGCORTE, b.ID_BLOQUE, b.CONT_BLOQUE, a.status, b.EJE_DATE"
+                            + " from YTBL_DETALLEPROGCORTE a, YTBL_CORTESCLIENTES b where a.ID_PROGCORTE = b.ID_CORTE and a.ID_PROGCORTE  = '" + id + "'";
+
+            objConn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+
+            cmd.Connection = objConn;
+            cmd.CommandText = commText;
+            cmd.CommandType = CommandType.Text;
+            OleDbDataReader myReader = cmd.ExecuteReader();
+
+            try
+            {
+                if (myReader.HasRows)
+                {
+                    while (myReader.Read())
+                    {
+                        ContextReport report = new ContextReport();
+
+                        report.cpartyId = Int64.Parse(myReader.GetDecimal(0).ToString());
+                        report.cpartyAccountId = Int64.Parse(myReader.GetDecimal(1).ToString());
+                        report.idProgCorte = int.Parse(myReader.GetDecimal(2).ToString());
+                        report.IdBloque = int.Parse(myReader.GetDecimal(3).ToString());
+                        report.ContBloque = int.Parse(myReader.GetDecimal(4).ToString());
+                        report.status = myReader.GetString(5).ToString();
+                        report.ejeDate = DateTime.Parse(myReader.GetDateTime(6).ToString());
+
+                        listReport.Add(report);
+                    }
+                }
+
+                return listReport;
+            }
+            catch (Exception ex)
+            {
+                myReader.Close();
+                objConn.Close();
+                Logs.WriteErrorLog("Error en la consulta de datos por ID||" + ex.ToString());
+                return listReport;
+            }
+            finally
+            {
+                myReader.Close();
+                objConn.Close();
+            }
+        }
+    }
+
+    public class ContextReport
+    {
+        public Int64 cpartyId { get; set; }
+
+        public Int64 cpartyAccountId { get; set; }
+
+        public int idProgCorte { get; set; }
+
+        public int IdBloque { get; set; }
+
+        public int ContBloque { get; set; }
+
+        public string status { get; set; }
+
+        public DateTime ejeDate { get; set; }
+
     }
 }

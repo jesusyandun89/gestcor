@@ -60,10 +60,11 @@ namespace GestCor.Controllers
         [CustomAuthorizeAttribute(Roles = "CondicionesCorte-Crear")]
         public ActionResult Create(Ytbl_CondicionesCorte model, string bancos, string ciudades, string negocios, string pagos, string empresas, string cortes)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || bancos == "" || ciudades == "" || pagos == "" || empresas == "" || cortes == "" || negocios == "")
             {
                 return View(model);
             }
+            
             Ytbl_CondicionesCorte condicion = new Ytbl_CondicionesCorte();
             HttpContext ctx = System.Web.HttpContext.Current;
             model.Usuario = ctx.Session["usuario"].ToString();
@@ -81,11 +82,14 @@ namespace GestCor.Controllers
             {
 
                 if (model.SaveCondicionesCorte(model))
+                {
+                    TempData["AlertMessage"] = "CONDICION GUARDADA CON EXITO";
                     return RedirectToAction("Index");
+                }
                 else
                 {
-                    ModelState.AddModelError("", "Error al crear el corte.");
-                    return View();
+                    TempData["AlertMessage"] = "Error al crear la condicion";
+                    return View("Error");
                 }
 
             }
@@ -121,11 +125,14 @@ namespace GestCor.Controllers
                 UpdateNotificacion.IsValid = collection[2].ToString();
 
                 if (UpdateNotificacion.UpdateCorreo(UpdateNotificacion))
+                {
+                    TempData["AlertMessage"] = "CONDICION EDITADA CON EXITO";
                     return RedirectToAction("Index");
+                }
                 else
                 {
-                    ModelState.AddModelError("", "Error al editar el corte.");
-                    return View();
+                    TempData["AlertMessage"] = "Error al editar la condicion";
+                    return View("Error");
                 }
 
 

@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace GestCor.Controllers
 {
@@ -23,6 +25,7 @@ namespace GestCor.Controllers
             List<Ytbl_ProgCorteModels> listProgCorte = new List<Ytbl_ProgCorteModels>();
 
             listProgCorte = progCorte.SelectYtbl_ProgCorte();
+            
 
             return View(listProgCorte);
         }
@@ -54,12 +57,13 @@ namespace GestCor.Controllers
             List<Ytbl_DetalleProgCorteModels> DetalleCorteLista = new List<Ytbl_DetalleProgCorteModels>();
             int i = 0;
             DetalleCorteLista.Clear();
+            
             string fileName = upload.FileName;
             
             string filePath4 = Path.GetTempPath();
 
             string filePath = Path.Combine(filePath4, fileName);
-
+            
             upload.SaveAs(filePath);
 
             using (var reader = new StreamReader(filePath))
@@ -70,7 +74,7 @@ namespace GestCor.Controllers
                     var line = reader.ReadLine();
                     var values = line.Split(';');
                     Ytbl_DetalleProgCorteModels DetalleProgCorte = new Ytbl_DetalleProgCorteModels();
-
+                    
                     DetalleProgCorte.counter = i++;
 
                     if (values[0] != null)
@@ -194,9 +198,24 @@ namespace GestCor.Controllers
         {
             List<Estadisticas> estadisticasList = new List<Estadisticas>();
 
-            var datos = from p in DetalleCorte
-                         group p.BancoId by p.BancoId into g
-                         select new { Nombre = g.Key, Cantidad = g.Count() };
+            var datos =
+
+
+                from com1 in (
+                from com2 in DetalleCorte
+                    //where com2.cantidad.ToString().Contains("103")
+                group com2 by new { com2.CpartyAccountId, com2.BancoId } into b
+                select b
+                )
+
+                group com1 by com1.Key.BancoId into z
+
+                select new
+                {
+                    Cantidad = z.Count(),
+                    Nombre = z.Key
+                }
+                ;
 
             foreach (var item in datos)
             {
@@ -234,9 +253,24 @@ namespace GestCor.Controllers
 
             Ytbl_CondicionesCorte condicion = new Ytbl_CondicionesCorte();
 
-            var datos = from p in DetalleCorte
-                        group p.Ciudad by p.Ciudad into g
-                        select new { Nombre = g.Key, Cantidad = g.Count() };
+            var datos =
+
+
+                from com1 in (
+                from com2 in DetalleCorte
+                    //where com2.cantidad.ToString().Contains("103")
+                group com2 by new { com2.CpartyAccountId, com2.Ciudad } into b
+                select b
+                )
+
+                group com1 by com1.Key.Ciudad into z
+
+                select new
+                {
+                    Cantidad = z.Count(),
+                    Nombre = z.Key
+                }
+                ;
 
             foreach (var item in datos)
             {
@@ -271,9 +305,25 @@ namespace GestCor.Controllers
         private List<Estadisticas> getTipoNegocios(List<Ytbl_DetalleProgCorteModels> DetalleCorte)
         {
             List<Estadisticas> estadisticasList = new List<Estadisticas>();
-            var datos = from p in DetalleCorte
-                        group p.TipoNegocio by p.TipoNegocio into g
-                        select new { Nombre = g.Key, Cantidad = g.Count() };
+
+            var datos =
+
+
+                from com1 in (
+                from com2 in DetalleCorte
+                    //where com2.cantidad.ToString().Contains("103")
+                group com2 by new { com2.CpartyAccountId, com2.TipoNegocio } into b
+                select b
+                )
+
+                group com1 by com1.Key.TipoNegocio into z
+
+                select new
+                {
+                    Cantidad = z.Count(),
+                    Nombre = z.Key
+                }
+                ;
 
             foreach (var item in datos)
             {
@@ -309,9 +359,25 @@ namespace GestCor.Controllers
         private List<Estadisticas> getEmpresaFacturadoras(List<Ytbl_DetalleProgCorteModels> DetalleCorte)
         {
             List<Estadisticas> estadisticasList = new List<Estadisticas>();
-            var datos = from p in DetalleCorte
-                        group p.EmpresaFacturadora by p.EmpresaFacturadora into g
-                        select new { Nombre = g.Key, Cantidad = g.Count() };
+
+            var datos =
+
+
+                from com1 in (
+                from com2 in DetalleCorte
+                    //where com2.cantidad.ToString().Contains("103")
+                group com2 by new { com2.CpartyAccountId, com2.EmpresaFacturadora } into b
+                select b
+                )
+
+                group com1 by com1.Key.EmpresaFacturadora into z
+
+                select new
+                {
+                    Cantidad = z.Count(),
+                    Nombre = z.Key
+                }
+                ;
 
             foreach (var item in datos)
             {
@@ -412,7 +478,7 @@ namespace GestCor.Controllers
                 ProgCorte.Date_Upload = DateTime.Now;
                 ProgCorte.IsValid = "N";
             }
-
+            
             return View(ProgCorte);
         }
 
@@ -436,9 +502,15 @@ namespace GestCor.Controllers
 
 
             if (model.ExecuteSave(model))
+            {
+                TempData["AlertMessage"] = "CORTE CREADO CON EXITO";
                 return RedirectToAction("Index");
+            }
             else
+            {
+                TempData["AlertMessage"] = "Error al crear el corte";
                 return View("Error");
+            }
 
 
         }
@@ -466,22 +538,31 @@ namespace GestCor.Controllers
         [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Editar")]
         public ActionResult Edit(Ytbl_ProgCorteModels model)
         {
+            //model.Date_Programed =;
             foreach (var item in Ytbl_ProgCorteModels.ListProgCorte)
             {
                 model.Document_Name = item.Document_Name;
                 model.Customer_Number_Upload = item.Customer_Number_Upload;
                 model.Nick_User = item.Nick_User;
+                
                 model.Date_Upload = item.Date_Upload;
-                //model.IsValid = item.IsValid;
+                model.Date_Programed = item.Date_Programed;
             }
 
             Ytbl_ProgCorteModels ProgCorte = new Ytbl_ProgCorteModels();
 
 
             if (ProgCorte.UpdateYtbl_ProgCorte(model))
+            {
+                TempData["AlertMessage"] = "CORTE EDITADO CON EXITO";
                 return RedirectToAction("Index");
+            }
             else
+            {
+                TempData["AlertMessage"] = "Error al editar el corte";
                 return View("Error");
+            }
+            
 
 
         }
@@ -506,6 +587,40 @@ namespace GestCor.Controllers
 
             return View();
 
+        }
+
+        [Authorize]
+        [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Leer")]
+        public ActionResult Result(int id)
+        {
+            Ytbl_ProgCorteModels corteResult = new Ytbl_ProgCorteModels();
+
+            return View(corteResult.getReport(id));
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Leer")]
+        public ActionResult ExportToExcel(int id)
+        {
+            Ytbl_ProgCorteModels corteResult = new Ytbl_ProgCorteModels();
+
+            var gv = new GridView();
+            gv.DataSource = corteResult.getReport(id);
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=DemoExcel.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter objStringWriter = new StringWriter();
+            HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+            gv.RenderControl(objHtmlTextWriter);
+            Response.Output.Write(objStringWriter.ToString());
+            Response.Flush();
+            Response.End();
+            return View("Result");
         }
     }
 }
