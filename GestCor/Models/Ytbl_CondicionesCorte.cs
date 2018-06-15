@@ -30,7 +30,7 @@ namespace GestCor.Models
         public string Company { get; set; }
 
         [Required]
-        [Display(Name = "Id del corte a excluir")]
+        [Display(Name = "Corte a excluir (id - Nombre de documento)")]
         public Int64 Id_Corte { get; set; }
 
         public string Usuario { get; set; }
@@ -382,7 +382,7 @@ namespace GestCor.Models
                     commText = "SELECT NAME, ID, decode(id, " + id + ", 'true','false') FROM TREPVALUELISTITEMS where valuelist_id = 500031 order by name asc";
                     break;
                 case "CORTE":
-                    commText = "select DOCUMENT_NAME, id, decode(id, " + id + ", 'true','false') from YTBL_PROGCORTE where ISVALID = 'Y' and DATE_UPLOAD >= sysdate - 90 order by id desc";
+                    commText = "select concat(concat('id: ' , concat(id , ' - ')),DOCUMENT_NAME), id, decode(id, 0, 'true','false') from YTBL_PROGCORTE where ISVALID = 'N' and DATE_UPLOAD >= sysdate - 90 order by id desc";
                     break;
             }
 

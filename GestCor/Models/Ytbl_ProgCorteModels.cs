@@ -511,19 +511,26 @@ namespace GestCor.Models
 
     public class ContextReport
     {
-        public Int64 cpartyId { get; set; }
+        [Display(Name = "Cparyid")]
+        public Int64? cpartyId { get; set; }
 
-        public Int64 cpartyAccountId { get; set; }
+        [Display(Name = "Accountid")]
+        public Int64? cpartyAccountId { get; set; }
 
-        public int idProgCorte { get; set; }
+        [Display(Name = "Id corte")]
+        public int? idProgCorte { get; set; }
 
-        public int IdBloque { get; set; }
+        [Display(Name = "Id bloque")]
+        public int? IdBloque { get; set; }
 
-        public int ContBloque { get; set; }
+        [Display(Name = "Contador bloque")]
+        public int? ContBloque { get; set; }
 
+        [Display(Name = "Estado")]
         public string status { get; set; }
 
-        public DateTime ejeDate { get; set; }
+        [Display(Name = "Fecha ejecución")]
+        public DateTime? ejeDate { get; set; }
 
     }
 }
