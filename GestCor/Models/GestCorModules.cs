@@ -26,7 +26,7 @@ namespace GestCor.Models
 
         public bool SaveModule()
         {
-            conn = new Connection();
+             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
             try
             {

@@ -177,6 +177,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             User.DateFrom = null;
+                            ex.ToString();
                         }
                         try
                         {
@@ -185,6 +186,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             User.DateTo = null;
+                            ex.ToString();
                         }
                         
 
@@ -244,6 +246,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             User.DateFrom = null;
+                            ex.ToString();
                         }
                         try
                         {
@@ -252,6 +255,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             User.DateTo = null;
+                            ex.ToString();
                         }
 
                     }

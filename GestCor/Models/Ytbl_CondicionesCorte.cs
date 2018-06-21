@@ -147,6 +147,7 @@ namespace GestCor.Models
                         }
                         catch (Exception ex) { 
                             CondicionesCorte.Provider = null;
+                            ex.ToString();
                         }
                         try
                         {
@@ -155,6 +156,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             CondicionesCorte.Ciudad = null;
+                            ex.ToString();
                         }
                         try
                         {
@@ -163,6 +165,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             CondicionesCorte.PaymentMode = null;
+                            ex.ToString();
                         }
                         try
                         {
@@ -171,6 +174,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             CondicionesCorte.Business = null;
+                            ex.ToString();
                         }
                         try
                         {
@@ -179,6 +183,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             CondicionesCorte.Company = null;
+                            ex.ToString();
                         }              
 
                         CondicionesCorte.Id_Corte = Int32.Parse(myReader.GetDecimal(6).ToString());
@@ -189,6 +194,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             CondicionesCorte.Fecha = null;
+                            ex.ToString();
                         }
                         
                         CondicionesCorte.IsValid = myReader.GetString(8).ToString();
@@ -249,6 +255,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             CondicionCorte.Provider = null;
+                            ex.ToString();
                         }
                         try
                         {
@@ -257,6 +264,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             CondicionCorte.Ciudad = null;
+                            ex.ToString();
                         }
                         try
                         {
@@ -265,6 +273,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             CondicionCorte.PaymentMode = null;
+                            ex.ToString();
                         }
                         try
                         {
@@ -273,6 +282,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             CondicionCorte.Business = null;
+                            ex.ToString();
                         }
                         try
                         {
@@ -281,6 +291,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             CondicionCorte.Company = null;
+                            ex.ToString();
                         }
 
                         CondicionCorte.Id_Corte = Int32.Parse(myReader.GetDecimal(6).ToString());
@@ -291,6 +302,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             CondicionCorte.Fecha = null;
+                            ex.ToString();
                         }
 
                         CondicionCorte.IsValid = myReader.GetString(8).ToString();
@@ -480,7 +492,10 @@ namespace GestCor.Models
                     {
                         try
                         { propertyName = myReader.GetValue(0).ToString(); }
-                        catch (Exception ex) { propertyName = ""; }
+                        catch (Exception ex) {
+                            propertyName = "";
+                            ex.ToString();
+                        }
                     }
                 }
 

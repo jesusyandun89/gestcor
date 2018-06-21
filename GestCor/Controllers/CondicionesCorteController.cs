@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace GestCor.Controllers
 {
     public class CondicionesCorteController : Controller
@@ -82,6 +83,7 @@ namespace GestCor.Controllers
                 ViewData["empresas"] = empresasR;
                 List<SelectListItem> cortesR = corte.getProperty(0, "CORTE");
                 ViewData["cortes"] = cortesR;
+                
 
                 return View(model);
             }
@@ -118,6 +120,7 @@ namespace GestCor.Controllers
             {
                 return View("Error");
             }
+
         }
 
         // GET: CorreoNotificaciones/Edit/5

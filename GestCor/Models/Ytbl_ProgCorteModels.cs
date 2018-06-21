@@ -366,6 +366,43 @@ namespace GestCor.Models
             }
         }
 
+        public bool EvaluaExcepciones(int id_corte)
+        {
+            conn = new Connection();
+            OleDbConnection objConn = conn.Conn();
+            try
+            {
+                conn = new Connection();
+
+                string commText = "YPKG_WEBCORTES.YPRD_EXCLUSIONES";
+                objConn.Open();
+                OleDbCommand cmd = new OleDbCommand(commText, objConn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                OleDbParameter IdProgCorte = new OleDbParameter("PN_ID_CORTE", OleDbType.BigInt);
+                IdProgCorte.Direction = ParameterDirection.Input;
+                IdProgCorte.Value = id_corte;
+                cmd.Parameters.Add(IdProgCorte);
+
+               cmd.ExecuteNonQuery();
+                objConn.Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logs.WriteErrorLog("Error en insert: " + ex.ToString());
+                objConn.Close();
+                return false;
+            }
+            finally
+            {
+                objConn.Close();
+            }
+
+
+        }
+
         public List<Estadisticas> getStadistic(int id, string parameter)
         {
             conn = new Connection();
@@ -431,6 +468,7 @@ namespace GestCor.Models
                         catch (Exception ex)
                         {
                             estadistica.nombre = "Ninguno";
+                            ex.ToString();
                         }
 
                         ListEstadictica.Add(estadistica);
@@ -533,4 +571,6 @@ namespace GestCor.Models
         public DateTime? ejeDate { get; set; }
 
     }
+
+
 }

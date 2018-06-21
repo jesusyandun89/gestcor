@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using GestCor.Clases;
+
 
 namespace GestCor.Controllers
 {
@@ -125,6 +127,7 @@ namespace GestCor.Controllers
                     catch (IndexOutOfRangeException ex)
                     {
                         DetalleProgCorte.FieldV1 = null;
+                        ex.ToString();
                     }
 
                     try
@@ -135,6 +138,7 @@ namespace GestCor.Controllers
                     catch (IndexOutOfRangeException ex)
                     {
                         DetalleProgCorte.FieldV2 = null;
+                        ex.ToString();
                     }    
 
                     try
@@ -145,6 +149,7 @@ namespace GestCor.Controllers
                     catch (IndexOutOfRangeException ex)
                     {
                         DetalleProgCorte.FieldN1 = null;
+                        ex.ToString();
                     }
 
                     try
@@ -155,6 +160,7 @@ namespace GestCor.Controllers
                     catch (IndexOutOfRangeException ex)
                     {
                         DetalleProgCorte.FieldN2 = null;
+                        ex.ToString();
                     }
 
                     try
@@ -165,6 +171,7 @@ namespace GestCor.Controllers
                     catch (IndexOutOfRangeException ex)
                     {
                         DetalleProgCorte.FieldD1 = null;
+                        ex.ToString();
                     }
 
                     DetalleProgCorte.Status = "P";
@@ -233,11 +240,13 @@ namespace GestCor.Controllers
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
                 catch (FormatException ex)
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
 
 
@@ -288,11 +297,13 @@ namespace GestCor.Controllers
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
                 catch (FormatException ex)
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
 
 
@@ -342,11 +353,13 @@ namespace GestCor.Controllers
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
                 catch (FormatException ex)
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
 
 
@@ -395,11 +408,13 @@ namespace GestCor.Controllers
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
                 catch (FormatException ex)
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
 
 
@@ -528,7 +543,7 @@ namespace GestCor.Controllers
             ListProgCorte.Add(progCorte);
 
             Ytbl_ProgCorteModels.ListProgCorte = ListProgCorte;
-
+       
             return View(progCorte);
         }
 
@@ -542,6 +557,9 @@ namespace GestCor.Controllers
             {
                 foreach (var item in Ytbl_ProgCorteModels.ListProgCorte)
                 {
+                    bool flag = model.EvaluaExcepciones((int)model.Id);
+                    Logs.WriteErrorLog("EvaluaExcepciones: " + flag);
+
                     model.Document_Name = item.Document_Name;
                     model.Customer_Number_Upload = item.Customer_Number_Upload;
                     model.Nick_User = item.Nick_User;
@@ -555,6 +573,7 @@ namespace GestCor.Controllers
 
                 if (ProgCorte.UpdateYtbl_ProgCorte(model))
                 {
+                    
                     TempData["AlertMessage"] = "CORTE EDITADO CON EXITO";
                     return RedirectToAction("Index");
                 }
@@ -568,6 +587,12 @@ namespace GestCor.Controllers
             return RedirectToAction("Index");
 
         }
+
+
+
+      
+
+
 
         [Authorize]
         [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Leer")]
