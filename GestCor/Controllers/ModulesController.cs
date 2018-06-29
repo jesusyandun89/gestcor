@@ -42,7 +42,7 @@ namespace GestCor.Controllers
             {
                 if (model.SaveModule())
                 {
-                    TempData["AlertMessage"] = "MODULO CREADO CON EXITO";
+                    TempData["AlertMessage"] = "Módulo creado con éxito";
                     return RedirectToAction("Index");
                 }
                 else
@@ -83,7 +83,7 @@ namespace GestCor.Controllers
             {
                 if (model.UpdateModule(id))
                 {
-                    TempData["AlertMessage"] = "MODULO EDITADO CON EXITO";
+                    TempData["AlertMessage"] = "Módulo editado con éxito";
                     return RedirectToAction("Index");
                 }
                 else

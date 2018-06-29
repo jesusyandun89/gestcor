@@ -26,14 +26,14 @@ namespace GestCor.Models
         public string NameRol { get; set; }
 
         [Required]
-        [Display(Name = "Modulo")]
+        [Display(Name = "Módulo")]
         public int IdModule { get; set; }
 
-        [Display(Name = "Nombre del modulo")]
+        [Display(Name = "Nombre del módulo")]
         public string NameModule { get; set; }
 
         [Required]
-        [Display(Name = "Es valido")]
+        [Display(Name = "Es válido")]
         public string IsValid { get; set; }
 
         public bool SaveProfile()

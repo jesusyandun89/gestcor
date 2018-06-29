@@ -54,7 +54,7 @@ namespace GestCor.Controllers
                 model.IdRol = roles;
                 if (model.SaveUser())
                 {
-                    TempData["AlertMessage"] = "USUARIO CREADO CON EXITO";
+                    TempData["AlertMessage"] = "Usuario creado con éxito";
                     return RedirectToAction("Index");
                 }
                 else
@@ -108,7 +108,7 @@ namespace GestCor.Controllers
                 model.IdRol = roles;
                 if (model.UpdateUser(id))
                 {
-                    TempData["AlertMessage"] = "USUARIO EDITADO CON EXITO";
+                    TempData["AlertMessage"] = "Usuario editado con éxito";
                     return RedirectToAction("Index");
                 }
                 else

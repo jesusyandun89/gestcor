@@ -15,7 +15,7 @@ namespace GestCor.Models
         [Required]
         [Display(Name = "Nombre del documento")]
         public string Document_Name { get; set; }
-        [Display(Name = "Cantidad de citems")]
+        [Display(Name = "Cantidad de productos")]
         [Required]
         public string Customer_Number_Upload { get; set; }
         [Display(Name = "Usuario")]
@@ -221,7 +221,7 @@ namespace GestCor.Models
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
 
-            string commText = "select * from YTBL_PROGCORTE order by id desc";
+            string commText = "select * from YTBL_PROGCORTE order by id desc"; //PRY_48HORAS
 
             objConn.Open();
             OleDbCommand cmd = new OleDbCommand();
@@ -275,7 +275,7 @@ namespace GestCor.Models
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
 
-            string commText = "select * from YTBL_PROGCORTE where id ="+id;
+            string commText = "select * from YTBL_PROGCORTE where id ="+id;  //PRY_48HORAS
 
             objConn.Open();
             OleDbCommand cmd = new OleDbCommand();
@@ -328,7 +328,7 @@ namespace GestCor.Models
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
 
-            string commText = "select max(id) from YTBL_PROGCORTE where DOCUMENT_NAME = '"+ nameDocument+"'";
+            string commText = "select max(id) from YTBL_PROGCORTE where DOCUMENT_NAME = '"+ nameDocument+"'"; //PRY_48HORAS
 
             objConn.Open();
             OleDbCommand cmd = new OleDbCommand();
@@ -366,12 +366,17 @@ namespace GestCor.Models
             }
         }
 
-        public bool EvaluaExcepciones(int id_corte)
+        public bool EvaluaExcepciones(int id_corte, string estado)
         {
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
             try
             {
+                if (estado == "N")
+                    estado = "P";
+                else
+                    estado = "E";
+            
                 conn = new Connection();
 
                 string commText = "YPKG_WEBCORTES.YPRD_EXCLUSIONES";
@@ -385,7 +390,12 @@ namespace GestCor.Models
                 IdProgCorte.Value = id_corte;
                 cmd.Parameters.Add(IdProgCorte);
 
-               cmd.ExecuteNonQuery();
+                OleDbParameter estadoCorte = new OleDbParameter("PV_STATE", OleDbType.VarChar);
+                estadoCorte.Direction = ParameterDirection.Input;
+                estadoCorte.Value = estado;
+                cmd.Parameters.Add(estadoCorte);
+
+                cmd.ExecuteNonQuery();
                 objConn.Close();
                 return true;
             }
@@ -492,15 +502,24 @@ namespace GestCor.Models
 
         }
 
-        public List<ContextReport> getReport(int id)
+        public List<ContextReport> getReport(int id, bool bandera)
         {
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
 
             List<ContextReport> listReport = new List<ContextReport>();
+            string commText;
 
-            string commText = "select a.cparty_id, a.cpartyaccount_id, a.ID_PROGCORTE, b.ID_BLOQUE, b.CONT_BLOQUE, a.status, b.EJE_DATE"
-                            + " from YTBL_DETALLEPROGCORTE a, YTBL_CORTESCLIENTES b where a.ID_PROGCORTE = b.ID_CORTE and a.ID_PROGCORTE  = '" + id + "'";
+            if (bandera == true)
+            {
+                commText = "select A.CPARTY_ID, A.CPARTYACCOUNT_ID, A.ID_PROGCORTE, A.CIUDAD, A.FORMAPAGO, A.BANCO, A.BUSINESS, A.COMPANY, A.STATUS, B.DATE_PROGRAMED"
+                            + " from YTBL_DETALLEPROGCORTE a, YTBL_PROGCORTE B where A.ID_PROGCORTE = B.ID AND a.ID_PROGCORTE = '" + id + "' AND ROWNUM <= 100";
+            }
+            else
+            {
+                commText = "select A.CPARTY_ID, A.CPARTYACCOUNT_ID, A.ID_PROGCORTE, A.CIUDAD, A.FORMAPAGO, A.BANCO, A.BUSINESS, A.COMPANY, A.STATUS, B.DATE_PROGRAMED"
+                            + " from YTBL_DETALLEPROGCORTE a, YTBL_PROGCORTE B where A.ID_PROGCORTE = B.ID AND a.ID_PROGCORTE = '" + id + "'";
+            }
 
             objConn.Open();
             OleDbCommand cmd = new OleDbCommand();
@@ -517,14 +536,18 @@ namespace GestCor.Models
                     while (myReader.Read())
                     {
                         ContextReport report = new ContextReport();
+                        Ytbl_CondicionesCorte nombrePropiedad = new Ytbl_CondicionesCorte();
 
-                        report.cpartyId = Int64.Parse(myReader.GetDecimal(0).ToString());
-                        report.cpartyAccountId = Int64.Parse(myReader.GetDecimal(1).ToString());
-                        report.idProgCorte = int.Parse(myReader.GetDecimal(2).ToString());
-                        report.IdBloque = int.Parse(myReader.GetDecimal(3).ToString());
-                        report.ContBloque = int.Parse(myReader.GetDecimal(4).ToString());
-                        report.status = myReader.GetString(5).ToString();
-                        report.ejeDate = DateTime.Parse(myReader.GetDateTime(6).ToString());
+                        report.cpartyId = Int64.Parse(myReader.GetValue(0).ToString());
+                        report.cpartyAccountId = Int64.Parse(myReader.GetValue(1).ToString());
+                        report.idProgCorte = int.Parse(myReader.GetValue(2).ToString());
+                        report.ciudad = nombrePropiedad.getNameProperty(myReader.GetValue(3).ToString(), "CIUDAD");
+                        report.formaPago = nombrePropiedad.getNameProperty(myReader.GetValue(4).ToString(), "PAGO");
+                        report.banco = nombrePropiedad.getNameProperty(myReader.GetValue(5).ToString(), "BANCO");
+                        report.business = nombrePropiedad.getNameProperty(myReader.GetValue(6).ToString(), "NEGOCIO");
+                        report.company = nombrePropiedad.getNameProperty(myReader.GetValue(7).ToString(), "EMPRESA");
+                        report.status = myReader.GetString(8).ToString();
+                        report.fechaProgramada = DateTime.Parse(myReader.GetDateTime(9).ToString());
 
                         listReport.Add(report);
                     }
@@ -549,26 +572,35 @@ namespace GestCor.Models
 
     public class ContextReport
     {
-        [Display(Name = "Cparyid")]
+        [Display(Name = "Contrato")]
         public Int64? cpartyId { get; set; }
 
-        [Display(Name = "Accountid")]
+        [Display(Name = "Cuenta")]
         public Int64? cpartyAccountId { get; set; }
 
         [Display(Name = "Id corte")]
         public int? idProgCorte { get; set; }
 
-        [Display(Name = "Id bloque")]
-        public int? IdBloque { get; set; }
+        [Display(Name = "Ciudad")]
+        public string ciudad { get; set; }
 
-        [Display(Name = "Contador bloque")]
-        public int? ContBloque { get; set; }
+        [Display(Name = "Forma de pago")]
+        public string formaPago { get; set; }
+
+        [Display(Name = "Banco")]
+        public string banco { get; set; }
+
+        [Display(Name = "Negocio")]
+        public string business { get; set; }
+
+        [Display(Name = "Empresa")]
+        public string company { get; set; }
 
         [Display(Name = "Estado")]
         public string status { get; set; }
 
         [Display(Name = "Fecha ejecución")]
-        public DateTime? ejeDate { get; set; }
+        public DateTime? fechaProgramada { get; set; }
 
     }
 

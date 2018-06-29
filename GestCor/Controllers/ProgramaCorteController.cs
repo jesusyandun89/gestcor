@@ -518,7 +518,7 @@ namespace GestCor.Controllers
 
             if (model.ExecuteSave(model))
             {
-                TempData["AlertMessage"] = "CORTE CREADO CON EXITO";
+                TempData["AlertMessage"] = "Corte creado con éxito";
                 return RedirectToAction("Index");
             }
             else
@@ -557,7 +557,7 @@ namespace GestCor.Controllers
             {
                 foreach (var item in Ytbl_ProgCorteModels.ListProgCorte)
                 {
-                    bool flag = model.EvaluaExcepciones((int)model.Id);
+                    bool flag = model.EvaluaExcepciones((int)model.Id, model.IsValid);
                     Logs.WriteErrorLog("EvaluaExcepciones: " + flag);
 
                     model.Document_Name = item.Document_Name;
@@ -574,7 +574,7 @@ namespace GestCor.Controllers
                 if (ProgCorte.UpdateYtbl_ProgCorte(model))
                 {
                     
-                    TempData["AlertMessage"] = "CORTE EDITADO CON EXITO";
+                    TempData["AlertMessage"] = "Corte editado con éxito";
                     return RedirectToAction("Index");
                 }
                 else
@@ -587,12 +587,6 @@ namespace GestCor.Controllers
             return RedirectToAction("Index");
 
         }
-
-
-
-      
-
-
 
         [Authorize]
         [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Leer")]
@@ -622,7 +616,7 @@ namespace GestCor.Controllers
         {
             Ytbl_ProgCorteModels corteResult = new Ytbl_ProgCorteModels();
 
-            return View(corteResult.getReport(id));
+            return View(corteResult.getReport(id, true));
         }
 
         [HttpPost]
@@ -634,7 +628,7 @@ namespace GestCor.Controllers
             Ytbl_ProgCorteModels corteResult = new Ytbl_ProgCorteModels();
 
             var gv = new GridView();
-            gv.DataSource = corteResult.getReport(id);
+            gv.DataSource = corteResult.getReport(id, false);
             gv.DataBind();
             if (gv.PageCount > 0)
             {

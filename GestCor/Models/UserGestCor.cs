@@ -25,7 +25,7 @@ namespace GestCor.Models
         public string NameRol { get; set; }
 
         [Required]
-        [Display(Name = "Es valido")]
+        [Display(Name = "Es válido")]
         public string IsValid { get; set; }
         
 

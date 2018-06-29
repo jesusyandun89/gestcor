@@ -394,7 +394,7 @@ namespace GestCor.Models
                     commText = "SELECT NAME, ID, decode(id, " + id + ", 'true','false') FROM TREPVALUELISTITEMS where valuelist_id = 500031 order by name asc";
                     break;
                 case "CORTE":
-                    commText = "select concat(concat('id: ' , concat(id , ' - ')),DOCUMENT_NAME), id, decode(id, 0, 'true','false') from YTBL_PROGCORTE where ISVALID = 'N' and DATE_UPLOAD >= sysdate - 90 order by id desc";
+                    commText = "select concat(concat('id: ' , concat(id , ' - ')),DOCUMENT_NAME), id, decode(id, 0, 'true','false') from YTBL_PROGCORTE where ISVALID = 'N' and DATE_UPLOAD >= sysdate - 90 order by id desc"; //PRY_48HORAS
                     break;
             }
 

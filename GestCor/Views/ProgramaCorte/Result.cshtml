@@ -22,16 +22,25 @@
             @Html.DisplayNameFor(model => model.idProgCorte)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IdBloque)
+            @Html.DisplayNameFor(model => model.ciudad)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ContBloque)
+            @Html.DisplayNameFor(model => model.formaPago)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.banco)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.business)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.company)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.status)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ejeDate)
+            @Html.DisplayNameFor(model => model.fechaProgramada)
         </th>
         <th></th>
     </tr>
@@ -49,16 +58,25 @@
             @Html.DisplayFor(modelItem => item.idProgCorte)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IdBloque)
+            @Html.DisplayFor(modelItem => item.ciudad)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ContBloque)
+            @Html.DisplayFor(modelItem => item.formaPago)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.banco)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.business)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.company)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.status)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ejeDate)
+            @Html.DisplayFor(modelItem => item.fechaProgramada)
         </td>
         <td class="text-hide">
             @Html.ActionLink("Exportar a Excel", "ExportToExcel", new { id = item.idProgCorte }) |
