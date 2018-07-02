@@ -106,7 +106,7 @@ namespace GestCor.Controllers
 
                 if (model.SaveCondicionesCorte(model))
                 {
-                    TempData["AlertMessage"] = "Condición guardada con éxito";
+                    TempData["AlertMessage"] = "Condicion guardada exitosamente";
                     return RedirectToAction("Index");
                 }
                 else
@@ -150,7 +150,7 @@ namespace GestCor.Controllers
 
                 if (UpdateNotificacion.UpdateCorreo(UpdateNotificacion))
                 {
-                    TempData["AlertMessage"] = "Condición editada con éxito";
+                    TempData["AlertMessage"] = "Condicion editada exitosamente";
                     return RedirectToAction("Index");
                 }
                 else
