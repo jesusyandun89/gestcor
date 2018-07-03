@@ -45,7 +45,7 @@ namespace GestCor.Controllers
 
                 if (saveDestinatario.SaveYtbl_CorreoNotificaciones(saveDestinatario))
                 {
-                    TempData["AlertMessage"] = "CORREO CREADO CON EXITO";
+                    TempData["AlertMessage"] = "Correo guardado con exitosamente";
                     return RedirectToAction("Index");
                 }
                 else
@@ -89,7 +89,7 @@ namespace GestCor.Controllers
 
                 if (UpdateNotificacion.UpdateCorreo(UpdateNotificacion))
                 {
-                    TempData["AlertMessage"] = "CORREO EDITADO CON EXITO";
+                    TempData["AlertMessage"] = "Correo editado con exitosamente";
                     return RedirectToAction("Index");
                 }
                 else

@@ -27,8 +27,6 @@
         <a href="#" class="boton-cerrar" onclick="ocultar()">&times;</a>
         <ul class="menu">
             <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-            <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-            <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
             <li>@Html.ActionLink("Cortes", "Index", "ProgramaCorte")</li>
             <li>@Html.ActionLink("Notificaciones", "Index", "CorreoNotificaciones")</li>
             <li>@Html.ActionLink("Condiciones", "Index", "CondicionesCorte")</li>
@@ -39,6 +37,8 @@
                 <li>@Html.ActionLink("Perfiles", "Index", "Profiles")</li>
                 <li>@Html.ActionLink("Usuarios", "Index", "Users")</li>
             </ul>
+            <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
+            <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
         </ul>
         @Html.Partial("_LoginPartial")
     </div>

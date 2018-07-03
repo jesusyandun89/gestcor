@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+
 
 namespace GestCor.Controllers
 {
@@ -60,8 +62,29 @@ namespace GestCor.Controllers
         [CustomAuthorizeAttribute(Roles = "CondicionesCorte-Crear")]
         public ActionResult Create(Ytbl_CondicionesCorte model, string bancos, string ciudades, string negocios, string pagos, string empresas, string cortes)
         {
-            if (!ModelState.IsValid || bancos == "" || ciudades == "" || pagos == "" || empresas == "" || cortes == "" || negocios == "")
+            string valx = "b=" + bancos + ",n="+ negocios + ",c="+ ciudades+",p="+ pagos +",e="+ empresas;
+
+            Regex Val = new Regex(@"=[0-9a-zA-Z]");
+
+            if (!ModelState.IsValid || !Val.IsMatch(valx))
             {
+                
+                Ytbl_CondicionesCorte corte = new Ytbl_CondicionesCorte();
+
+                List<SelectListItem> bancosR = corte.getProperty(0, "BANCO");
+                ViewData["bancos"] = bancosR;
+                List<SelectListItem> ciudadesR = corte.getProperty(0, "CIUDAD");
+                ViewData["ciudades"] = ciudadesR;
+                List<SelectListItem> negociosR = corte.getProperty(0, "NEGOCIO");
+                ViewData["negocios"] = negociosR;
+                List<SelectListItem> pagosR = corte.getProperty(0, "PAGO");
+                ViewData["pagos"] = pagosR;
+                List<SelectListItem> empresasR = corte.getProperty(0, "EMPRESA");
+                ViewData["empresas"] = empresasR;
+                List<SelectListItem> cortesR = corte.getProperty(0, "CORTE");
+                ViewData["cortes"] = cortesR;
+                
+
                 return View(model);
             }
             
@@ -83,7 +106,7 @@ namespace GestCor.Controllers
 
                 if (model.SaveCondicionesCorte(model))
                 {
-                    TempData["AlertMessage"] = "CONDICION GUARDADA CON EXITO";
+                    TempData["AlertMessage"] = "Condicion guardada exitosamente";
                     return RedirectToAction("Index");
                 }
                 else
@@ -97,6 +120,7 @@ namespace GestCor.Controllers
             {
                 return View("Error");
             }
+
         }
 
         // GET: CorreoNotificaciones/Edit/5
@@ -126,7 +150,7 @@ namespace GestCor.Controllers
 
                 if (UpdateNotificacion.UpdateCorreo(UpdateNotificacion))
                 {
-                    TempData["AlertMessage"] = "CONDICION EDITADA CON EXITO";
+                    TempData["AlertMessage"] = "Condicion editada exitosamente";
                     return RedirectToAction("Index");
                 }
                 else

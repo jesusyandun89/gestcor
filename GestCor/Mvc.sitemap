@@ -3,7 +3,7 @@
             xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
             xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
 
-  <mvcSiteMapNode title="Home" controller="Home" action="Index">
+  <mvcSiteMapNode title="Inicio" controller="Home" action="Index">
     <mvcSiteMapNode title="Sobre nosotros" controller="Home" action="About"/>
     <mvcSiteMapNode title="Contacto" controller="Home" action="Contact"/>
     <mvcSiteMapNode title="Inicio" controller="Home" action="Index"/>

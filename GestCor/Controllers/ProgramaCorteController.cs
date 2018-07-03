@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using GestCor.Clases;
+
 
 namespace GestCor.Controllers
 {
@@ -125,6 +127,7 @@ namespace GestCor.Controllers
                     catch (IndexOutOfRangeException ex)
                     {
                         DetalleProgCorte.FieldV1 = null;
+                        ex.ToString();
                     }
 
                     try
@@ -135,6 +138,7 @@ namespace GestCor.Controllers
                     catch (IndexOutOfRangeException ex)
                     {
                         DetalleProgCorte.FieldV2 = null;
+                        ex.ToString();
                     }    
 
                     try
@@ -145,6 +149,7 @@ namespace GestCor.Controllers
                     catch (IndexOutOfRangeException ex)
                     {
                         DetalleProgCorte.FieldN1 = null;
+                        ex.ToString();
                     }
 
                     try
@@ -155,6 +160,7 @@ namespace GestCor.Controllers
                     catch (IndexOutOfRangeException ex)
                     {
                         DetalleProgCorte.FieldN2 = null;
+                        ex.ToString();
                     }
 
                     try
@@ -165,6 +171,7 @@ namespace GestCor.Controllers
                     catch (IndexOutOfRangeException ex)
                     {
                         DetalleProgCorte.FieldD1 = null;
+                        ex.ToString();
                     }
 
                     DetalleProgCorte.Status = "P";
@@ -233,11 +240,13 @@ namespace GestCor.Controllers
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
                 catch (FormatException ex)
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
 
 
@@ -288,11 +297,13 @@ namespace GestCor.Controllers
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
                 catch (FormatException ex)
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
 
 
@@ -342,11 +353,13 @@ namespace GestCor.Controllers
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
                 catch (FormatException ex)
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
 
 
@@ -395,11 +408,13 @@ namespace GestCor.Controllers
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
                 catch (FormatException ex)
                 {
                     estadistica.cantidad = 0;
                     estadistica.nombre = "Ninguno";
+                    ex.ToString();
                 }
 
 
@@ -503,7 +518,7 @@ namespace GestCor.Controllers
 
             if (model.ExecuteSave(model))
             {
-                TempData["AlertMessage"] = "CORTE CREADO CON EXITO";
+                TempData["AlertMessage"] = "Corte creado con exitosamente";
                 return RedirectToAction("Index");
             }
             else
@@ -528,7 +543,7 @@ namespace GestCor.Controllers
             ListProgCorte.Add(progCorte);
 
             Ytbl_ProgCorteModels.ListProgCorte = ListProgCorte;
-
+       
             return View(progCorte);
         }
 
@@ -536,34 +551,40 @@ namespace GestCor.Controllers
         [Authorize]
         [ValidateAntiForgeryToken]
         [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Editar")]
-        public ActionResult Edit(Ytbl_ProgCorteModels model)
+        public ActionResult Edit(Ytbl_ProgCorteModels model, string edit)
         {
-            //model.Date_Programed =;
-            foreach (var item in Ytbl_ProgCorteModels.ListProgCorte)
+            if (edit == "true")
             {
-                model.Document_Name = item.Document_Name;
-                model.Customer_Number_Upload = item.Customer_Number_Upload;
-                model.Nick_User = item.Nick_User;
-                
-                model.Date_Upload = item.Date_Upload;
-                model.Date_Programed = item.Date_Programed;
+                foreach (var item in Ytbl_ProgCorteModels.ListProgCorte)
+                {
+                    bool flag = model.EvaluaExcepciones((int)model.Id, model.IsValid);
+                    Logs.WriteErrorLog("EvaluaExcepciones: " + flag);
+
+                    model.Document_Name = item.Document_Name;
+                    model.Customer_Number_Upload = item.Customer_Number_Upload;
+                    model.Nick_User = item.Nick_User;
+
+                    model.Date_Upload = item.Date_Upload;
+                    model.Date_Programed = item.Date_Programed;
+                }
+
+                Ytbl_ProgCorteModels ProgCorte = new Ytbl_ProgCorteModels();
+
+
+                if (ProgCorte.UpdateYtbl_ProgCorte(model))
+                {
+                    
+                    TempData["AlertMessage"] = "Corte editado con exitosamente";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["AlertMessage"] = "Error al editar el corte";
+                    return View("Error");
+                }
             }
 
-            Ytbl_ProgCorteModels ProgCorte = new Ytbl_ProgCorteModels();
-
-
-            if (ProgCorte.UpdateYtbl_ProgCorte(model))
-            {
-                TempData["AlertMessage"] = "CORTE EDITADO CON EXITO";
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                TempData["AlertMessage"] = "Error al editar el corte";
-                return View("Error");
-            }
-            
-
+            return RedirectToAction("Index");
 
         }
 
@@ -595,32 +616,40 @@ namespace GestCor.Controllers
         {
             Ytbl_ProgCorteModels corteResult = new Ytbl_ProgCorteModels();
 
-            return View(corteResult.getReport(id));
+            return View(corteResult.getReport(id, true));
         }
 
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
         [CustomAuthorizeAttribute(Roles = "ProgramaCorte-Leer")]
-        public ActionResult ExportToExcel(int id)
+        public ActionResult Result(int id, string value1)
         {
             Ytbl_ProgCorteModels corteResult = new Ytbl_ProgCorteModels();
 
             var gv = new GridView();
-            gv.DataSource = corteResult.getReport(id);
+            gv.DataSource = corteResult.getReport(id, false);
             gv.DataBind();
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=DemoExcel.xls");
-            Response.ContentType = "application/ms-excel";
-            Response.Charset = "";
-            StringWriter objStringWriter = new StringWriter();
-            HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
-            gv.RenderControl(objHtmlTextWriter);
-            Response.Output.Write(objStringWriter.ToString());
-            Response.Flush();
-            Response.End();
-            return View("Result");
+            if (gv.PageCount > 0)
+            {
+                Response.ClearContent();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition", "attachment; filename=DemoExcel.xls");
+                Response.ContentType = "application/ms-excel";
+                Response.Charset = "";
+                StringWriter objStringWriter = new StringWriter();
+                HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+                gv.RenderControl(objHtmlTextWriter);
+                Response.Output.Write(objStringWriter.ToString());
+                Response.Flush();
+                Response.End();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("Error");
+            }
+                
         }
     }
 }

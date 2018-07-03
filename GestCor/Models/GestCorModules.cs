@@ -16,7 +16,7 @@ namespace GestCor.Models
         [Display(Name = "Nombre del modulo")]
         public string NameModule { get; set; }
         [Required]
-        [Display(Name = "Is valido")]
+        [Display(Name = "Es válido")]
         public string IsValid { get; set; }
         [Required]
         [Display(Name = "Descripción del modulo")]
@@ -26,7 +26,7 @@ namespace GestCor.Models
 
         public bool SaveModule()
         {
-            conn = new Connection();
+             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
             try
             {

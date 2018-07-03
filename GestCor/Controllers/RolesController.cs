@@ -40,7 +40,7 @@ namespace GestCor.Controllers
             {
                 if (model.SaveGestCorRoles())
                 {
-                    TempData["AlertMessage"] = "ROL GUARDADO CON EXITO";
+                    TempData["AlertMessage"] = "Rol guardado con exitosamente";
                     return RedirectToAction("Index");
                 }
                 else
@@ -78,7 +78,7 @@ namespace GestCor.Controllers
             {
                 if (model.UpdateGestCorRoles(id))
                 {
-                    TempData["AlertMessage"] = "ROL EDITADO CON EXITO";
+                    TempData["AlertMessage"] = "Rol editado con exitosamente";
                     return RedirectToAction("Index");
                 }
                 else
