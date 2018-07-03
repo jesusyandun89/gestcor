@@ -17,15 +17,15 @@
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/chartist")
 
 @{
     if (cuentas != null)
     {
         <div>
-            <div class="col-lg-6 chart" id="ct-chartCuentas"></div>
             <div class="col-lg-5 estadistica">
                 <h3>Cuentas a cortar</h3>
-                <table class="table">
+                <table class="table table-striped">
                     <tr>
                         <th>
                             Cantidad
@@ -48,6 +48,7 @@
                     }
                 </table>
             </div>
+            <div class="col-lg-6 chart" id="ct-chartCuentas"></div>
         </div>
     }
 }
@@ -56,10 +57,9 @@
     if (ciudad != null)
     {
         <div>
-            <div class="col-lg-6 chart" id="ct-chartC"></div>
             <div class="col-lg-5 estadistica">
                 <h3>Estadisticas Ciudades</h3>
-                <table class="table">
+                <table class="table table-striped">
                     <tr>
                         <th>
                             Cantidad
@@ -82,6 +82,7 @@
                     }
                 </table>
             </div>
+            <div class="col-lg-6 chart" id="ct-chartC"></div>
         </div>
     }
 }
@@ -90,10 +91,9 @@
     if (negocio != null)
     {
         <div>
-            <div class="col-lg-6 chart" id="ct-chartN"></div>
             <div class="col-lg-5 estadistica">
                 <h3>Estadisticas Tipo de negocio</h3>
-                <table class="table">
+                <table class="table table-striped">
                     <tr>
                         <th>
                             Cantidad
@@ -116,6 +116,7 @@
                     }
                 </table>
             </div>
+            <div class="col-lg-6 chart" id="ct-chartN"></div>
         </div>
     }
 }
@@ -124,10 +125,9 @@
     if (empresaFacturadora != null)
     {
         <div>
-            <div class="col-lg-6 chart" id="ct-chartE"></div>
             <div class="col-lg-5 estadistica">
                 <h3>Estadisticas de empresa facturadora</h3>
-                <table class="table">
+                <table class="table table-striped">
                     <tr>
                         <th>
                             Cantidad
@@ -150,6 +150,7 @@
                     }
                 </table>
             </div>
+            <div class="col-lg-6 chart" id="ct-chartE"></div>
         </div>
     }
 }
@@ -158,10 +159,9 @@
     if (bancos != null)
     {
         <div>
-            <div class="col-lg-6 chart" id="ct-chartB"></div>
             <div class="col-lg-5 estadistica">
                 <h3>Estadisticas Bancos</h3>
-                <table class="table">
+                <table class="table table-striped">
                     <tr>
                         <th>
                             Cantidad
@@ -184,6 +184,7 @@
                     }
                 </table>
             </div>
+            <div class="col-lg-6 chart" id="ct-chartB"></div>
         </div>
     }
 }
