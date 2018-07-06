@@ -366,17 +366,17 @@ namespace GestCor.Models
             }
         }
 
-        public bool EvaluaExcepciones(int id_corte, string estado)
+        public bool EvaluaExcepciones(int id_corte, string stateGet)
         {
+            if (stateGet == "Y")
+                stateGet = "E";
+            else
+                stateGet = "P";
+
             conn = new Connection();
             OleDbConnection objConn = conn.Conn();
             try
             {
-                if (estado == "N")
-                    estado = "P";
-                else
-                    estado = "E";
-            
                 conn = new Connection();
 
                 string commText = "YPKG_WEBCORTES.YPRD_EXCLUSIONES";
@@ -390,10 +390,10 @@ namespace GestCor.Models
                 IdProgCorte.Value = id_corte;
                 cmd.Parameters.Add(IdProgCorte);
 
-                OleDbParameter estadoCorte = new OleDbParameter("PV_STATE", OleDbType.VarChar);
-                estadoCorte.Direction = ParameterDirection.Input;
-                estadoCorte.Value = estado;
-                cmd.Parameters.Add(estadoCorte);
+                OleDbParameter state = new OleDbParameter("PV_STATE", OleDbType.VarChar);
+                state.Direction = ParameterDirection.Input;
+                state.Value = stateGet;
+                cmd.Parameters.Add(state);
 
                 cmd.ExecuteNonQuery();
                 objConn.Close();
@@ -561,6 +561,53 @@ namespace GestCor.Models
                 objConn.Close();
                 Logs.WriteErrorLog("Error en la consulta de datos por ID||" + ex.ToString());
                 return listReport;
+            }
+            finally
+            {
+                myReader.Close();
+                objConn.Close();
+            }
+        }
+
+        public bool validateUpdate(int? idCorte)
+        {
+            conn = new Connection();
+            OleDbConnection objConn = conn.Conn();
+
+            string commText = "select case when date_programed between(SELECT TRUNC(SYSDATE, 'MM') FROM DUAL) and(SELECT LAST_DAY(TRUNC(SYSDATE))FROM DUAL) then 'true' else 'false' end from YTBL_PROGCORTE where id = '" + idCorte + "'";
+
+            objConn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+
+            bool result = false;
+
+            cmd.Connection = objConn;
+            cmd.CommandText = commText;
+            cmd.CommandType = CommandType.Text;
+            OleDbDataReader myReader = cmd.ExecuteReader();
+
+            try
+            {
+                if (myReader.HasRows)
+                {
+                    while (myReader.Read())
+                    {
+                        result = bool.Parse(myReader.GetValue(0).ToString());
+                    }
+                }
+                else
+                {
+                    result = false;
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                myReader.Close();
+                objConn.Close();
+                Logs.WriteErrorLog("Error en la consulta de datos por ID||" + ex.ToString());
+                return false;
             }
             finally
             {

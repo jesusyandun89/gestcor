@@ -113,7 +113,7 @@ namespace GestCor.Controllers
                 }
 
             }
-            catch
+            catch (Exception ex)
             { 
                 Logs.WriteErrorLog("Usuario sin acceso intentó ingresar:" + model.User + "||");
                 return View("ErrorAcceso");

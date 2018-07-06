@@ -570,18 +570,26 @@ namespace GestCor.Controllers
 
                 Ytbl_ProgCorteModels ProgCorte = new Ytbl_ProgCorteModels();
 
-
-                if (ProgCorte.UpdateYtbl_ProgCorte(model))
+                if (ProgCorte.validateUpdate(model.Id))
                 {
-                    
-                    TempData["AlertMessage"] = "Corte editado con exitosamente";
-                    return RedirectToAction("Index");
+                    if (ProgCorte.UpdateYtbl_ProgCorte(model))
+                    {
+
+                        TempData["AlertMessage"] = "Corte editado con exitosamente";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["AlertMessage"] = "Error al editar el corte";
+                        return View("Error");
+                    }
                 }
                 else
                 {
-                    TempData["AlertMessage"] = "Error al editar el corte";
-                    return View("Error");
+                    TempData["AlertMessage"] = "El corte solo puede ser editado dentro del mes en curso";
+                    return RedirectToAction("Index");
                 }
+                
             }
 
             return RedirectToAction("Index");
