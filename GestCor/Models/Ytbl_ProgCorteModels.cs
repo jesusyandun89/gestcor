@@ -368,7 +368,8 @@ namespace GestCor.Models
 
         public bool EvaluaExcepciones(int id_corte, string stateGet)
         {
-            if (stateGet == "Y")
+           
+            if (stateGet == "Y") 
                 stateGet = "E";
             else
                 stateGet = "P";

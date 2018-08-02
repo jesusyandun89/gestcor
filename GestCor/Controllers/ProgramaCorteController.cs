@@ -558,7 +558,7 @@ namespace GestCor.Controllers
                 foreach (var item in Ytbl_ProgCorteModels.ListProgCorte)
                 {
                     bool flag = model.EvaluaExcepciones((int)model.Id, model.IsValid);
-                    Logs.WriteErrorLog("EvaluaExcepciones: " + flag);
+                    Logs.WriteErrorLog("323 EvaluaExcepciones: " + flag+ "-> "+model.Id +" --" +model.IsValid);
 
                     model.Document_Name = item.Document_Name;
                     model.Customer_Number_Upload = item.Customer_Number_Upload;
