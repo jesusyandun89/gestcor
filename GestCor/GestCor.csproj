@@ -224,6 +224,7 @@
     <Compile Include="Controllers\CondicionesCorteController.cs" />
     <Compile Include="Controllers\ControlGestCorServiceController.cs" />
     <Compile Include="Controllers\CorreoNotificacionesController.cs" />
+    <Compile Include="Controllers\DunningMasivoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
@@ -236,6 +237,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ControlGestCorService.cs" />
     <Compile Include="Models\Estadisticas.cs" />
+    <Compile Include="Models\GenerarDunningMasivoModels.cs" />
     <Compile Include="Models\GestCorModules.cs" />
     <Compile Include="Models\GestCorProfile.cs" />
     <Compile Include="Models\GestCorRol.cs" />
@@ -358,6 +360,7 @@
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
     <Content Include="Views\ProgramaCorte\Result.cshtml" />
+    <Content Include="Views\DunningMasivo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

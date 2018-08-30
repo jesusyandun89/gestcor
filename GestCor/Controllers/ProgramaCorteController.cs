@@ -518,7 +518,7 @@ namespace GestCor.Controllers
 
             if (model.ExecuteSave(model))
             {
-                TempData["AlertMessage"] = "Corte creado con exitosamente";
+                TempData["AlertMessage"] = "Corte creado exitosamente";
                 return RedirectToAction("Index");
             }
             else
@@ -575,7 +575,7 @@ namespace GestCor.Controllers
                     if (ProgCorte.UpdateYtbl_ProgCorte(model))
                     {
 
-                        TempData["AlertMessage"] = "Corte editado con exitosamente";
+                        TempData["AlertMessage"] = "Corte editado exitosamente";
                         return RedirectToAction("Index");
                     }
                     else

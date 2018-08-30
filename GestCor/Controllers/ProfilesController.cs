@@ -58,7 +58,7 @@ namespace GestCor.Controllers
                 model.IdModule = modules;
                 if (model.SaveProfile())
                 {
-                    TempData["AlertMessage"] = "Perfil creado con exitosamente";
+                    TempData["AlertMessage"] = "Perfil creado exitosamente";
                     return RedirectToAction("Index");
                 }
                 else
@@ -117,7 +117,7 @@ namespace GestCor.Controllers
                 model.IdModule = modules;
                 if (model.UpdateProfile(id))
                 {
-                    TempData["AlertMessage"] = "Perfil editado con exitosamente";
+                    TempData["AlertMessage"] = "Perfil editado exitosamente";
                     return RedirectToAction("Index");
                 }
                 else
