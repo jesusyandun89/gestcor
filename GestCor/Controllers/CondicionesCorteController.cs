@@ -11,6 +11,7 @@ namespace GestCor.Controllers
 {
     public class CondicionesCorteController : Controller
     {
+        Ytbl_CondicionesCorte condicion = new Ytbl_CondicionesCorte();
         // GET: CondicionesCorte
         [Authorize]
         [CustomAuthorizeAttribute(Roles = "CondicionesCorte-Leer")]
@@ -37,23 +38,62 @@ namespace GestCor.Controllers
         [CustomAuthorizeAttribute(Roles = "CondicionesCorte-Crear")]
         public ActionResult Create()
         {
-            Ytbl_CondicionesCorte condicion = new Ytbl_CondicionesCorte();
+            List<SelectListItem> cortes = condicion.getProperty(0, "CORTE", null);
 
-            List<SelectListItem> bancos = condicion.getProperty(0,"BANCO");
-            List<SelectListItem> ciudades = condicion.getProperty(0, "CIUDAD");
-            List<SelectListItem> negocios = condicion.getProperty(0, "NEGOCIO");
-            List<SelectListItem> pagos = condicion.getProperty(0, "PAGO");
-            List<SelectListItem> empresas = condicion.getProperty(0, "EMPRESA");
-            List<SelectListItem> cortes = condicion.getProperty(0, "CORTE");
-
-            ViewData["bancos"] = bancos;
-            ViewData["ciudades"] = ciudades;
-            ViewData["negocios"] = negocios;
-            ViewData["pagos"] = pagos;
-            ViewData["empresas"] = empresas;
             ViewData["cortes"] = cortes;
 
             return View();
+        }
+
+        public JsonResult getPropiedadBancoList(int id_progcorte)
+        {
+            
+            return Json(new SelectList(
+                        items: condicion.getProperty(0, "BANCO", id_progcorte),
+                        dataValueField: "Value",
+                        dataTextField: "Text"
+                    )
+                );    
+        }
+
+        public JsonResult getProppiedadCiudadList(int id_progcorte)
+        {
+            return Json(new SelectList(
+                        items: condicion.getProperty(0, "CIUDAD", id_progcorte),
+                        dataValueField: "Value",
+                        dataTextField: "Text"
+                    )
+                );
+        }
+
+        public JsonResult getPropiedadNegocioList(int id_progcorte)
+        {
+            return Json(new SelectList(
+                        items: condicion.getProperty(0, "NEGOCIO", id_progcorte),
+                        dataValueField: "Value",
+                        dataTextField: "Text"
+                    )
+                );
+        }
+
+        public JsonResult getPropiedadFormaPagoList(int id_progcorte)
+        {
+            return Json(new SelectList(
+                        items: condicion.getProperty(0, "PAGO", id_progcorte),
+                        dataValueField: "Value",
+                        dataTextField: "Text"
+                    )
+                );
+        }
+
+        public JsonResult getPropiedadEmpresaList(int id_progcorte)
+        {
+            return Json(new SelectList(
+                        items: condicion.getProperty(0, "EMPRESA", id_progcorte),
+                        dataValueField: "Value",
+                        dataTextField: "Text"
+                    )
+                );
         }
 
         // POST: CondicionesCorte/Create
@@ -71,17 +111,17 @@ namespace GestCor.Controllers
                 
                 Ytbl_CondicionesCorte corte = new Ytbl_CondicionesCorte();
 
-                List<SelectListItem> bancosR = corte.getProperty(0, "BANCO");
+                List<SelectListItem> bancosR = corte.getProperty(0, "BANCO", int.Parse(cortes));
                 ViewData["bancos"] = bancosR;
-                List<SelectListItem> ciudadesR = corte.getProperty(0, "CIUDAD");
+                List<SelectListItem> ciudadesR = corte.getProperty(0, "CIUDAD", int.Parse(cortes));
                 ViewData["ciudades"] = ciudadesR;
-                List<SelectListItem> negociosR = corte.getProperty(0, "NEGOCIO");
+                List<SelectListItem> negociosR = corte.getProperty(0, "NEGOCIO", int.Parse(cortes));
                 ViewData["negocios"] = negociosR;
-                List<SelectListItem> pagosR = corte.getProperty(0, "PAGO");
+                List<SelectListItem> pagosR = corte.getProperty(0, "PAGO", int.Parse(cortes));
                 ViewData["pagos"] = pagosR;
-                List<SelectListItem> empresasR = corte.getProperty(0, "EMPRESA");
+                List<SelectListItem> empresasR = corte.getProperty(0, "EMPRESA", int.Parse(cortes));
                 ViewData["empresas"] = empresasR;
-                List<SelectListItem> cortesR = corte.getProperty(0, "CORTE");
+                List<SelectListItem> cortesR = corte.getProperty(0, "CORTE", int.Parse(cortes));
                 ViewData["cortes"] = cortesR;
                 
 

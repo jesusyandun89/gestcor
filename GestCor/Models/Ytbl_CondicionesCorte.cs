@@ -369,7 +369,7 @@ namespace GestCor.Models
             }
         }
 
-        public List<SelectListItem> getProperty(int id, string property)
+        public List<SelectListItem> getProperty(int id, string property, int? id_progcorte)
         {
             Connection conn = new Connection();
             OleDbConnection objConn = conn.Conn();
@@ -379,19 +379,24 @@ namespace GestCor.Models
             switch (property)
             {
                 case "BANCO":
-                    commText = "SELECT B.NAME, B.id, decode(B.PAYMENTPROVIDER_ID, "+id+", 'true','false') FROM TAMPAYMENTPROVIDERBRANCHES B order by name asc";
+                    commText = "select B.NAME, B.id, decode(B.PAYMENTPROVIDER_ID, " + id + ", 'true','false') from YTBL_DETALLEPROGCORTE a, TAMPAYMENTPROVIDERBRANCHES b " +
+                               "where ID_PROGCORTE = " + id_progcorte + " and a.banco = b.name group by B.NAME, B.id, decode(B.PAYMENTPROVIDER_ID, " + id + ", 'true', 'false')";
                     break;
                 case "CIUDAD":
-                    commText = "SELECT t2.name, t2.avalue, decode(t2.avalue, " + id + ", 'true','false') FROM TWFLREPVALUELISTITEMS T2 where t2.valuelistsymbol like '%TVC_CityVsCostCenter%'";
+                    commText = "SELECT t2.name, t2.avalue, decode(t2.avalue," + id + ", 'true','false') FROM TWFLREPVALUELISTITEMS T2, YTBL_DETALLEPROGCORTE b where t2.valuelistsymbol like '%TVC_CityVsCostCenter%' " +
+                               "and t2.avalue = b.ciudad and b.ID_PROGCORTE = " + id_progcorte + " group by t2.name, t2.avalue, decode(t2.avalue, " + id + ", 'true', 'false')";
                     break;
                 case "NEGOCIO":
-                    commText = "SELECT name, id, decode(id, " + id + ", 'true','false') FROM TREPVALUELISTITEMS where valuelist_id=500006 order by name asc";
+                    commText = "SELECT a.name, a.id, decode(a.id, " + id + ", 'true','false') FROM TREPVALUELISTITEMS a, YTBL_DETALLEPROGCORTE b where a.valuelist_id = 500006 " +
+                               "and a.name = b.BUSINESS and b.ID_PROGCORTE = " + id_progcorte + "group by a.name, a.id, decode(a.id, " + id + ", 'true', 'false')";
                     break;
                 case "PAGO":
-                    commText = "SELECT name, id, decode(id, " + id + ", 'true','false') FROM TREPVALUELISTITEMS WHERE VALUELISTSYMBOL LIKE '%PaymentType%'";
+                    commText = "SELECT a.name, a.id, decode(a.id, " + id + ", 'true','false') FROM TREPVALUELISTITEMS a, YTBL_DETALLEPROGCORTE b WHERE a.VALUELISTSYMBOL LIKE '%PaymentType%' " +
+                               "and a.name = b.FORMAPAGO and b.ID_PROGCORTE = " + id_progcorte + " GROUP BY a.name, a.id, decode(a.id, " + id + ", 'true', 'false')";
                     break;
                 case "EMPRESA":
-                    commText = "SELECT NAME, ID, decode(id, " + id + ", 'true','false') FROM TREPVALUELISTITEMS where valuelist_id = 500031 order by name asc";
+                    commText = "SELECT a.NAME, a.ID, decode(a.id, " + id + ", 'true','false') FROM TREPVALUELISTITEMS a, YTBL_DETALLEPROGCORTE b where a.valuelist_id = 500031 "+
+                               "and b.COMPANY = a.NAME and b.ID_PROGCORTE = " + id_progcorte +" group by a.NAME, a.ID, decode(a.id, " + id + ", 'true', 'false')";
                     break;
                 case "CORTE":
                     commText = "select concat(concat('id: ' , concat(id , ' - ')),DOCUMENT_NAME), id, decode(id, 0, 'true','false') from YTBL_PROGCORTE where ISVALID = 'N' and DATE_UPLOAD >= sysdate - 90 order by id desc"; //PRY_48HORAS

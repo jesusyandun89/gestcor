@@ -1,0 +1,37 @@
+﻿@model GestCor.Models.LogModel
+
+@{
+    ViewBag.Title = "Logs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Logs</h2>
+
+@using (Html.BeginForm("Create", "Logs"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fecha, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                @Html.ValidationMessageFor(model => model.fecha, "", new { @class = "text-danger" })
+            </div>
+            <br>
+            <input type="submit" value="Obtener Log" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<script>
+
+    $(function () {
+        $("#fecha").datepicker();
+    });
+</script>
+
+@Scripts.Render("~/bundles/jquery")
+
