@@ -12,11 +12,11 @@
 
     @{
         string serveSchema = System.Configuration.ConfigurationManager.ConnectionStrings["Titan"].ToString();
-        int VI_Posicion = serveSchema.IndexOf("Source")+7;
+        int VI_Posicion = serveSchema.IndexOf("Source") + 7;
         serveSchema = serveSchema.Substring(VI_Posicion);
         VI_Posicion = serveSchema.IndexOf(";");
         serveSchema = serveSchema.Substring(0, VI_Posicion);
-        serveSchema = " |"+ serveSchema.ToUpper()+"| ";
+        serveSchema = " |" + serveSchema.ToUpper() + "| ";
     }
 
 </head>

@@ -25,12 +25,15 @@ namespace GestCor
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/chartist.min.js",
                       "~/Scripts/moment.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/fileinput.js"
+                      ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/chartist.css"
+                      "~/Content/chartist.css",
+                      "~/Content/font-awesome.min.css"
                       ));
 
             /*bundles.Add(new StyleBundle("~/Content/css").Include(

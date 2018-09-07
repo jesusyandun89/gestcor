@@ -1,31 +1,98 @@
-﻿@model IEnumerable<GestCor.Models.GenerarDunningMasivoModels>
-
+﻿
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Dunning Masivo</h2>
+@Scripts.Render("~/bundles/jquery")
 
-<p>
-    @Html.ActionLink("Cargar listado", "Create")
-</p>
-<p>
-    @Html.ActionLink("Borrar todos", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th></th>
-    </tr>
+<h2>Control de tabla Y_NOGENERARDUNINGSMASIVO </h2>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
+@using (Html.BeginForm("DescargarInformacion", "DunningMasivo"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <div class="form-group">
+        <button type="submit" class="btn"><i class="fa fa-download"></i> Descargar</button>
+    </div>
 }
 
-</table>
+@using (Html.BeginForm("Upload", "DunningMasivo", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <button type="button" class="btn" onclick="upload()">
+        <i class="fa fa-upload"> Cargar</i>
+    </button>
+
+    <input type="hidden" name="upload" id="uploadFile" />
+
+    <!-- Modal -->
+    <div style="display:none" id="formUpload">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cargar archivo</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="file-loading">
+                        <input id="input-b9" name="input-b9[]" multiple type="file" />
+                    </div>
+                    <div id="errors"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelar" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@using (Html.BeginForm("BorrarDatos", "DunningMasivo"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <div class="form-group">
+        <button type="submit" class="btn" onclick="validateBorrar()"><i class="fa fa-times"></i> Borrar</button>
+    </div>
+
+    <input type="hidden" name="borrar" id="borrar" />
+}
+<script>
+    $(document).ready(function () {
+        $("#upload").click(function (evento) {
+            $("#formUpload").css("display", "block");
+        });
+        $("#cancelar").click(function (evento) {
+            $("#formUpload").css("display", "none");
+        });
+
+    });
+</script>
+@{
+    <script type="text/javascript">
+        function validateBorrar() {
+            if (confirm("¿Desea borrar los datos de la tabla?")) {
+                $("#borrar").val(confirm("¿Esta seguro de borrar los datos de la tabla?"));
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        function upload() {
+            $("#uploadFile").val(confirm("¿Los datos de la tabla se borraran, desea continuar?"));
+        }
+    </script>
+}
+
+
+
+
+
+
+
