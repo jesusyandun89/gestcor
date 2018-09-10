@@ -14,7 +14,7 @@ namespace GestCor.Controllers
     {
         GenerarDunningMasivoModels GenerarDunningMasivo = new GenerarDunningMasivoModels();
         // GET: DunningMasivo
-        //[CustomAuthorizeAttribute(Roles = "DunningMasivo-Leer")]
+        [CustomAuthorizeAttribute(Roles = "DunningMasivo-Leer")]
         public ActionResult Index()
         {
             return View();
@@ -23,7 +23,7 @@ namespace GestCor.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        //[CustomAuthorizeAttribute(Roles = "DunningMasivo-Leer")]
+        [CustomAuthorizeAttribute(Roles = "DunningMasivo-Leer")]
         public ActionResult DescargarInformacion()
         {
             try
@@ -62,14 +62,14 @@ namespace GestCor.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        //[CustomAuthorizeAttribute(Roles = "DunningMasivo-Crear")]
-        public ActionResult Upload(HttpPostedFileBase upload, string uploadFile)
+        [CustomAuthorizeAttribute(Roles = "DunningMasivo-Leer")]
+        public ActionResult Upload(HttpPostedFileBase cargar, string uploadFile)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (VerifyFile(upload))
+                    if (VerifyFile(cargar))
                     {
                         if(uploadFile == "true")
                         {
@@ -77,16 +77,17 @@ namespace GestCor.Controllers
 
                             DunningMasivoList.Clear();
 
-                            string fileName = upload.FileName;
+                            string fileName = cargar.FileName;
 
                             string filePath4 = Path.GetTempPath();
 
                             string filePath = Path.Combine(filePath4, fileName);
 
-                            upload.SaveAs(filePath);
+                            cargar.SaveAs(filePath);
 
                             using (var reader = new StreamReader(filePath))
                             {
+                                
                                 string headerLine = reader.ReadLine();
                                 while (!reader.EndOfStream)
                                 {
@@ -147,7 +148,7 @@ namespace GestCor.Controllers
             }
         }
 
-        //[CustomAuthorizeAttribute(Roles = "DunningMasivo-Crear")]
+        [CustomAuthorizeAttribute(Roles = "DunningMasivo-Leer")]
         public ActionResult BorrarDatos(string borrar)
         {
             try

@@ -37,10 +37,8 @@ namespace GestCor.Models
                     cmd.ExecuteNonQuery();
 
                     objConn.Close();
-
-                    return true;
                 }
-                return false;
+                return true;
             }
             catch(Exception ex)
             {

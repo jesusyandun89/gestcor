@@ -81,7 +81,7 @@ textarea {
     list-style: none inside;
 }
 .sidebar ul {
-    margin: 2rem auto;
+    margin-left: 2rem auto;
     display: block;
     width: 80%;
     min-width: 200px;
@@ -252,6 +252,15 @@ h1 {
         -moz-animation: moveFromBottom 500ms ease;
         -ms-animation: moveFromBottom 500ms ease;
     }
+
+.submenu ol{
+    padding-left: 20px !important;
+    margin: 0 !important;
+}
+
+.menu {
+    padding-left: 2em;
+}
 
 @-webkit-keyframes smallToBig {
     from {

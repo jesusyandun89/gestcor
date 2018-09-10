@@ -57,5 +57,10 @@
       <mvcSiteMapNode title="Inicio" controller="Users" action="Index"/>
     </mvcSiteMapNode>
     
+  <mvcSiteMapNode title="Producción" controller="Home" action="Index">
+      <mvcSiteMapNode title="Logs" controller="Logs" action="Index"/>
+      <mvcSiteMapNode title="Excepciones cuenta" controller="DunningMasivo" action="Index"/>
+    </mvcSiteMapNode>
+    
   </mvcSiteMapNode>
 </mvcSiteMap>

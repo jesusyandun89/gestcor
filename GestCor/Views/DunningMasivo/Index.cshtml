@@ -23,14 +23,12 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
 
-    <button type="button" class="btn" onclick="upload()">
+    <button type="button" class="btn" id="view">
         <i class="fa fa-upload"> Cargar</i>
     </button>
 
-    <input type="hidden" name="upload" id="uploadFile" />
-
     <!-- Modal -->
-    <div style="display:none" id="formUpload">
+    <div style="display:none" id="viewform">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -38,13 +36,14 @@
                 </div>
                 <div class="modal-body">
                     <div class="file-loading">
-                        <input id="input-b9" name="input-b9[]" multiple type="file" />
+                        <input id="input-b9" name="cargar" multiple type="file" accept=".csv" />
                     </div>
                     <div id="errors"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" id="cancelar" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="submit" class="btn btn-primary" onclick="upload()">Guardar</button>
+                    <input type="hidden" name="uploadFile" id="uploadFile" />
                 </div>
             </div>
         </div>
@@ -65,11 +64,11 @@
 }
 <script>
     $(document).ready(function () {
-        $("#upload").click(function (evento) {
-            $("#formUpload").css("display", "block");
+        $("#view").click(function (evento) {
+            $("#viewform").css("display", "block");
         });
         $("#cancelar").click(function (evento) {
-            $("#formUpload").css("display", "none");
+            $("#viewform").css("display", "none");
         });
 
     });
@@ -81,14 +80,22 @@
                 $("#borrar").val(confirm("¿Esta seguro de borrar los datos de la tabla?"));
             }
         }
-    </script>
-
-    <script type="text/javascript">
         function upload() {
             $("#uploadFile").val(confirm("¿Los datos de la tabla se borraran, desea continuar?"));
         }
+        
     </script>
+
+    var message = TempData["AlertMessage"] ?? string.Empty;
+
 }
+
+    <script type="text/javascript">
+    var message = '@message';
+
+    if(message) alert(message);
+
+    </script>
 
 
 

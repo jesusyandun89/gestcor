@@ -14,7 +14,7 @@ namespace GestCor.Controllers
     public class LogsController : Controller
     {
         // GET: Logs
-        //[CustomAuthorizeAttribute(Roles = "Logs-Leer")]
+        [CustomAuthorizeAttribute(Roles = "Logs-Leer")]
         public ActionResult Index()
         {
             return View();
@@ -22,7 +22,7 @@ namespace GestCor.Controllers
 
         [HttpPost]
         [Authorize]
-        //[CustomAuthorizeAttribute(Roles = "Logs-Crear")]
+        [CustomAuthorizeAttribute(Roles = "Logs-Leer")]
         public ActionResult Create(DateTime fecha)
         {
             try
@@ -63,7 +63,5 @@ namespace GestCor.Controllers
                 throw new System.IO.IOException(s);
             return data;
         }
-
-
     }
 }
