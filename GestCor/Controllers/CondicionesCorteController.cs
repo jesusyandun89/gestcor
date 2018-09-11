@@ -136,7 +136,7 @@ namespace GestCor.Controllers
             model.Business = condicion.getNameProperty(negocios, "NEGOCIO2");
             model.PaymentMode = condicion.getNameProperty(pagos, "PAGO2");
             model.Company = condicion.getNameProperty(empresas, "EMPRESA2");
-            model.Ciudad = ciudades;
+            model.Ciudad = (ciudades != "-1") ? ciudades : "";
             model.Id_Corte = int.Parse(cortes);
 
             model.Fecha = DateTime.Now;

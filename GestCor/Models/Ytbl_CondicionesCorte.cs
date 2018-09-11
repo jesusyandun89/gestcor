@@ -412,6 +412,10 @@ namespace GestCor.Models
             OleDbDataReader myReader = cmd.ExecuteReader();
 
             List<SelectListItem> RolesList = new List<SelectListItem>();
+            SelectListItem rol1 = new SelectListItem();
+            rol1.Text = "- ELIJA - " + property;
+            rol1.Value = "-1";
+            RolesList.Add(rol1);
             try
             {
                 if (myReader.HasRows)
